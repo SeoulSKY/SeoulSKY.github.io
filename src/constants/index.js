@@ -1,8 +1,8 @@
 import {
-  mobile,
   backend,
-  creator,
-  web,
+  devops,
+  frontend,
+  game,
 
   cSharp,
   css,
@@ -47,15 +47,15 @@ const services = [
   },
   {
     title: "Web Developer",
-    icon: web,
+    icon: frontend,
   },
   {
     title: "DevOps Developer",
-    icon: mobile,
+    icon: devops,
   },
   {
     title: "Game Developer",
-    icon: creator,
+    icon: game,
   },
 ];
 

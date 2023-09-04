@@ -1,8 +1,10 @@
 import logo from "./logo.png";
+
 import backend from "./backend.png";
-import creator from "./creator.png";
-import mobile from "./mobile.png";
-import web from "./web.png";
+import devops from "./devops.png";
+import frontend from "./frontend.png";
+import game from "./game.png";
+
 import github from "./github.png";
 import menu from "./menu.svg";
 import close from "./close.svg";
@@ -45,10 +47,12 @@ import gochat from "./gochat.png";
 
 export {
   logo,
+
   backend,
-  creator,
-  mobile,
-  web,
+  devops,
+  frontend,
+  game,
+
   github,
   menu,
   close,
