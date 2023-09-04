@@ -80,8 +80,8 @@ const Works = () => {
           variants={fadeIn("", "", 0.1, 1)}
           className='mt-3 text-secondary text-[17px] max-w-3xl leading-[30px]'
         >
-          Explore my software development journey, where I've taken on diverse projects with a focus on delivering quality solutions.
-          Take a closer look at how I've approached various challenges in the field.
+          Delve into my personal software development journey, where I've embarked on a range of diverse projects, always striving to deliver top-notch solutions.
+           Explore in detail my approaches to overcoming various challenges in the field.
         </motion.p>
       </div>
 
