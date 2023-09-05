@@ -161,7 +161,7 @@ const projects = [
   {
     name: "SoruSora",
     description:
-      "Engage in lifelike AI chats, translate messages into 15 languages, and convert videos to text. Explore innovative features for enhanced communication and content sharing.",
+      "Engage in lifelike AI chats, translate messages into 15 languages simultaneously, and convert videos to text. Explore innovative features for enhanced communication and content sharing.",
     tags: [
       {
         name: "python",
