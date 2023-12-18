@@ -51,7 +51,7 @@ const ProjectCard = ({
           />
 
           <div className='space-x-1 absolute inset-0 flex justify-end m-3 card-img_hover'>
-            <LinkIcon link={source_code_link} icon={github} />
+            {source_code_link && <LinkIcon link={source_code_link} icon={github} />}
             {play_link && <LinkIcon link={play_link} icon={play} />}
           </div>
         </div>

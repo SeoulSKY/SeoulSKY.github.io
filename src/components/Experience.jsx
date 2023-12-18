@@ -19,7 +19,7 @@ const ExperienceCard = ({ experience }) => {
         background: "#172554",
         color: "#fff",
       }}
-      contentArrowStyle={{ borderRight: "7px solid  #232631" }}
+      contentArrowStyle={{ borderRight: "7px solid #172554" }}
       date={experience.date}
       iconStyle={{ background: experience.iconBg }}
       icon={
@@ -82,4 +82,4 @@ const Experience = () => {
   );
 };
 
-export default SectionWrapper(Experience, "work");
+export default SectionWrapper(Experience, "experience");

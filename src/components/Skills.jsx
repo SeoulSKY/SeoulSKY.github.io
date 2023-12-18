@@ -95,7 +95,7 @@ const randomFrames = () => {
   return Array.from({ length: NUM_FRAMES }, () => Math.random() * (MAX_MOVE - MIN_MOVE) + MIN_MOVE);
 }
 
-const Skill = () => {
+const Skills = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true});
 
@@ -136,4 +136,4 @@ const Skill = () => {
   );
 };
 
-export default SectionWrapper(Skill, "skill");
+export default SectionWrapper(Skills, "skill");

@@ -17,8 +17,8 @@ export const navLinks = [
     title: "About",
   },
   {
-    id: "work",
-    title: "Work",
+    id: "experience",
+    title: "Experience",
   },
   {
     id: "skill",
@@ -27,6 +27,10 @@ export const navLinks = [
   {
     id: "project",
     title: "Project",
+  },
+  {
+    id: "award",
+    title: "Award",
   },
   {
     id: "contact",
@@ -67,33 +71,6 @@ const experiences = [
       "Developed website using internal Python based framework to conduct survey for his research.",
     ],
   }
-];
-
-const testimonials = [
-  {
-    testimonial:
-      "I thought it was impossible to make a website as beautiful as our product, but Rick proved me wrong.",
-    name: "Sara Lee",
-    designation: "CFO",
-    company: "Acme Co",
-    image: "https://randomuser.me/api/portraits/women/4.jpg",
-  },
-  {
-    testimonial:
-      "I've never met a web developer who truly cares about their clients' success like Rick does.",
-    name: "Chris Brown",
-    designation: "COO",
-    company: "DEF Corp",
-    image: "https://randomuser.me/api/portraits/men/5.jpg",
-  },
-  {
-    testimonial:
-      "After Rick optimized our website, our traffic increased by 50%. We can't thank them enough!",
-    name: "Lisa Wang",
-    designation: "CTO",
-    company: "456 Enterprises",
-    image: "https://randomuser.me/api/portraits/women/6.jpg",
-  },
 ];
 
 const projects = [
@@ -165,4 +142,23 @@ const projects = [
   },
 ];
 
-export { services, experiences, testimonials, projects };
+const awards = [
+  {
+    title: "Undergraduate Summer Research Award",
+    date: "Aug 2021",
+    description: "The Undergraduate Summer Research Awards (USRA) competition is an opportunity for talented and motivated undergraduate students to gain leading-edge research and software development experience by working during the summer on a research project under the supervision of a Computer Science faculty member",
+  },
+  {
+    title: "Dean’s Honour List 2020-21",
+    date: "Sep 2020",
+    description: "The Dean’s Honour List recognizes undergraduate students whose grades rank in the top 5% of those studying with a full course load in the College of Arts and Science",
+  },
+  {
+    title: "University of Saskatchewan Entrance Scholarship",
+    date: "Jan 2019",
+    description: "Recognizing academic accomplishment with an admission average of 90+%",
+  },
+];
+
+
+export { services, experiences, awards, projects };
