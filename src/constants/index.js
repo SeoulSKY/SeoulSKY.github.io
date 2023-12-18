@@ -178,6 +178,7 @@ const projects = [
     ],
     image: sorusora,
     source_code_link: "https://github.com/SeoulSKY/SoruSora",
+    play_link: "https://discord.com/invite/kQZDJJB",
   },
   {
     name: "Desdemona",
@@ -199,6 +200,7 @@ const projects = [
     ],
     image: desdemona,
     source_code_link: "https://github.com/SeoulSKY/Desdemona",
+    play_link: "https://desdemona.seoulsky.org",
   },
   {
     name: "Go Chat",
@@ -220,6 +222,7 @@ const projects = [
     ],
     image: gochat,
     source_code_link: "https://github.com/SeoulSKY/go-chat",
+    play_link: null,
   },
 ];
 

@@ -6,6 +6,7 @@ import frontend from "./frontend.png";
 import game from "./game.png";
 
 import github from "./github.png";
+import play from "./play.png";
 import menu from "./menu.svg";
 import close from "./close.svg";
 
@@ -54,6 +55,7 @@ export {
   game,
 
   github,
+  play,
   menu,
   close,
 
