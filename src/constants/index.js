@@ -4,20 +4,6 @@ import {
   frontend,
   game,
 
-  cSharp,
-  css,
-  docker,
-  html,
-  java,
-  javascript,
-  mysql,
-  nodejs,
-  python,
-  react,
-  rust,
-  typescript,
-  unity,
-
   uofs,
 
   sorusora,
@@ -33,6 +19,14 @@ export const navLinks = [
   {
     id: "work",
     title: "Work",
+  },
+  {
+    id: "skill",
+    title: "Skill",
+  },
+  {
+    id: "project",
+    title: "Project",
   },
   {
     id: "contact",
@@ -56,61 +50,6 @@ const services = [
   {
     title: "Game Developer",
     icon: game,
-  },
-];
-
-const technologies = [
-  {
-    name: "C#",
-    icon: cSharp,
-  },
-  {
-    name: "CSS",
-    icon: css,
-  },
-  {
-    name: "Docker",
-    icon: docker,
-  },
-  {
-    name: "HTML",
-    icon: html,
-  },
-  {
-    name: "Java",
-    icon: java,
-  },
-  {
-    name: "Javascript",
-    icon: javascript,
-  },
-  {
-    name: "MySQL",
-    icon: mysql,
-  },
-  {
-    name: "Node.js",
-    icon: nodejs,
-  },
-  {
-    name: "Python",
-    icon: python,
-  },
-  {
-    name: "React.js",
-    icon: react,
-  },
-  {
-    name: "Rust",
-    icon: rust,
-  },
-  {
-    name: "Typescript",
-    icon: typescript,
-  },
-  {
-    name: "Unity 3D",
-    icon: unity,
   },
 ];
 
@@ -226,4 +165,4 @@ const projects = [
   },
 ];
 
-export { services, technologies, experiences, testimonials, projects };
+export { services, experiences, testimonials, projects };
