@@ -145,17 +145,17 @@ const projects = [
 const awards = [
   {
     title: "Undergraduate Summer Research Award",
-    date: "Aug 2021",
+    date: "August 2021",
     description: "The Undergraduate Summer Research Awards (USRA) competition is an opportunity for talented and motivated undergraduate students to gain leading-edge research and software development experience by working during the summer on a research project under the supervision of a Computer Science faculty member",
   },
   {
     title: "Dean’s Honour List 2020-21",
-    date: "Sep 2020",
+    date: "September 2020",
     description: "The Dean’s Honour List recognizes undergraduate students whose grades rank in the top 5% of those studying with a full course load in the College of Arts and Science",
   },
   {
     title: "University of Saskatchewan Entrance Scholarship",
-    date: "Jan 2019",
+    date: "January 2019",
     description: "Recognizing academic accomplishment with an admission average of 90+%",
   },
 ];

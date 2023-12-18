@@ -1,14 +1,23 @@
 import { BrowserRouter } from "react-router-dom";
 import AnimatedCursor from "react-animated-cursor"
+import { motion, useScroll } from "framer-motion";
 
 import { About, Contact, Experience, Feedbacks, Hero, Navbar, Skills, Projects, StarsCanvas } from "./components";
+
+const ScrollBar = () => {
+  const { scrollYProgress } = useScroll();
+
+  return (
+    <motion.div className={"bg-gray-100 fixed bottom-0 h-2 w-full rounded"} style={{ scaleX: scrollYProgress }} />
+  )
+}
 
 const App = () => {
   return (
     <BrowserRouter>
       <div className='relative z-0 bg-primary'>
+        <Navbar />
         <div className='bg-hero-pattern bg-cover bg-no-repeat bg-center'>
-          <Navbar />
           <Hero />
         </div>
         <StarsCanvas />
@@ -20,6 +29,7 @@ const App = () => {
         <div className='relative z-0'>
           <Contact />
         </div>
+        <ScrollBar />
       </div>
 
       <AnimatedCursor
