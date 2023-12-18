@@ -44,6 +44,7 @@ import { SectionWrapper } from "../hoc";
 import { motion, useInView } from "framer-motion";
 import { styles } from "../styles";
 import { textVariant } from "../utils/motion";
+import { r } from "maath/dist/misc-7d870b3c.esm";
 
 const techs = [
   <AfterEffects />,
@@ -86,6 +87,14 @@ const techs = [
   <VSCode_Dark />,
 ]
 
+const NUM_FRAMES = 50;
+const MIN_MOVE = -10;
+const MAX_MOVE = 10;
+
+const randomFrames = () => {
+  return Array.from({ length: NUM_FRAMES }, () => Math.random() * (MAX_MOVE - MIN_MOVE) + MIN_MOVE);
+}
+
 const Skill = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true});
@@ -106,10 +115,20 @@ const Skill = () => {
           <motion.div
             key={`tech-${index}`}
             className='w-20 h-20'
-            initial={{ scale: 0 }}
-            animate={{ scale: 1, transition: { type: "spring", delay: index * 0.05 } }}
+            animate={{
+              x: randomFrames(),
+              y: randomFrames(),
+              transition: { type: "string", duration: NUM_FRAMES * 2, repeat: Infinity, repeatType: 'reverse', delay: Math.random() }
+            }}
+            whileHover={{ scale: 1.1, rotate: 20 }}
           >
-            {tech}
+            <motion.div
+              key={`tech-${index}`}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1, transition: { type: "spring", delay: index * 0.05 } }}
+            >
+              {tech}
+            </motion.div>
           </motion.div>
         ))}
       </div>}

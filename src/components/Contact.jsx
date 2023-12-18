@@ -29,6 +29,18 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (form.name === "") {
+      alert("Please enter your name.");
+      return;
+    } else if (form.email === "") {
+      alert("Please enter your email.");
+      return;
+    } else if (form.message === "") {
+      alert("Please enter your message.");
+      return;
+    }
+
     setLoading(true);
 
     emailjs
@@ -82,44 +94,48 @@ const Contact = () => {
         >
           <label className='flex flex-col'>
             <span className='text-white font-medium mb-4'>Your Name</span>
-            <input
+            <motion.input
               type='text'
               name='name'
               value={form.name}
               onChange={handleChange}
               placeholder="What's your name?"
               className='bg-blue-950 py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              whileHover={{ scale: 1.03 }}
             />
           </label>
           <label className='flex flex-col'>
             <span className='text-white font-medium mb-4'>Your email</span>
-            <input
+            <motion.input
               type='email'
               name='email'
               value={form.email}
               onChange={handleChange}
               placeholder="What's your email address?"
               className='bg-blue-950 py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              whileHover={{ scale: 1.03 }}
             />
           </label>
           <label className='flex flex-col'>
             <span className='text-white font-medium mb-4'>Your Message</span>
-            <textarea
+            <motion.textarea
               rows={7}
               name='message'
               value={form.message}
               onChange={handleChange}
               placeholder='What do you want to say?'
               className='bg-blue-950 py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
+              whileHover={{ scale: 1.03 }}
             />
           </label>
 
-          <button
+          <motion.button
             type='submit'
             className='bg-blue-950 py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary'
+            whileHover={{ scale: 1.1 }}
           >
             {loading ? "Sending..." : "Send"}
-          </button>
+          </motion.button>
         </form>
       </motion.div>
 
