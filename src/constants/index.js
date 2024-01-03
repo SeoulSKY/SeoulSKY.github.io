@@ -66,9 +66,9 @@ const experiences = [
     date: "May 2021 - August 2021",
     points: [
       "Worked as a research assistant at the Human-Computer Interaction Laboratory, University of Saskatchewan.",
-      "Engaged with the supervisor to elicit detailed project requirements, ensuring a clear understanding of his needs and objectives.",
+      "Engaged with the supervisor to elicit detailed project requirements, ensuring a clear understanding of their needs and objectives.",
       "Developed advanced software solutions utilizing official REST APIs from Twitter and Steam for data collection and analysis.",
-      "Developed website using internal Python based framework to conduct survey for his research.",
+      "Developed a website using an internal Python-based framework to conduct a survey for their research.",
     ],
   }
 ];
