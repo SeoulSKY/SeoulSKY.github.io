@@ -77,14 +77,14 @@ const projects = [
   {
     name: "SoruSora",
     description:
-      "Engage in lifelike AI chats, translate messages into 15 languages simultaneously, and convert videos to text. Explore innovative features for enhanced communication and content sharing.",
+      "Engage in lifelike AI chats, translate messages into 25 languages simultaneously, and convert videos to text. Explore innovative features for enhanced communication and content sharing.",
     tags: [
       {
         name: "python",
         color: "blue-text-gradient",
       },
       {
-        name: "NoSQL",
+        name: "MongoDB",
         color: "green-text-gradient",
       },
       {
@@ -94,7 +94,7 @@ const projects = [
     ],
     image: sorusora,
     source_code_link: "https://github.com/SeoulSKY/SoruSora",
-    play_link: "https://discord.com/invite/kQZDJJB",
+    play_link: "https://sorusora.seoulsky.org",
   },
   {
     name: "Desdemona",
@@ -143,11 +143,6 @@ const projects = [
 ];
 
 const awards = [
-  {
-    title: "Undergraduate Summer Research Award",
-    date: "August 2021",
-    description: "The Undergraduate Summer Research Awards (USRA) competition is an opportunity for talented and motivated undergraduate students to gain leading-edge research and software development experience by working during the summer on a research project under the supervision of a Computer Science faculty member",
-  },
   {
     title: "Dean’s Honour List 2020-21",
     date: "September 2020",

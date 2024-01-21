@@ -6,9 +6,18 @@ import { styles } from "../styles";
 import { navLinks } from "../constants";
 import { logo, menu, close } from "../assets";
 
+const SMALL_DISPLAY_WIDTH = 900;
+
 const Navbar = () => {
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
+  const [displayMenu, setDisplayMenu] = useState(window.innerWidth < SMALL_DISPLAY_WIDTH);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setDisplayMenu(window.innerWidth < SMALL_DISPLAY_WIDTH);
+    });
+  }, []);
 
   return (
     <nav className={`${styles.paddingX} w-full flex items-center py-5 fixed top-0 z-20 bg-primary`}>
@@ -29,22 +38,21 @@ const Navbar = () => {
           </Link>
         </motion.div>
 
-        <ul className='list-none hidden sm:flex flex-row gap-10'>
+        {!displayMenu && <ul className="list-none flex flex-row gap-10">
           {navLinks.map((nav) => (
             <motion.li
               key={nav.id}
-              className={`${
-                active === nav.title ? "text-white" : "text-secondary"
-              } hover:text-white text-[18px] font-medium cursor-pointer`}
+              className={`${active === nav.title ? "text-white" : "text-secondary"
+                } hover:text-white text-[18px] font-medium cursor-pointer`}
               onClick={() => setActive(nav.title)}
               whileHover={{ scale: 1.1 }}
             >
               <a href={`#${nav.id}`}>{nav.title}</a>
             </motion.li>
           ))}
-        </ul>
+        </ul>}
 
-        <div className='sm:hidden flex flex-1 justify-end items-center'>
+        {displayMenu && <div className='flex flex-1 justify-end items-center'>
           <img
             src={toggle ? close : menu}
             alt='menu'
@@ -53,17 +61,15 @@ const Navbar = () => {
           />
 
           <div
-            className={`${
-              !toggle ? "hidden" : "flex"
-            } p-6 black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
+            className={`${!toggle ? "hidden" : "flex"
+              } p-6 black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
           >
             <ul className='list-none flex justify-end items-start flex-1 flex-col gap-4'>
               {navLinks.map((nav) => (
                 <li
                   key={nav.id}
-                  className={`font-poppins font-medium cursor-pointer text-[16px] ${
-                    active === nav.title ? "text-white" : "text-secondary"
-                  }`}
+                  className={`font-poppins font-medium cursor-pointer text-[16px] ${active === nav.title ? "text-white" : "text-secondary"
+                    }`}
                   onClick={() => {
                     setToggle(!toggle);
                     setActive(nav.title);
@@ -74,7 +80,7 @@ const Navbar = () => {
               ))}
             </ul>
           </div>
-        </div>
+        </div>}
       </div>
     </nav>
   );
