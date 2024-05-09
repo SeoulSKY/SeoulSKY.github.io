@@ -43,7 +43,7 @@ const ProjectCard = ({
         }}
         className='bg-blue-950 p-5 rounded-2xl sm:w-[360px] w-full'
       >
-        <div className='relative w-full h-[230px]'>
+        <div className='relative w-full aspect-video'>
           <img
             src={image}
             alt='project_image'

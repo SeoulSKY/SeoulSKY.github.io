@@ -6,9 +6,10 @@ import {
 
   uofs,
 
-  sorusora,
+  memorymate,
   desdemona,
   gochat,
+  sorusora,
 } from "../assets";
 
 export const navLinks = [
@@ -60,7 +61,7 @@ const services = [
 const experiences = [
   {
     title: "Research Assistant",
-    company_name: "Interaction Lab",
+    companyName: "Interaction Lab",
     icon: uofs,
     iconBg: "#383E56",
     date: "May 2021 - August 2021",
@@ -75,26 +76,25 @@ const experiences = [
 
 const projects = [
   {
-    name: "SoruSora",
+    name: "Memory Mate",
     description:
-      "Engage in lifelike AI chats, translate messages into 25 languages simultaneously, and convert videos to text. Explore innovative features for enhanced communication and content sharing.",
+      "Connect with our empathetic AI companion tailored for those with dementia, offering friendly conversations and engaging personalized brain games to enhance cognitive abilities.",
     tags: [
       {
-        name: "python",
+        name: "React Native",
         color: "blue-text-gradient",
       },
       {
-        name: "MongoDB",
+        name: "Gemini AI",
         color: "green-text-gradient",
       },
       {
-        name: "Docker",
+        name: "TypeScript",
         color: "pink-text-gradient",
       },
     ],
-    image: sorusora,
-    source_code_link: "https://github.com/SeoulSKY/SoruSora",
-    play_link: "https://sorusora.seoulsky.org",
+    image: memorymate,
+    source_code_link: "https://github.com/SeoulSKY/MemoryMate",
   },
   {
     name: "Desdemona",
@@ -139,6 +139,28 @@ const projects = [
     image: gochat,
     source_code_link: "https://github.com/SeoulSKY/go-chat",
     play_link: null,
+  },
+  {
+    name: "SoruSora",
+    description:
+      "Engage in lifelike AI chats, translate messages into 25 languages simultaneously, and convert videos to text. Explore innovative features for enhanced communication and content sharing.",
+    tags: [
+      {
+        name: "Python",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "MongoDB",
+        color: "green-text-gradient",
+      },
+      {
+        name: "Docker",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: sorusora,
+    source_code_link: "https://github.com/SeoulSKY/SoruSora",
+    play_link: "https://sorusora.seoulsky.org",
   },
 ];
 

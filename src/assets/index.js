@@ -12,9 +12,11 @@ import close from "./close.svg";
 
 import uofs from "./company/uofs.png";
 
-import sorusora from "./sorusora.gif";
+import memorymate from "./memorymate.gif";
 import desdemona from "./desdemona.gif";
 import gochat from "./gochat.png";
+import sorusora from "./sorusora.gif";
+
 
 export {
   logo,
@@ -31,7 +33,8 @@ export {
 
   uofs,
 
-  sorusora,
+  memorymate,
   desdemona,
   gochat,
+  sorusora,
 };
