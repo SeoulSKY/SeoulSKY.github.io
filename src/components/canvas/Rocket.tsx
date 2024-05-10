@@ -4,8 +4,12 @@ import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 
 import CanvasLoader from "../Loader";
 
-const Rocket = ({ isMobile }) => {
-  const computer = useGLTF("./rocket/scene.gltf");
+interface RocketProps {
+  isMobile: boolean;
+}
+
+export default function Rocket({ isMobile }: RocketProps) {
+  const gltf = useGLTF("./rocket/scene.gltf");
 
   return (
     <mesh>
@@ -21,7 +25,7 @@ const Rocket = ({ isMobile }) => {
       <pointLight intensity={1} />
 
       <primitive
-        object={computer.scene}
+        object={gltf.scene}
         scale={isMobile ? 0.24 : 0.29}
         position={[0, 0, 0]}
         rotation={[0, 0, 0]}
@@ -41,7 +45,7 @@ const RocketCanvas = () => {
     setIsMobile(mediaQuery.matches);
 
     // Define a callback function to handle changes to the media query
-    const handleMediaQueryChange = (event) => {
+    const handleMediaQueryChange = (event: MediaQueryListEvent) => {
       setIsMobile(event.matches);
     };
 
@@ -77,5 +81,3 @@ const RocketCanvas = () => {
     </Canvas>
   );
 };
-
-export default RocketCanvas;
