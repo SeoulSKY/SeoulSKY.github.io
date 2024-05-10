@@ -5,7 +5,7 @@ import { Points, PointMaterial, Preload } from "@react-three/drei";
 
 function Stars() {
   const [positions, setPositions] = useState(() => {
-    // Create points of random positions in a sphere
+    // Create random points in a sphere
 
     const numPoints = 5000;
     const radius = 1.2;
@@ -42,12 +42,12 @@ function Stars() {
         const y = positions[i + 1];
         const z = positions[i + 2];
 
-        // Rotate around x axis
+        // Rotate around x-axis
         const rotatedX = x;
         const rotatedY = y * Math.cos(rotationSpeedX) - z * Math.sin(rotationSpeedX);
         const rotatedZ = y * Math.sin(rotationSpeedX) + z * Math.cos(rotationSpeedX);
 
-        // Rotate around y axis
+        // Rotate around y-axis
         const finalRotatedX = rotatedX * Math.cos(rotationSpeedY) + rotatedZ * Math.sin(rotationSpeedY);
         const finalRotatedY = rotatedY;
         const finalRotatedZ = -rotatedX * Math.sin(rotationSpeedY) + rotatedZ * Math.cos(rotationSpeedY);
