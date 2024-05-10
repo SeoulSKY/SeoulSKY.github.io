@@ -8,12 +8,12 @@ interface RocketProps {
   isMobile: boolean;
 }
 
-export default function Rocket({ isMobile }: RocketProps) {
+function Rocket({ isMobile }: RocketProps) {
   const gltf = useGLTF("./rocket/scene.gltf");
 
   return (
     <mesh>
-      <hemisphereLight intensity={0.15} groundColor='black' />
+      <hemisphereLight intensity={0.15} groundColor="black" />
       <spotLight
         position={[-20, 50, 10]}
         angle={0.12}
@@ -34,7 +34,7 @@ export default function Rocket({ isMobile }: RocketProps) {
   );
 };
 
-const RocketCanvas = () => {
+export default function RocketCanvas() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -80,4 +80,4 @@ const RocketCanvas = () => {
       <Preload all />
     </Canvas>
   );
-};
+}
