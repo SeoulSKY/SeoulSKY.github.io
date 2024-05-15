@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 
-import CanvasLoader from "../Loader";
+import CanvasLoader from "./Loader";
 
 interface RocketProps {
   isMobile: boolean;
@@ -45,9 +45,9 @@ export default function RocketCanvas() {
     setIsMobile(mediaQuery.matches);
 
     // Define a callback function to handle changes to the media query
-    const handleMediaQueryChange = (event: MediaQueryListEvent) => {
+    function handleMediaQueryChange(event: MediaQueryListEvent) {
       setIsMobile(event.matches);
-    };
+    }
 
     // Add the callback function as a listener for changes to the media query
     mediaQuery.addEventListener("change", handleMediaQueryChange);
@@ -60,7 +60,7 @@ export default function RocketCanvas() {
 
   return (
     <Canvas
-      frameloop='demand'
+      frameloop="demand"
       shadows
       dpr={[1, 2]}
       camera={{ position: [20, 3, 5], fov: 25 }}

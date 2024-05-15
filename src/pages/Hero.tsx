@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 
 import { paddingX, heroHeadText, heroSubText } from "../styles";
-import { RocketCanvas } from "./canvas";
+import Rocket from "../components/canvas/Rocket";
 
 export default function Hero() {
   return (
     <section className={"relative w-full h-screen mx-auto"}>
-      <RocketCanvas />
+      <Rocket />
       
       <div
         className={`absolute inset-0 top-[120px]  max-w-7xl mx-auto ${paddingX} flex flex-row items-start gap-5`}
@@ -18,7 +18,7 @@ export default function Hero() {
 
         <div>
           <h1 className={`${heroHeadText} text-white`}>
-            Hi, I'm <span className='text-[#0ea5e9]'>SeoulSKY</span>
+            Hi, I'm <span className="text-[#0ea5e9]">SeoulSKY</span>
           </h1>
           <p className={`${heroSubText} mt-2 text-white-100`}>
             I'm a recent graduate with a major of Honours in Software Engineering and a minor in Applied Mathematics
@@ -26,9 +26,9 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className='absolute xs:bottom-10 bottom-32 w-full flex justify-center items-center'>
-        <a href='#about'>
-          <div className='w-[35px] h-[64px] rounded-3xl border-4 border-secondary flex justify-center items-start p-2'>
+      <div className="absolute xs:bottom-10 bottom-32 w-full flex justify-center items-center">
+        <a href="#about">
+          <div className="w-[35px] h-[64px] rounded-3xl border-4 border-secondary flex justify-center items-start p-2">
             <motion.div
               animate={{
                 y: [0, 24, 0],
@@ -38,7 +38,7 @@ export default function Hero() {
                 repeat: Infinity,
                 repeatType: "loop",
               }}
-              className='w-3 h-3 rounded-full bg-secondary mb-1'
+              className="w-3 h-3 rounded-full bg-secondary mb-1"
             />
           </div>
         </a>

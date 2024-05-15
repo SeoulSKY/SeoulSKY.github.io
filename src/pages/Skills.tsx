@@ -1,9 +1,9 @@
 import { useRef } from "react";
 
-import { SectionWrapper } from "../hoc/index.js";
+import SectionWrapper from "../components/SectionWrapper";
 import { motion, useInView } from "framer-motion";
-import { sectionHeadText, sectionSubText } from "../styles.js";
-import { textVariant } from "../utils/motion.js";
+import { sectionHeadText, sectionSubText } from "../styles";
+import { textVariant } from "../utils/motion";
 
 const techs = [
   <></>
@@ -32,11 +32,11 @@ function Skills() {
         </h2>
       </motion.div>
 
-      {isInView && <div className='mt-20 flex flex-row flex-wrap justify-center gap-10'>
+      {isInView && <div className="mt-20 flex flex-row flex-wrap justify-center gap-10">
         {techs.map((tech, index) => (
           <motion.div
             key={`tech-${index}`}
-            className='w-20 h-20'
+            className="w-20 h-20"
             animate={{
               x: randomFrames(),
               y: randomFrames(),

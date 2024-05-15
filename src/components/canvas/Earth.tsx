@@ -2,14 +2,14 @@ import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 
-import CanvasLoader from "../Loader";
+import CanvasLoader from "./Loader";
 
 function Earth() {
   const gltf = useGLTF("./planet/scene.gltf");
 
   return (
     <mesh>
-      <hemisphereLight intensity={0.15} groundColor='black' />
+      <hemisphereLight intensity={0.15} groundColor="black" />
       <spotLight
         position={[-20, 50, 10]}
         angle={0.12}
@@ -29,7 +29,7 @@ export default function EarthCanvas(){
   return (
     <Canvas
       shadows
-      frameloop='demand'
+      frameloop="demand"
       dpr={[1, 2]}
       gl={{ preserveDrawingBuffer: true }}
       camera={{

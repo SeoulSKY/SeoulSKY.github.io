@@ -6,9 +6,22 @@ import {
 } from "react-vertical-timeline-component";
 
 import { sectionHeadText, sectionSubText } from "../styles";
-import { SectionWrapper } from "../hoc";
+import SectionWrapper from "../components/SectionWrapper";
 import { fadeIn, textVariant } from "../utils/motion";
-import { awards } from "../constants";
+
+const awards = [
+  {
+    title: "Dean’s Honour List 2020-21",
+    date: "September 2020",
+    description: "The Dean’s Honour List recognizes undergraduate students whose grades rank in the top 5% of " +
+      "those studying with a full course load in the College of Arts and Science",
+  },
+  {
+    title: "University of Saskatchewan Entrance Scholarship",
+    date: "January 2019",
+    description: "Recognizing academic accomplishment with an admission average of 90+%",
+  },
+];
 
 function SchoolIcon() {
   return (
@@ -47,10 +60,10 @@ function AwardCard({
         icon={<SchoolIcon />}
       >
         <div>
-          <h3 className='pb-4 text-white text-[24px] font-bold'>{title}</h3>
+          <h3 className="pb-4 text-white text-[24px] font-bold">{title}</h3>
         </div>
 
-        <div className='text-white-100 text-[14px] tracking-wider'>
+        <div className="text-white-100 text-[14px] tracking-wider">
           {description}
         </div>
       </VerticalTimelineElement>
