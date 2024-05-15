@@ -44,7 +44,7 @@
 }
 
 .green-blue-gradient {
-  background: "#00cea8";
+  background: #00cea8;
   background: linear-gradient(90.13deg, #00cea8 1.9%, #0ea5e9 97.5%);
   background: -webkit-linear-gradient(-90.13deg, #00cea8 1.9%, #0ea5e9 97.5%);
 }

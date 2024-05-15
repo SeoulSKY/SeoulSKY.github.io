@@ -1,4 +1,3 @@
-import { React } from "react";
 import {
   VerticalTimeline,
   VerticalTimelineElement,
@@ -7,12 +6,23 @@ import { motion } from "framer-motion";
 
 import "react-vertical-timeline-component/style.min.css";
 
-import { styles } from "../styles";
+import { sectionHeadText, sectionSubText } from "../styles.js";
 import { experiences } from "../constants";
-import { SectionWrapper } from "../hoc";
-import { textVariant } from "../utils/motion";
+import { SectionWrapper } from "../hoc/index.js";
+import { textVariant } from "../utils/motion.js";
 
-const ExperienceCard = ({ experience }) => {
+interface ExperienceCardProps {
+  experience: {
+    title: string;
+    companyName: string;
+    date: string;
+    icon: string;
+    iconBg: string;
+    points: string[];
+  };
+}
+
+function ExperienceCard({ experience }: ExperienceCardProps) {
   return (
     <VerticalTimelineElement
       contentStyle={{
@@ -26,7 +36,7 @@ const ExperienceCard = ({ experience }) => {
         <div className='flex justify-center items-center w-full h-full'>
           <img
             src={experience.icon}
-            alt={experience.company_name}
+            alt={experience.companyName}
             className='w-[60%] h-[60%] object-contain'
           />
         </div>
@@ -38,7 +48,7 @@ const ExperienceCard = ({ experience }) => {
           className='text-secondary text-[16px] font-semibold'
           style={{ margin: 0 }}
         >
-          {experience.company_name}
+          {experience.companyName}
         </p>
       </div>
 
@@ -54,16 +64,16 @@ const ExperienceCard = ({ experience }) => {
       </ul>
     </VerticalTimelineElement>
   );
-};
+}
 
-const Experience = () => {
+function Experience() {
   return (
     <>
       <motion.div variants={textVariant()}>
-        <p className={`${styles.sectionSubText} text-center`}>
+        <p className={`${sectionSubText} text-center`}>
           What I have done so far
         </p>
-        <h2 className={`${styles.sectionHeadText} text-center`}>
+        <h2 className={`${sectionHeadText} text-center`}>
           Work Experience
         </h2>
       </motion.div>
@@ -80,6 +90,6 @@ const Experience = () => {
       </div>
     </>
   );
-};
+}
 
 export default SectionWrapper(Experience, "experience");
