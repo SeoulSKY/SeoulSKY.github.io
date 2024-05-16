@@ -1,6 +1,7 @@
 import React from "react";
 import Tilt from "react-parallax-tilt";
 import Atropos from "atropos/react";
+import "atropos/css";
 import { motion } from "framer-motion";
 
 import { sectionHeadText, sectionSubText } from "../styles";
@@ -11,7 +12,12 @@ import devops from "../assets/devops.png";
 import frontend from "../assets/frontend.png";
 import game from "../assets/game.png";
 
-const services = [
+interface Service {
+  title: string;
+  icon: string;
+}
+
+const services: Service[] = [
   {
     title: "Backend Developer",
     icon: backend,
@@ -30,10 +36,8 @@ const services = [
   },
 ];
 
-interface ServiceCardProps {
+interface ServiceCardProps extends Service {
   index: number;
-  title: string;
-  icon: string;
 }
 
 
@@ -44,15 +48,15 @@ function ServiceCard({ index, title, icon }: ServiceCardProps) {
         variants={fadeIn(index * 0.5, 0.75, "right", "spring")}
         className="w-full green-blue-gradient p-[1px] rounded-[20px] shadow-card"
       >
-        <Atropos duration={100}>
+        <Atropos shadow={false}>
           <div
-            className="bg-blue-950 rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col"
+            className="py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col"
             data-atropos-offset="-10"
           >
             <img
               src={icon}
-              alt="web-development"
-              className="w-16 h-16 object-contain"
+              alt={title}
+              className="w-16 h-16"
             />
 
             <h3 className="text-white text-[20px] font-bold text-center">

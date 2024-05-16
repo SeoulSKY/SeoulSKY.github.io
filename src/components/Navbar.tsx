@@ -8,6 +8,7 @@ import menu from "../assets/menu.svg";
 import close from "../assets/close.svg";
 import useScroll from "../hooks/useScroll";
 
+
 const navElements: string[] = [
   "About",
   "Experiences",
