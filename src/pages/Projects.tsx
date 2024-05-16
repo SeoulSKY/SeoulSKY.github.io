@@ -3,9 +3,15 @@ import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 
 import { sectionHeadText, sectionSubText } from "../styles";
-import {desdemona, github, gochat, memorymate, play, sorusora} from "../assets";
 import SectionWrapper from "../components/SectionWrapper";
 import { fadeIn, textVariant } from "../utils/motion";
+
+import memorymate from "../assets/memorymate.gif";
+import desdemona from "../assets/desdemona.gif";
+import gochat from "../assets/gochat.png";
+import sorusora from "../assets/sorusora.gif";
+import github from "../assets/github.png";
+import play from "../assets/play.png";
 
 interface Project {
   name: string;
@@ -211,4 +217,4 @@ function Projects(){
   );
 }
 
-export default SectionWrapper(Projects, "project");
+export default SectionWrapper(Projects, Projects.name.toLowerCase());

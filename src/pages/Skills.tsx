@@ -5,8 +5,48 @@ import { motion, useInView } from "framer-motion";
 import { sectionHeadText, sectionSubText } from "../styles";
 import { textVariant } from "../utils/motion";
 
-const techs = [
-  <></>
+const skills: string[] = [
+  "ae",
+  "apple",
+  "bash",
+  "c",
+  "cs",
+  "cloudflare",
+  "css",
+  "discord",
+  "docker",
+  "express",
+  "figma",
+  "firebase",
+  "flask",
+  "gcp",
+  "git",
+  "github",
+  "githubactions",
+  "html",
+  "idea",
+  "java",
+  "js",
+  "latex",
+  "linux",
+  "matlab",
+  "mongodb",
+  "mysql",
+  "nginx",
+  "nodejs",
+  "ps",
+  "postgres",
+  "postman",
+  "pr",
+  "py",
+  "react",
+  "rust",
+  "scala",
+  "tailwind",
+  "ts",
+  "unity",
+  "vscode",
+  "windows",
 ];
 
 const NUM_FRAMES = 50;
@@ -33,7 +73,7 @@ function Skills() {
       </motion.div>
 
       {isInView && <div className="mt-20 flex flex-row flex-wrap justify-center gap-10">
-        {techs.map((tech, index) => (
+        {skills.map((tech, index) => (
           <motion.div
             key={`tech-${index}`}
             className="w-20 h-20"
@@ -50,13 +90,14 @@ function Skills() {
             }}
             whileHover={{ scale: 1.1, rotate: 20 }}
           >
-            <motion.div
+            <motion.img
               key={`tech-${index}`}
+              className={"w-full h-full"}
+              src={`https://skillicons.dev/icons?i=${tech}`}
+              alt={tech}
               initial={{ scale: 0 }}
               animate={{ scale: 1, transition: { type: "spring", delay: index * 0.05 } }}
-            >
-              {tech}
-            </motion.div>
+            />
           </motion.div>
         ))}
       </div>}
@@ -64,4 +105,4 @@ function Skills() {
   );
 }
 
-export default SectionWrapper(Skills, "skill");
+export default SectionWrapper(Skills, Skills.name.toLowerCase());

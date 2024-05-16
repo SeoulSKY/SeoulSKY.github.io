@@ -90,4 +90,4 @@ function Awards() {
   );
 }
 
-export default SectionWrapper(Awards, "award");
+export default SectionWrapper(Awards, Awards.name.toLowerCase());

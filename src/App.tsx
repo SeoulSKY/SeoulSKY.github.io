@@ -3,7 +3,7 @@ import AnimatedCursor from "react-animated-cursor";
 import { motion, useScroll } from "framer-motion";
 
 import About from "./pages/About";
-import Experience from "./pages/Experience";
+import Experience from "./pages/Experiences";
 import Hero from "./pages/Hero";
 import Navbar from "./components/Navbar";
 import Projects from "./pages/Projects";
@@ -14,14 +14,6 @@ import {Bounce, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import Awards from "./pages/Awards";
-
-function ScrollBar() {
-  const { scrollYProgress } = useScroll();
-
-  return (
-    <motion.div className={"bg-gray-100 fixed bottom-0 h-2 w-full rounded"} style={{ scaleX: scrollYProgress }} />
-  );
-}
 
 export default function App() {
   return (
@@ -40,7 +32,6 @@ export default function App() {
         <div className="relative z-0">
           <Contact />
         </div>
-        <ScrollBar />
       </div>
 
       <ToastContainer

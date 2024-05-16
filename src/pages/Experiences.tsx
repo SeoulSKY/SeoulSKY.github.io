@@ -9,8 +9,7 @@ import "react-vertical-timeline-component/style.min.css";
 import { sectionHeadText, sectionSubText } from "../styles";
 import SectionWrapper from "../components/SectionWrapper";
 import { textVariant } from "../utils/motion";
-import {uofs} from "../assets";
-
+import uofs from "../assets/uofs.png";
 const experiences = [
   {
     title: "Research Assistant",
@@ -84,7 +83,7 @@ function ExperienceCard({ experience }: ExperienceCardProps) {
   );
 }
 
-function Experience() {
+function Experiences() {
   return (
     <>
       <motion.div variants={textVariant()}>
@@ -110,4 +109,4 @@ function Experience() {
   );
 }
 
-export default SectionWrapper(Experience, "experience");
+export default SectionWrapper(Experiences, Experiences.name.toLowerCase());

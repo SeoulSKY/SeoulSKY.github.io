@@ -6,7 +6,10 @@ import { motion } from "framer-motion";
 import { sectionHeadText, sectionSubText } from "../styles";
 import SectionWrapper from "../components/SectionWrapper";
 import { fadeIn, textVariant } from "../utils/motion";
-import {backend, devops, frontend, game} from "../assets";
+import backend from "../assets/backend.png";
+import devops from "../assets/devops.png";
+import frontend from "../assets/frontend.png";
+import game from "../assets/game.png";
 
 const services = [
   {
