@@ -22,7 +22,7 @@ function ScrollBar() {
 
   return (
     <div
-      className={`bg-white h-2 rounded`}
+      className={"bg-white h-2 rounded"}
       style={{width: `${scrollY * 100}%`}}
     />
   );

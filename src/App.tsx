@@ -1,6 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
 import AnimatedCursor from "react-animated-cursor";
-import { motion, useScroll } from "framer-motion";
 
 import About from "./pages/About";
 import Experience from "./pages/Experiences";
