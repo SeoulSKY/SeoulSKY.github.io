@@ -1,7 +1,6 @@
 import React from "react";
 import Tilt from "react-parallax-tilt";
 import Atropos from "atropos/react";
-import "atropos/css";
 import { motion } from "framer-motion";
 
 import { sectionHeadText, sectionSubText } from "../styles";
