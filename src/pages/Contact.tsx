@@ -158,4 +158,4 @@ function Contact() {
   );
 }
 
-export default SectionWrapper(Contact, Contact.name.toLowerCase());
+export default SectionWrapper(Contact);

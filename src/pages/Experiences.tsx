@@ -10,6 +10,7 @@ import { sectionHeadText, sectionSubText } from "../styles";
 import SectionWrapper from "../components/SectionWrapper";
 import { textVariant } from "../utils/motion";
 import uofs from "../assets/uofs.png";
+
 const experiences = [
   {
     title: "Research Assistant",
@@ -109,4 +110,4 @@ function Experiences() {
   );
 }
 
-export default SectionWrapper(Experiences, Experiences.name.toLowerCase());
+export default SectionWrapper(Experiences);

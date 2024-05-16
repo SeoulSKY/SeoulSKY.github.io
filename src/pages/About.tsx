@@ -46,11 +46,6 @@ function ServiceCard({ index, title, icon }: ServiceCardProps) {
       >
         <Atropos duration={100}>
           <div
-            // options={{
-            //   max: 45,
-            //   scale: 1,
-            //   speed: 450,
-            // }}
             className="bg-blue-950 rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col"
             data-atropos-offset="-10"
           >
@@ -83,7 +78,7 @@ function About(){
         className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
       >
         I'm a skilled software developer with experience in Python, C#, Rust, TypeScript and JavaScript, specializing
-        in frameworks like React.js, React Native, Node.js and Unity3D.
+        in frameworks like React.js, React Native and Unity3D.
         My passion lies in creating efficient, scalable, and user-friendly solutions that tackle real-world problems.
         I thrive on collaboration and quick learning, making me your ideal partner to bring your ideas to life.
         Let's work together to turn your vision into reality!
@@ -98,4 +93,4 @@ function About(){
   );
 }
 
-export default SectionWrapper(About, "about");
+export default SectionWrapper(About);

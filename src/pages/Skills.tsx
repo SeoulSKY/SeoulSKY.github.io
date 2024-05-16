@@ -105,4 +105,4 @@ function Skills() {
   );
 }
 
-export default SectionWrapper(Skills, Skills.name.toLowerCase());
+export default SectionWrapper(Skills);

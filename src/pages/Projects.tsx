@@ -217,4 +217,4 @@ function Projects(){
   );
 }
 
-export default SectionWrapper(Projects, Projects.name.toLowerCase());
+export default SectionWrapper(Projects);
