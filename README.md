@@ -11,3 +11,16 @@
 </div>
 
 This repository contains code for my [website](https://www.seoulsky.org)
+
+## How to Setup Development Environment
+
+* Install [Node.js](https://nodejs.org/en/download/package-manager)
+* Create a `.env` file and copy and paste everything from `.env.example`
+
+## Description of Environment Variables
+
+| Name | Description |
+|------|-------------|
+| VITE_EMAILJS_SERVICE_ID | Service ID for [EmailJS](https://www.emailjs.com) |
+| VITE_EMAILJS_PUBLIC_KEY | Public Key for [EmailJS](https://www.emailjs.com) |
+| VITE_EMAILJS_TEMPLATE_ID | Template ID for [EmailJS](https://www.emailjs.com) |
