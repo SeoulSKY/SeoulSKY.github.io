@@ -1,4 +1,7 @@
 <div align="center">
+    <a href="https://www.seoulsky.org">
+      <img src="https://github.com/SeoulSKY/SeoulSKY/blob/main/assets/header.gif">
+    </a>
     <h1>SeoulSKY</h1>
 </div>
 
