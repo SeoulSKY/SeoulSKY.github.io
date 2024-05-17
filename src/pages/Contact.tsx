@@ -1,6 +1,6 @@
 /* global console */
 
-import React, {ChangeEvent, FormEvent, useRef, useState} from "react";
+import {ChangeEvent, FormEvent, useRef, useState} from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import { toast as alert } from "react-toastify";
@@ -108,6 +108,7 @@ function Contact() {
               className="bg-blue-950 py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none
               border-none font-medium"
               whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
             />
           </label>
           <label className="flex flex-col">
@@ -121,6 +122,7 @@ function Contact() {
               className="bg-blue-950 py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none
               border-none font-medium"
               whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
             />
           </label>
           <label className="flex flex-col">
@@ -134,6 +136,7 @@ function Contact() {
               className="bg-blue-950 py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none
               border-none font-medium"
               whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
             />
           </label>
 
@@ -141,7 +144,9 @@ function Contact() {
             type="submit"
             className="bg-blue-950 py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md
             shadow-primary"
+            disabled={loading}
             whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
           >
             {loading ? "Sending..." : "Send"}
           </motion.button>

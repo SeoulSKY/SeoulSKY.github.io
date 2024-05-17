@@ -1,4 +1,3 @@
-import React from "react";
 import Tilt from "react-parallax-tilt";
 import Atropos from "atropos/react";
 import { motion } from "framer-motion";
@@ -76,22 +75,24 @@ function About(){
         <h2 className={sectionHeadText}>Overview</h2>
       </motion.div>
 
-      <motion.p
-        variants={fadeIn(0.1, 1)}
-        className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
-      >
-        I'm a skilled software developer with experience in Python, C#, Rust, TypeScript and JavaScript, specializing
-        in frameworks like React.js, React Native and Unity3D.
-        My passion lies in creating efficient, scalable, and user-friendly solutions that tackle real-world problems.
-        I thrive on collaboration and quick learning, making me your ideal partner to bring your ideas to life.
-        Let's work together to turn your vision into reality!
-      </motion.p>
+      <a href={"#about"}>
+        <motion.p
+          variants={fadeIn(0.1, 1)}
+          className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
+        >
+          I'm a skilled software developer with experience in Python, C#, Rust, TypeScript and JavaScript, specializing
+          in frameworks like React.js, React Native and Unity3D.
+          My passion lies in creating efficient, scalable, and user-friendly solutions that tackle real-world problems.
+          I thrive on collaboration and quick learning, making me your ideal partner to bring your ideas to life.
+          Let's work together to turn your vision into reality!
+        </motion.p>
 
-      <div className="mt-20 flex flex-wrap gap-10">
-        {services.map((service, index) => (
-          <ServiceCard key={service.title} index={index} {...service} />
-        ))}
-      </div>
+        <div className="mt-20 flex flex-wrap gap-10">
+          {services.map((service, index) => (
+            <ServiceCard key={service.title} index={index} {...service} />
+          ))}
+        </div>
+      </a>
     </>
   );
 }

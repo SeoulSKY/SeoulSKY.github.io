@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, {useEffect, useState} from "react";
 import {motion} from "framer-motion";
 
 import { paddingX } from "../styles.js";
@@ -7,16 +6,6 @@ import logo from "../assets/logo.png";
 import menu from "../assets/menu.svg";
 import close from "../assets/close.svg";
 import useScroll from "../hooks/useScroll";
-
-
-const navElements: string[] = [
-  "About",
-  "Experiences",
-  "Skills",
-  "Projects",
-  "Awards",
-  "Contact",
-];
 
 function ScrollBar() {
   const scrollY = useScroll();
@@ -29,10 +18,13 @@ function ScrollBar() {
   );
 }
 
+interface NavbarProps {
+  sections: { element: () => JSX.Element, ref: React.RefObject<HTMLElement>}[];
+}
+
 const SMALL_DISPLAY_WIDTH = 900;
 
-export default function Navbar() {
-  const [active, setActive] = useState("");
+export default function Navbar({sections}: NavbarProps) {
   const [toggle, setToggle] = useState(false);
   const [displayMenu, setDisplayMenu] = useState(window.innerWidth < SMALL_DISPLAY_WIDTH);
 
@@ -44,14 +36,15 @@ export default function Navbar() {
 
   return (
     <div className={"flex w-full flex-col items-start fixed top-0 z-20"}>
-      <nav className={`${paddingX} w-full flex bg-primary pt-3`}>
+      <nav className={`${paddingX} w-full flex bg-black pt-3`}>
         <div className="w-full flex justify-between items-center max-w-7xl mx-auto pb-3">
-          <motion.div whileHover={{ scale: 1.1 }}>
-            <Link
-              to="/"
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <div
               className="flex items-center gap-2"
               onClick={() => {
-                setActive("");
                 window.scrollTo(0, 0);
               }}
             >
@@ -59,19 +52,23 @@ export default function Navbar() {
               <p className="text-white text-[18px] font-bold flex">
                 SeoulSKY
               </p>
-            </Link>
+            </div>
           </motion.div>
 
           {!displayMenu && <ul className="list-none flex flex-row gap-10">
-            {navElements.map((element) => (
+            {sections.map(({element, ref}) => (
               <motion.li
-                key={element}
-                className={`${active === element ? "text-white" : "text-secondary"
-                } hover:text-white text-[18px] font-medium cursor-pointer`}
-                onClick={() => setActive(element)}
+                key={element.name}
+                className={"text-secondary hover:text-white text-[18px] font-medium cursor-pointer"}
+                onClick={() => {
+                  if (ref.current) {
+                    ref.current.scrollIntoView({behavior: "smooth"});
+                  }
+                }}
                 whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9, style: {color: "white"}}}
               >
-                <a href={`#${element.toLowerCase()}`}>{element}</a>
+                {element.name}
               </motion.li>
             ))}
           </ul>}
@@ -89,17 +86,15 @@ export default function Navbar() {
               } p-6 black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
             >
               <ul className="list-none flex justify-end items-start flex-1 flex-col gap-4">
-                {navElements.map((element) => (
+                {sections.map(({element, ref}) => (
                   <li
-                    key={element}
-                    className={`font-poppins font-medium cursor-pointer text-[16px] 
-                    ${active === element? "text-white" : "text-secondary"}`}
+                    className={"font-poppins font-medium cursor-pointer text-[16px] text-secondary"}
                     onClick={() => {
                       setToggle(!toggle);
-                      setActive(element);
+                      ref.current?.scrollIntoView({behavior: "smooth"});
                     }}
                   >
-                    <a href={`#${element.toLowerCase()}`}>{element}</a>
+                    {element.name}
                   </li>
                 ))}
               </ul>

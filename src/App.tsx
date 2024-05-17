@@ -3,7 +3,7 @@ import AnimatedCursor from "react-animated-cursor";
 
 import About from "./pages/About";
 import Experience from "./pages/Experiences";
-import Hero from "./pages/Hero";
+import Header from "./pages/Header";
 import Navbar from "./components/Navbar";
 import Projects from "./pages/Projects";
 import Skills from "./pages/Skills";
@@ -11,26 +11,38 @@ import Stars from "./components/canvas/Stars";
 import Contact from "./pages/Contact";
 import {Bounce, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import React from "react";
+import {useRef} from "react";
 import Awards from "./pages/Awards";
 
+const sections = [
+  About,
+  Experience,
+  Skills,
+  Projects,
+  Awards,
+  Contact,
+];
+
 export default function App() {
+
+  const components = sections.map(section => {
+    return {
+      element: section,
+      ref: useRef(null),
+    };
+  });
+
   return (
     <BrowserRouter>
-      <div className="relative z-0 bg-primary">
-        <Navbar />
-        <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
-          <Hero />
-        </div>
+      <div className="relative z-0 bg-black">
         <Stars />
-        <About />
-        <Experience />
-        <Skills />
-        <Projects />
-        <Awards />
-        <div className="relative z-0">
-          <Contact />
-        </div>
+
+        <Navbar sections={components} />
+        <Header />
+        {components.map((component) =>
+          <div ref={component.ref}>
+            {component.element()}
+          </div>)}
       </div>
 
       <ToastContainer
