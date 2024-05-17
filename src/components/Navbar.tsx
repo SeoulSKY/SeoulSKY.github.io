@@ -88,6 +88,7 @@ export default function Navbar({sections}: NavbarProps) {
               <ul className="list-none flex justify-end items-start flex-1 flex-col gap-4">
                 {sections.map(({name, ref}) => (
                   <li
+                    key={name}
                     className={"font-poppins font-medium cursor-pointer text-[16px] text-secondary"}
                     onClick={() => {
                       setToggle(!toggle);

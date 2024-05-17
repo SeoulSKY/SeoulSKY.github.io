@@ -52,7 +52,7 @@ export default function App() {
         <Navbar sections={components} />
         <Header />
         {components.map((component) =>
-          <div ref={component.ref}>
+          <div key={component.name} ref={component.ref}>
             <component.Section />
           </div>)}
       </div>

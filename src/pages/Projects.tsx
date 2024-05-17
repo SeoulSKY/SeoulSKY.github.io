@@ -146,13 +146,8 @@ function ProjectCard({
   playLink,
 }: ProjectCardProps) {
   return (
-    <motion.div variants={fadeIn(index * 0.5, 0.75, "up", "spring")}>
+    <motion.div key={name} variants={fadeIn(index * 0.5, 0.75, "up", "spring")}>
       <Tilt
-        // options={{
-        //   max: 45,
-        //   scale: 1,
-        //   speed: 450,
-        // }}
         className="bg-blue-950 p-5 rounded-2xl sm:w-[360px] w-full"
       >
         <div className="relative w-full aspect-video">
@@ -176,7 +171,7 @@ function ProjectCard({
         <div className="mt-4 flex flex-wrap gap-2">
           {tags.map(({name, color}) => (
             <p
-              key={`${name}-${name}`}
+              key={name}
               className={`text-[14px] ${color}`}
             >
               #{name}
@@ -209,7 +204,7 @@ function Projects(){
 
       <div className="mt-20 flex flex-wrap gap-7">
         {projects.map((project, index) => (
-          <ProjectCard index={index} {...project} />
+          <ProjectCard key={project.name} index={index} {...project} />
         ))}
       </div>
     </>

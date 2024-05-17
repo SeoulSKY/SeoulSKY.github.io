@@ -48,17 +48,13 @@ function Contact() {
 
     emailjs
       .send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        "default_service",
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        /* eslint-disable camelcase */
         {
-          from_name: form.name,
-          to_name: "SeoulSKY",
-          from_email: form.email,
-          to_email: "contact@seoulsky.org",
+          fromName: form.name,
+          fromEmail: form.email,
           message: form.message,
         },
-        /* eslint-enable camelcase */
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       )
       .then(
@@ -142,8 +138,7 @@ function Contact() {
 
           <motion.button
             type="submit"
-            className="bg-blue-950 py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md
-            shadow-primary"
+            className="bg-blue-950 py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-primary"
             disabled={loading}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
