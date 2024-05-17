@@ -19,7 +19,7 @@ function ScrollBar() {
 }
 
 interface NavbarProps {
-  sections: { element: () => JSX.Element, ref: React.RefObject<HTMLElement>}[];
+  sections: { name: string, ref: React.RefObject<HTMLElement>}[];
 }
 
 const SMALL_DISPLAY_WIDTH = 900;
@@ -56,9 +56,9 @@ export default function Navbar({sections}: NavbarProps) {
           </motion.div>
 
           {!displayMenu && <ul className="list-none flex flex-row gap-10">
-            {sections.map(({element, ref}) => (
+            {sections.map(({name, ref}) => (
               <motion.li
-                key={element.name}
+                key={name}
                 className={"text-secondary hover:text-white text-[18px] font-medium cursor-pointer"}
                 onClick={() => {
                   if (ref.current) {
@@ -68,7 +68,7 @@ export default function Navbar({sections}: NavbarProps) {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9, style: {color: "white"}}}
               >
-                {element.name}
+                {name}
               </motion.li>
             ))}
           </ul>}
@@ -86,7 +86,7 @@ export default function Navbar({sections}: NavbarProps) {
               } p-6 black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
             >
               <ul className="list-none flex justify-end items-start flex-1 flex-col gap-4">
-                {sections.map(({element, ref}) => (
+                {sections.map(({name, ref}) => (
                   <li
                     className={"font-poppins font-medium cursor-pointer text-[16px] text-secondary"}
                     onClick={() => {
@@ -94,7 +94,7 @@ export default function Navbar({sections}: NavbarProps) {
                       ref.current?.scrollIntoView({behavior: "smooth"});
                     }}
                   >
-                    {element.name}
+                    {name}
                   </li>
                 ))}
               </ul>

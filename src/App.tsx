@@ -14,20 +14,32 @@ import "react-toastify/dist/ReactToastify.css";
 import {useRef} from "react";
 import Awards from "./pages/Awards";
 
-const sections = [
-  About,
-  Experience,
-  Skills,
-  Projects,
-  Awards,
-  Contact,
-];
+const sections = [{
+  name: "About",
+  Section: About,
+}, {
+  name: "Experience",
+  Section: Experience,
+}, {
+  name: "Skills",
+  Section: Skills,
+}, {
+  name: "Projects",
+  Section: Projects,
+}, {
+  name: "Awards",
+  Section: Awards,
+}, {
+  name: "Contact",
+  Section: Contact,
+}];
+
 
 export default function App() {
 
-  const components = sections.map(section => {
+  const components = sections.map((section) => {
     return {
-      element: section,
+      ...section,
       ref: useRef(null),
     };
   });
@@ -41,7 +53,7 @@ export default function App() {
         <Header />
         {components.map((component) =>
           <div ref={component.ref}>
-            {component.element()}
+            <component.Section />
           </div>)}
       </div>
 
