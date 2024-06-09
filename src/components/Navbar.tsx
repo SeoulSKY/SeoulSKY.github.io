@@ -6,6 +6,7 @@ import logo from "../assets/logo.png";
 import menu from "../assets/menu.svg";
 import close from "../assets/close.svg";
 import useScroll from "../hooks/useScroll";
+import {pressableMotion} from "../utils/motion";
 
 function ScrollBar() {
   const scrollY = useScroll();
@@ -38,10 +39,7 @@ export default function Navbar({sections}: NavbarProps) {
     <div className={"flex w-full flex-col items-start fixed top-0 z-20"}>
       <nav className={`${paddingX} w-full flex bg-black pt-3`}>
         <div className="w-full flex justify-between items-center max-w-7xl mx-auto pb-3">
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
+          <motion.div {...pressableMotion()}>
             <div
               className="flex items-center gap-2"
               onClick={() => {
@@ -65,8 +63,7 @@ export default function Navbar({sections}: NavbarProps) {
                     ref.current.scrollIntoView({behavior: "smooth"});
                   }
                 }}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9, style: {color: "white"}}}
+                {...pressableMotion()}
               >
                 {name}
               </motion.li>

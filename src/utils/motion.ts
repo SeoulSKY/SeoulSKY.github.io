@@ -1,8 +1,15 @@
-import {Variants} from "framer-motion";
+import {MotionProps, Variants} from "framer-motion";
 
 type Direction = "left" | "right" | "up" | "down";
 
 type TransitionType = "spring" | "tween" | "inertia";
+
+export function pressableMotion(amount = 0.1): MotionProps {
+  return {
+    whileHover: { scale: 1 + amount },
+    whileTap: { scale: 1 - amount },
+  };
+}
 
 export function textVariant(delay?: number): Variants {
   return {

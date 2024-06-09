@@ -9,6 +9,7 @@ import memorymate from "../assets/memorymate.gif";
 import desdemona from "../assets/desdemona.gif";
 import gochat from "../assets/gochat.png";
 import sorusora from "../assets/sorusora.gif";
+import chessai from "../assets/chessai.gif";
 import github from "../assets/github.png";
 import play from "../assets/play.png";
 
@@ -66,8 +67,8 @@ const projects: Project[] = [
     playLink: "https://desdemona.seoulsky.org",
   },
   {
-    name: "Go Chat",
-    description: "Experience a real-time chat web application powered by WebSocket, Docker, Go, React, and MongoDB. " +
+    name: "GoChat",
+    description: "Experience a real-time chat web platform powered by WebSocket, Go, React, and MongoDB. " +
       "Engage in instant communication and uncover the technical prowess behind this project.",
     tags: [
       {
@@ -79,12 +80,13 @@ const projects: Project[] = [
         color: "green-text-gradient",
       },
       {
-        name: "Docker",
+        name: "tailwindcss",
         color: "pink-text-gradient",
       },
     ],
     image: gochat,
     sourceCodeLink: "https://github.com/SeoulSKY/go-chat",
+    playLink: "https://gochat.seoulsky.org"
   },
   {
     name: "SoruSora",
@@ -108,6 +110,28 @@ const projects: Project[] = [
     sourceCodeLink: "https://github.com/SeoulSKY/SoruSora",
     playLink: "https://sorusora.seoulsky.org",
   },
+  {
+    name: "Chess AI",
+    description: "Experience the ultimate in strategic gaming with our customizable chess AI. " +
+      "Play on the web with dynamic difficulty adjustments and personalized settings, perfect for beginners and " +
+      "grandmasters alike. Enhance your skills and enjoy endless strategic fun.",
+    tags: [
+      {
+        name: "Java",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "React.js",
+        color: "green-text-gradient",
+      },
+      {
+        name: "CSS",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: chessai,
+    sourceCodeLink: "https://github.com/SeoulSKY/ChessAI",
+  }
 ];
 
 

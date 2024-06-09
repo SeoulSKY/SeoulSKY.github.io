@@ -3,13 +3,13 @@
 import {ChangeEvent, FormEvent, useRef, useState} from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
-import { toast as alert } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { sectionSubText, sectionHeadText } from "../styles";
 import Earth from "../components/canvas/Earth";
 import SectionWrapper from "../components/SectionWrapper";
-import { slideIn } from "../utils/motion";
+import {pressableMotion, slideIn} from "../utils/motion";
 
 function Contact() {
   const formRef = useRef(null);
@@ -30,24 +30,24 @@ function Contact() {
     });
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>){
+  async function handleSubmit(e: FormEvent<HTMLFormElement>){
     e.preventDefault();
 
     if (form.name.trim() === "") {
-      alert.error("Please enter your name.");
+      toast.error("Please enter your name.");
       return;
     } else if (form.email.trim() === "") {
-      alert.error("Please enter your email.");
+      toast.error("Please enter your email.");
       return;
     } else if (form.message.trim() === "") {
-      alert.error("Please enter your message.");
+      toast.error("Please enter your message.");
       return;
     }
 
     setLoading(true);
 
-    emailjs
-      .send(
+    try {
+      await toast.promise(emailjs.send(
         "default_service",
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
@@ -56,25 +56,22 @@ function Contact() {
           message: form.message,
         },
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      )
-      .then(
-        () => {
-          setLoading(false);
-          alert.success("Thank you. I will get back to you as soon as possible.");
+      ), {
+        pending: "Sending...",
+        success: "Thank you. I will get back to you as soon as possible.",
+        error: "Ahh, something went wrong. Please try again later.",
+      });
 
-          setForm({
-            name: "",
-            email: "",
-            message: "",
-          });
-        },
-        (error) => {
-          setLoading(false);
-          console.error(error);
-
-          alert.error("Ahh, something went wrong. Please try again later.");
-        }
-      );
+      setForm({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -103,8 +100,7 @@ function Contact() {
               placeholder="What's your name?"
               className="bg-blue-950 py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none
               border-none font-medium"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              {...pressableMotion(0.03)}
             />
           </label>
           <label className="flex flex-col">
@@ -117,8 +113,7 @@ function Contact() {
               placeholder="What's your email address?"
               className="bg-blue-950 py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none
               border-none font-medium"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              {...pressableMotion(0.03)}
             />
           </label>
           <label className="flex flex-col">
@@ -131,8 +126,7 @@ function Contact() {
               placeholder="What do you want to say?"
               className="bg-blue-950 py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none
               border-none font-medium"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              {...pressableMotion(0.03)}
             />
           </label>
 
@@ -140,8 +134,7 @@ function Contact() {
             type="submit"
             className="bg-blue-950 py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-primary"
             disabled={loading}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            {...pressableMotion()}
           >
             {loading ? "Sending..." : "Send"}
           </motion.button>
