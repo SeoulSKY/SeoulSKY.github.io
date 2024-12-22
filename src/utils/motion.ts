@@ -1,4 +1,4 @@
-import {MotionProps, Variants} from "framer-motion";
+import { MotionProps, Variants } from "framer-motion";
 
 type Direction = "left" | "right" | "up" | "down";
 
@@ -29,7 +29,12 @@ export function textVariant(delay?: number): Variants {
   };
 }
 
-export function fadeIn(delay: number, duration: number, direction?: Direction, type?: TransitionType): Variants {
+export function fadeIn(
+  delay: number,
+  duration: number,
+  direction?: Direction,
+  type?: TransitionType,
+): Variants {
   return {
     hidden: {
       x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
@@ -69,7 +74,12 @@ export function zoomIn(delay: number, duration: number): Variants {
   };
 }
 
-export function slideIn(direction: Direction, type: TransitionType, delay: number, duration: number): Variants {
+export function slideIn(
+  direction: Direction,
+  type: TransitionType,
+  delay: number,
+  duration: number,
+): Variants {
   return {
     hidden: {
       x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
@@ -88,7 +98,10 @@ export function slideIn(direction: Direction, type: TransitionType, delay: numbe
   };
 }
 
-export function staggerContainer(staggerChildren?: number, delayChildren?: number): Variants {
+export function staggerContainer(
+  staggerChildren?: number,
+  delayChildren?: number,
+): Variants {
   return {
     hidden: {},
     show: {

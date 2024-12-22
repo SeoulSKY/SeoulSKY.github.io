@@ -1,7 +1,6 @@
-import {useState, Suspense} from "react";
+import { useState, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial, Preload } from "@react-three/drei";
-
 
 function Stars() {
   const [positions, setPositions] = useState(() => {
@@ -34,7 +33,7 @@ function Stars() {
     const rotationSpeedX = delta / 10;
     const rotationSpeedY = delta / 15;
 
-    setPositions(positions => {
+    setPositions((positions) => {
       const rotatedPositions = new Float32Array(positions.length);
 
       for (let i = 0; i < positions.length; i += 3) {
@@ -44,13 +43,19 @@ function Stars() {
 
         // Rotate around x-axis
         const rotatedX = x;
-        const rotatedY = y * Math.cos(rotationSpeedX) - z * Math.sin(rotationSpeedX);
-        const rotatedZ = y * Math.sin(rotationSpeedX) + z * Math.cos(rotationSpeedX);
+        const rotatedY =
+          y * Math.cos(rotationSpeedX) - z * Math.sin(rotationSpeedX);
+        const rotatedZ =
+          y * Math.sin(rotationSpeedX) + z * Math.cos(rotationSpeedX);
 
         // Rotate around y-axis
-        const finalRotatedX = rotatedX * Math.cos(rotationSpeedY) + rotatedZ * Math.sin(rotationSpeedY);
+        const finalRotatedX =
+          rotatedX * Math.cos(rotationSpeedY) +
+          rotatedZ * Math.sin(rotationSpeedY);
         const finalRotatedY = rotatedY;
-        const finalRotatedZ = -rotatedX * Math.sin(rotationSpeedY) + rotatedZ * Math.cos(rotationSpeedY);
+        const finalRotatedZ =
+          -rotatedX * Math.sin(rotationSpeedY) +
+          rotatedZ * Math.cos(rotationSpeedY);
 
         rotatedPositions[i] = finalRotatedX;
         rotatedPositions[i + 1] = finalRotatedY;
@@ -78,7 +83,7 @@ function Stars() {
 
 export default function StarsCanvas() {
   return (
-    <div className="w-full h-auto absolute inset-0 z-[-1]">
+    <div className="absolute inset-0 z-[-1] h-auto w-full">
       <Canvas camera={{ position: [0, 0, 1] }}>
         <Suspense fallback={null}>
           <Stars />

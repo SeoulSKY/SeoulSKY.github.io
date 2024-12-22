@@ -20,12 +20,17 @@ function Earth() {
       />
       <pointLight intensity={1} />
 
-      <primitive object={gltf.scene} scale={2.5} position-y={0} rotation-y={0} />
+      <primitive
+        object={gltf.scene}
+        scale={2.5}
+        position-y={0}
+        rotation-y={0}
+      />
     </mesh>
   );
 }
 
-export default function EarthCanvas(){
+export default function EarthCanvas() {
   return (
     <Canvas
       shadows

@@ -38,26 +38,21 @@ interface ServiceCardProps extends Service {
   index: number;
 }
 
-
 function ServiceCard({ index, title, icon }: ServiceCardProps) {
   return (
-    <Tilt className="xs:w-[250px] w-full">
+    <Tilt className="w-full xs:w-[250px]">
       <motion.div
         variants={fadeIn(index * 0.5, 0.75, "right", "spring")}
-        className="w-full green-blue-gradient p-[1px] rounded-[20px] shadow-card"
+        className="green-blue-gradient w-full rounded-[20px] p-[1px] shadow-card"
       >
         <Atropos shadow={false}>
           <div
-            className="py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col"
+            className="flex min-h-[280px] flex-col items-center justify-evenly px-12 py-5"
             data-atropos-offset="-10"
           >
-            <img
-              src={icon}
-              alt={title}
-              className="w-16 h-16"
-            />
+            <img src={icon} alt={title} className="h-16 w-16" />
 
-            <h3 className="text-white text-[20px] font-bold text-center">
+            <h3 className="text-center text-[20px] font-bold text-white">
               {title}
             </h3>
           </div>
@@ -67,7 +62,7 @@ function ServiceCard({ index, title, icon }: ServiceCardProps) {
   );
 }
 
-function About(){
+function About() {
   return (
     <>
       <motion.div variants={textVariant()}>
@@ -77,13 +72,15 @@ function About(){
 
       <motion.p
         variants={fadeIn(0.1, 1)}
-        className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
+        className="mt-4 max-w-3xl text-[17px] leading-[30px] text-secondary"
       >
-        I'm a skilled software developer with experience in Python, C#, Rust, TypeScript and JavaScript, specializing
-        in frameworks like React.js, React Native and Unity3D.
-        My passion lies in creating efficient, scalable, and user-friendly solutions that tackle real-world problems.
-        I thrive on collaboration and quick learning, making me your ideal partner to bring your ideas to life.
-        Let's work together to turn your vision into reality!
+        I'm a skilled software developer with experience in Python, C#, Rust,
+        TypeScript and JavaScript, specializing in frameworks like React.js,
+        React Native and Unity3D. My passion lies in creating efficient,
+        scalable, and user-friendly solutions that tackle real-world problems. I
+        thrive on collaboration and quick learning, making me your ideal partner
+        to bring your ideas to life. Let's work together to turn your vision
+        into reality!
       </motion.p>
 
       <div className="mt-20 flex flex-wrap gap-10">

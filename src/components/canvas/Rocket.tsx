@@ -32,7 +32,7 @@ function Rocket({ isMobile }: RocketProps) {
       />
     </mesh>
   );
-};
+}
 
 export default function RocketCanvas() {
   const [isMobile, setIsMobile] = useState(false);

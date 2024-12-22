@@ -25,7 +25,8 @@ interface Project {
 const projects: Project[] = [
   {
     name: "Memory Mate",
-    description: "Connect with our empathetic AI companion tailored for those with dementia, offering friendly " +
+    description:
+      "Connect with our empathetic AI companion tailored for those with dementia, offering friendly " +
       "conversations and engaging personalized brain games to enhance cognitive abilities.",
     tags: [
       {
@@ -46,7 +47,8 @@ const projects: Project[] = [
   },
   {
     name: "Desdemona",
-    description: "Engage in a game of Othello against a powerful AI opponent, Desdemona, and explore the intriguing " +
+    description:
+      "Engage in a game of Othello against a powerful AI opponent, Desdemona, and explore the intriguing " +
       "environment surrounding you, and discover what lies inside various buildings.",
     tags: [
       {
@@ -68,7 +70,8 @@ const projects: Project[] = [
   },
   {
     name: "GoChat",
-    description: "Experience a real-time chat web platform powered by WebSocket, Go, React, and MongoDB. " +
+    description:
+      "Experience a real-time chat web platform powered by WebSocket, Go, React, and MongoDB. " +
       "Engage in instant communication and uncover the technical prowess behind this project.",
     tags: [
       {
@@ -86,11 +89,12 @@ const projects: Project[] = [
     ],
     image: gochat,
     sourceCodeLink: "https://github.com/SeoulSKY/go-chat",
-    playLink: "https://gochat.seoulsky.org"
+    playLink: "https://gochat.seoulsky.org",
   },
   {
     name: "SoruSora",
-    description: "Engage in lifelike AI chats, translate messages into 25 languages simultaneously, and convert " +
+    description:
+      "Engage in lifelike AI chats, translate messages into 25 languages simultaneously, and convert " +
       "videos to text. Explore innovative features for enhanced communication and content sharing.",
     tags: [
       {
@@ -112,7 +116,8 @@ const projects: Project[] = [
   },
   {
     name: "Chess AI",
-    description: "Experience the ultimate in strategic gaming with our customizable chess AI. " +
+    description:
+      "Experience the ultimate in strategic gaming with our customizable chess AI. " +
       "Play on the web with dynamic difficulty adjustments and personalized settings, perfect for beginners and " +
       "grandmasters alike. Enhance your skills and enjoy endless strategic fun.",
     tags: [
@@ -131,9 +136,8 @@ const projects: Project[] = [
     ],
     image: chessai,
     sourceCodeLink: "https://github.com/SeoulSKY/ChessAI",
-  }
+  },
 ];
-
 
 interface LinkIconProps {
   link: string;
@@ -144,14 +148,10 @@ function LinkIcon({ link, icon }: LinkIconProps) {
   return (
     <motion.div
       onClick={() => window.open(link, "_blank")}
-      className="black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer"
+      className="black-gradient flex h-10 w-10 cursor-pointer items-center justify-center rounded-full"
       whileHover={{ scale: 1.1 }}
     >
-      <img
-        src={icon}
-        alt="link"
-        className="w-1/2 h-1/2 object-contain"
-      />
+      <img src={icon} alt="link" className="h-1/2 w-1/2 object-contain" />
     </motion.div>
   );
 }
@@ -171,33 +171,28 @@ function ProjectCard({
 }: ProjectCardProps) {
   return (
     <motion.div key={name} variants={fadeIn(index * 0.5, 0.75, "up", "spring")}>
-      <Tilt
-        className="bg-blue-950 p-5 rounded-2xl sm:w-[360px] w-full"
-      >
-        <div className="relative w-full aspect-video">
+      <Tilt className="w-full rounded-2xl bg-blue-950 p-5 sm:w-[360px]">
+        <div className="relative aspect-video w-full">
           <img
             src={image}
             alt="project_image"
-            className="w-full h-full object-cover rounded-2xl"
+            className="h-full w-full rounded-2xl object-cover"
           />
 
-          <div className="space-x-1 absolute inset-0 flex justify-end m-3 card-img_hover">
+          <div className="card-img_hover absolute inset-0 m-3 flex justify-end space-x-1">
             {sourceCodeLink && <LinkIcon link={sourceCodeLink} icon={github} />}
             {playLink && <LinkIcon link={playLink} icon={play} />}
           </div>
         </div>
 
         <div className="mt-5">
-          <h3 className="text-white font-bold text-[24px]">{name}</h3>
-          <p className="mt-2 text-secondary text-[14px]">{description}</p>
+          <h3 className="text-[24px] font-bold text-white">{name}</h3>
+          <p className="mt-2 text-[14px] text-secondary">{description}</p>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          {tags.map(({name, color}) => (
-            <p
-              key={name}
-              className={`text-[14px] ${color}`}
-            >
+          {tags.map(({ name, color }) => (
+            <p key={name} className={`text-[14px] ${color}`}>
               #{name}
             </p>
           ))}
@@ -207,7 +202,7 @@ function ProjectCard({
   );
 }
 
-function Projects(){
+function Projects() {
   return (
     <>
       <motion.div variants={textVariant()}>
@@ -215,14 +210,15 @@ function Projects(){
         <h2 className={sectionHeadText}>Projects</h2>
       </motion.div>
 
-      <div className="w-full flex">
+      <div className="flex w-full">
         <motion.p
           variants={fadeIn(0.1, 1)}
-          className="mt-3 text-secondary text-[17px] max-w-3xl leading-[30px]"
+          className="mt-3 max-w-3xl text-[17px] leading-[30px] text-secondary"
         >
-          Delve into my personal software development journey, where I've embarked on a range of diverse projects,
-          always striving to deliver top-notch solutions. Explore in detail my approaches to overcoming various
-          challenges in the field.
+          Delve into my personal software development journey, where I've
+          embarked on a range of diverse projects, always striving to deliver
+          top-notch solutions. Explore in detail my approaches to overcoming
+          various challenges in the field.
         </motion.p>
       </div>
 

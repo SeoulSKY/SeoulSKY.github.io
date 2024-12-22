@@ -3,8 +3,9 @@ import { motion } from "framer-motion";
 import { padding } from "../styles";
 import { staggerContainer } from "../utils/motion";
 
-
-export default function SectionWrapper(Element: () => JSX.Element): () => JSX.Element {
+export default function SectionWrapper(
+  Element: () => JSX.Element,
+): () => JSX.Element {
   function Wrapper() {
     return (
       <motion.section
@@ -12,7 +13,7 @@ export default function SectionWrapper(Element: () => JSX.Element): () => JSX.El
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.25 }}
-        className={`${padding} max-w-7xl mx-auto relative z-0`}
+        className={`${padding} relative z-0 mx-auto max-w-7xl`}
       >
         <span className="hash-span" id={Element.name.toLowerCase()}>
           &nbsp;
@@ -22,7 +23,6 @@ export default function SectionWrapper(Element: () => JSX.Element): () => JSX.El
       </motion.section>
     );
   }
-
 
   Object.defineProperty(Wrapper, "name", { value: Element.name });
 
