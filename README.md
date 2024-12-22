@@ -38,13 +38,7 @@ npm start
 
 ## How to Deploy to GitHub Pages
 
-Run the following command to build
-
-```bash
-npm run build
-```
-
-Then, deploy
+Run the following command to build and deploy
 
 ```bash
 npm run deploy
