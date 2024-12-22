@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -19,22 +19,27 @@
       // the correct url will be waiting in the browser's history for
       // the single page app to route accordingly.
       (function (l) {
-        if (l.search[1] === '/') {
-          var decoded = l.search.slice(1).split('&').map(function (s) {
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-            l.pathname.slice(0, -1) + decoded + l.hash
+        if (l.search[1] === "/") {
+          const decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function(s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash,
           );
         }
-      }(window.location))
+      })(window.location);
     </script>
     <!-- End Single Page Apps for GitHub Pages -->
-
-    <script type="module" crossorigin src="/assets/index-qAdH3QUL.js"></script>
+    <script type="module" crossorigin src="/assets/index-DoOFF9H9.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/@chevrotain-C932wzq6.js">
     <link rel="modulepreload" crossorigin href="/assets/react-tsooa7JO.js">
-    <link rel="modulepreload" crossorigin href="/assets/react-dom-CtjmRZ6W.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-dom-B5IQZHLT.js">
     <link rel="modulepreload" crossorigin href="/assets/@remix-run-CEHYKPOQ.js">
     <link rel="modulepreload" crossorigin href="/assets/react-router-DvbsufWj.js">
     <link rel="modulepreload" crossorigin href="/assets/react-router-dom-CUCFo5ri.js">
@@ -43,11 +48,11 @@
     <link rel="modulepreload" crossorigin href="/assets/atropos-BxnaKgiE.js">
     <link rel="modulepreload" crossorigin href="/assets/hey-listen-DkH12NBk.js">
     <link rel="modulepreload" crossorigin href="/assets/@motionone-DOgsiVGs.js">
-    <link rel="modulepreload" crossorigin href="/assets/framer-motion-CtPhWZmD.js">
+    <link rel="modulepreload" crossorigin href="/assets/framer-motion-bqKi57qT.js">
     <link rel="modulepreload" crossorigin href="/assets/prop-types-BKNjMPK8.js">
     <link rel="modulepreload" crossorigin href="/assets/classnames-BarBPuyi.js">
     <link rel="modulepreload" crossorigin href="/assets/react-intersection-observer-VPuW-8n3.js">
-    <link rel="modulepreload" crossorigin href="/assets/react-vertical-timeline-component-DJ2LChyD.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-vertical-timeline-component-CWyB7mwa.js">
     <link rel="modulepreload" crossorigin href="/assets/@babel-DVPSkNY4.js">
     <link rel="modulepreload" crossorigin href="/assets/three-D4Vw_3Uf.js">
     <link rel="modulepreload" crossorigin href="/assets/debounce-B3kJwtDA.js">
@@ -59,13 +64,13 @@
     <link rel="modulepreload" crossorigin href="/assets/three-stdlib-Bf0Nc8Kp.js">
     <link rel="modulepreload" crossorigin href="/assets/react-merge-refs-BIBY5Z5W.js">
     <link rel="modulepreload" crossorigin href="/assets/suspend-react-CzZ5Hy3S.js">
-    <link rel="modulepreload" crossorigin href="/assets/@react-three-TPbfigLg.js">
+    <link rel="modulepreload" crossorigin href="/assets/@react-three-MzuFlMTU.js">
     <link rel="modulepreload" crossorigin href="/assets/@emailjs-BYBfDvDX.js">
     <link rel="modulepreload" crossorigin href="/assets/clsx-B-dksMZM.js">
-    <link rel="modulepreload" crossorigin href="/assets/react-toastify-CuhRRHLr.js">
-    <link rel="stylesheet" crossorigin href="/assets/react-vertical-timeline-component-CnZtrC8p.css">
-    <link rel="stylesheet" crossorigin href="/assets/react-toastify-BTGsrsBX.css">
-    <link rel="stylesheet" crossorigin href="/assets/index-DAODD0FT.css">
+    <link rel="modulepreload" crossorigin href="/assets/react-toastify-C_15Y7MP.js">
+    <link rel="stylesheet" crossorigin href="/assets/react-vertical-timeline-component-DayvSEiz.css">
+    <link rel="stylesheet" crossorigin href="/assets/react-toastify-BE4BdE5o.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-DukReTfo.css">
   </head>
   <body>
     <div id="root"></div>
