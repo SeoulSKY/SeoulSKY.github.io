@@ -105,8 +105,7 @@ function Contact() {
               value={form.name}
               onChange={handleChange}
               placeholder="What's your name?"
-              className="rounded-lg border-none bg-blue-950 px-6 py-4 font-medium text-white outline-none
-              placeholder:text-secondary"
+              className="rounded-lg border-none bg-blue-950 px-6 py-4 font-medium text-white outline-none placeholder:text-secondary"
               {...pressableMotion(0.03)}
             />
           </label>
@@ -118,8 +117,7 @@ function Contact() {
               value={form.email}
               onChange={handleChange}
               placeholder="What's your email address?"
-              className="rounded-lg border-none bg-blue-950 px-6 py-4 font-medium text-white outline-none
-              placeholder:text-secondary"
+              className="rounded-lg border-none bg-blue-950 px-6 py-4 font-medium text-white outline-none placeholder:text-secondary"
               {...pressableMotion(0.03)}
             />
           </label>
@@ -131,8 +129,7 @@ function Contact() {
               value={form.message}
               onChange={handleChange}
               placeholder="What do you want to say?"
-              className="rounded-lg border-none bg-blue-950 px-6 py-4 font-medium text-white outline-none
-              placeholder:text-secondary"
+              className="rounded-lg border-none bg-blue-950 px-6 py-4 font-medium text-white outline-none placeholder:text-secondary"
               {...pressableMotion(0.03)}
             />
           </label>
