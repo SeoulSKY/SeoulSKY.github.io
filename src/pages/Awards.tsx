@@ -4,11 +4,17 @@ import {
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 
-import { sectionHeadText, sectionSubText } from "../styles";
 import SectionWrapper from "../components/SectionWrapper";
-import { fadeIn, textVariant } from "../utils/motion";
+import { fadeIn } from "../utils/motion";
+import TitleProvider from "../components/TitleProvider";
 
-const awards = [
+interface Award {
+  title: string;
+  date: string;
+  description: string;
+}
+
+const awards: Award[] = [
   {
     title: "Dean’s Honour List 2020-21",
     date: "September 2020",
@@ -61,7 +67,7 @@ function AwardCard({ index, title, date, description }: AwardCardProps) {
           <h3 className="pb-4 text-[24px] font-bold text-white">{title}</h3>
         </div>
 
-        <div className="text-[14px] tracking-wider text-white-100">
+        <div className="text-white-100 text-[14px] tracking-wider">
           {description}
         </div>
       </VerticalTimelineElement>
@@ -71,12 +77,7 @@ function AwardCard({ index, title, date, description }: AwardCardProps) {
 
 function Awards() {
   return (
-    <>
-      <motion.div variants={textVariant()}>
-        <p className={sectionSubText}>What I am proud of</p>
-        <h2 className={sectionHeadText}>Awards</h2>
-      </motion.div>
-
+    <TitleProvider title={"Awards"} subTitle={"What I am proud of"}>
       <VerticalTimeline layout={"1-column-left"}>
         <div className={"flex flex-wrap gap-7"}>
           {awards.map((award, index) => (
@@ -84,7 +85,7 @@ function Awards() {
           ))}
         </div>
       </VerticalTimeline>
-    </>
+    </TitleProvider>
   );
 }
 

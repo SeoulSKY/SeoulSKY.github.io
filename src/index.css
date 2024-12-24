@@ -13,6 +13,18 @@
   color-scheme: dark;
 }
 
+.container-x {
+  @apply px-6 sm:px-16;
+}
+
+.container-y {
+  @apply py-6 sm:py-16;
+}
+
+.container {
+  @apply container-x container-y;
+}
+
 .hash-span {
   margin-top: -100px;
   padding-bottom: 100px;

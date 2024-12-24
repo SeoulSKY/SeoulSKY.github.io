@@ -6,10 +6,10 @@ import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { sectionSubText, sectionHeadText } from "../styles";
 import Earth from "../components/canvas/Earth";
 import SectionWrapper from "../components/SectionWrapper";
 import { pressableMotion, slideIn } from "../utils/motion";
+import TitleProvider from "../components/TitleProvider";
 
 function Contact() {
   const formRef = useRef(null);
@@ -89,60 +89,59 @@ function Contact() {
         variants={slideIn("left", "tween", 0.2, 1)}
         className="flex-[0.75] rounded-2xl bg-sky-500/50 p-8"
       >
-        <p className={sectionSubText}>Get in touch</p>
-        <h3 className={sectionHeadText}>Contact</h3>
-
-        <form
-          ref={formRef}
-          onSubmit={handleSubmit}
-          className="mt-12 flex flex-col gap-8"
-        >
-          <label className="flex flex-col">
-            <span className="mb-4 font-medium text-white">Your Name</span>
-            <motion.input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="What's your name?"
-              className="rounded-lg border-none bg-blue-950 px-6 py-4 font-medium text-white outline-none placeholder:text-secondary"
-              {...pressableMotion(0.03)}
-            />
-          </label>
-          <label className="flex flex-col">
-            <span className="mb-4 font-medium text-white">Your email</span>
-            <motion.input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="What's your email address?"
-              className="rounded-lg border-none bg-blue-950 px-6 py-4 font-medium text-white outline-none placeholder:text-secondary"
-              {...pressableMotion(0.03)}
-            />
-          </label>
-          <label className="flex flex-col">
-            <span className="mb-4 font-medium text-white">Your Message</span>
-            <motion.textarea
-              rows={7}
-              name="message"
-              value={form.message}
-              onChange={handleChange}
-              placeholder="What do you want to say?"
-              className="rounded-lg border-none bg-blue-950 px-6 py-4 font-medium text-white outline-none placeholder:text-secondary"
-              {...pressableMotion(0.03)}
-            />
-          </label>
-
-          <motion.button
-            type="submit"
-            className="w-fit rounded-xl bg-blue-950 px-8 py-3 font-bold text-white shadow-primary outline-none"
-            disabled={loading}
-            {...pressableMotion()}
+        <TitleProvider title={"Contact"} subTitle={"Get in touch"}>
+          <form
+            ref={formRef}
+            onSubmit={handleSubmit}
+            className="mt-12 flex flex-col gap-8"
           >
-            {loading ? "Sending..." : "Send"}
-          </motion.button>
-        </form>
+            <label className="flex flex-col">
+              <span className="mb-4 font-medium text-white">Your Name</span>
+              <motion.input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="What's your name?"
+                className="rounded-lg border-none bg-blue-950 px-6 py-4 font-medium text-white outline-none placeholder:text-secondary"
+                {...pressableMotion(0.03)}
+              />
+            </label>
+            <label className="flex flex-col">
+              <span className="mb-4 font-medium text-white">Your email</span>
+              <motion.input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="What's your email address?"
+                className="rounded-lg border-none bg-blue-950 px-6 py-4 font-medium text-white outline-none placeholder:text-secondary"
+                {...pressableMotion(0.03)}
+              />
+            </label>
+            <label className="flex flex-col">
+              <span className="mb-4 font-medium text-white">Your Message</span>
+              <motion.textarea
+                rows={7}
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                placeholder="What do you want to say?"
+                className="rounded-lg border-none bg-blue-950 px-6 py-4 font-medium text-white outline-none placeholder:text-secondary"
+                {...pressableMotion(0.03)}
+              />
+            </label>
+
+            <motion.button
+              type="submit"
+              className="w-fit rounded-xl bg-blue-950 px-8 py-3 font-bold text-white shadow-primary outline-none"
+              disabled={loading}
+              {...pressableMotion()}
+            >
+              {loading ? "Sending..." : "Send"}
+            </motion.button>
+          </form>
+        </TitleProvider>
       </motion.div>
 
       <motion.div

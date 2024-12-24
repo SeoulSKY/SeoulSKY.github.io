@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 
-import { paddingX, heroHeadText, heroSubText } from "../styles";
 import Rocket from "../components/canvas/Rocket";
 
 export default function Hero() {
@@ -9,18 +8,23 @@ export default function Hero() {
       <Rocket />
 
       <div
-        className={`absolute inset-0 top-[120px] mx-auto max-w-7xl ${paddingX} flex flex-row items-start gap-5`}
+        className={
+          "container-x absolute inset-0 top-[120px] mx-auto flex max-w-7xl flex-row items-start gap-5"
+        }
       >
-        <div className="mt-5 flex flex-col items-center justify-center">
-          <div className="h-5 w-5 rounded-full bg-[#0ea5e9]" />
-          <div className="blue-gradient h-40 w-1 sm:h-80" />
-        </div>
-
         <div>
-          <h1 className={`${heroHeadText} text-white`}>
-            Hi, I'm <span className="text-[#0ea5e9]">SeoulSKY</span>
+          <h1
+            className={
+              "mt-2 text-[40px] font-black text-white xs:text-[50px] sm:text-[60px] lg:text-[80px] lg:leading-[98px]"
+            }
+          >
+            Hi, I'm <span className="text-primary">SeoulSKY</span>
           </h1>
-          <p className={`${heroSubText} mt-2 text-white-100`}>
+          <p
+            className={
+              "text-white-100 mt-2 text-[16px] font-medium xs:text-[20px] sm:text-[26px] lg:text-[30px] lg:leading-[40px]"
+            }
+          >
             I'm a recent graduate with a major of Honours in Software
             Engineering and a minor in Applied Mathematics
           </p>

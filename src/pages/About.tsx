@@ -2,13 +2,14 @@ import Tilt from "react-parallax-tilt";
 import Atropos from "atropos/react";
 import { motion } from "framer-motion";
 
-import { sectionHeadText, sectionSubText } from "../styles";
 import SectionWrapper from "../components/SectionWrapper";
-import { fadeIn, textVariant } from "../utils/motion";
+import { fadeIn } from "../utils/motion";
 import backend from "../assets/backend.png";
 import devops from "../assets/devops.png";
 import frontend from "../assets/frontend.png";
 import game from "../assets/game.png";
+import React from "react";
+import TitleProvider from "../components/TitleProvider";
 
 interface Service {
   title: string;
@@ -64,12 +65,7 @@ function ServiceCard({ index, title, icon }: ServiceCardProps) {
 
 function About() {
   return (
-    <>
-      <motion.div variants={textVariant()}>
-        <p className={sectionSubText}>Introduction</p>
-        <h2 className={sectionHeadText}>Overview</h2>
-      </motion.div>
-
+    <TitleProvider title={"Overview"} subTitle={"Introduction"}>
       <motion.p
         variants={fadeIn(0.1, 1)}
         className="mt-4 max-w-3xl text-[17px] leading-[30px] text-secondary"
@@ -88,7 +84,7 @@ function About() {
           <ServiceCard key={service.title} index={index} {...service} />
         ))}
       </div>
-    </>
+    </TitleProvider>
   );
 }
 

@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 
-import { padding } from "../styles";
 import { staggerContainer } from "../utils/motion";
 
 export default function SectionWrapper(
@@ -13,7 +12,7 @@ export default function SectionWrapper(
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.25 }}
-        className={`${padding} relative z-0 mx-auto max-w-7xl`}
+        className={"container relative z-0 mx-auto max-w-7xl"}
       >
         <span className="hash-span" id={Element.name.toLowerCase()}>
           &nbsp;

@@ -2,14 +2,12 @@ import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
-import { motion } from "framer-motion";
 
 import "react-vertical-timeline-component/style.min.css";
 
-import { sectionHeadText, sectionSubText } from "../styles";
 import SectionWrapper from "../components/SectionWrapper";
-import { textVariant } from "../utils/motion";
 import uofs from "../assets/uofs.png";
+import TitleProvider from "../components/TitleProvider";
 
 const experiences = [
   {
@@ -74,7 +72,7 @@ function ExperienceCard({ experience }: ExperienceCardProps) {
         {experience.points.map((point, index) => (
           <li
             key={`experience-point-${index}`}
-            className="pl-1 text-[14px] tracking-wider text-white-100"
+            className="text-white-100 pl-1 text-[14px] tracking-wider"
           >
             {point}
           </li>
@@ -86,14 +84,11 @@ function ExperienceCard({ experience }: ExperienceCardProps) {
 
 function Experiences() {
   return (
-    <>
-      <motion.div variants={textVariant()}>
-        <p className={`${sectionSubText} text-center`}>
-          What I have done so far
-        </p>
-        <h2 className={`${sectionHeadText} text-center`}>Work Experience</h2>
-      </motion.div>
-
+    <TitleProvider
+      className={"text-center"}
+      title={"Work Experience"}
+      subTitle={"What I have done so far"}
+    >
       <div className="mt-20 flex flex-col">
         <VerticalTimeline>
           {experiences.map((experience, index) => (
@@ -104,7 +99,7 @@ function Experiences() {
           ))}
         </VerticalTimeline>
       </div>
-    </>
+    </TitleProvider>
   );
 }
 

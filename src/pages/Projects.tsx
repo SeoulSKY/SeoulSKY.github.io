@@ -1,9 +1,8 @@
 import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 
-import { sectionHeadText, sectionSubText } from "../styles";
 import SectionWrapper from "../components/SectionWrapper";
-import { fadeIn, textVariant } from "../utils/motion";
+import { fadeIn } from "../utils/motion";
 
 import memorymate from "../assets/memorymate.gif";
 import desdemona from "../assets/desdemona.gif";
@@ -12,6 +11,9 @@ import sorusora from "../assets/sorusora.gif";
 import chessai from "../assets/chessai.gif";
 import github from "../assets/github.png";
 import play from "../assets/play.png";
+import React from "react";
+import TitleProvider from "../components/TitleProvider";
+import { cn } from "../utils";
 
 interface Project {
   name: string;
@@ -192,7 +194,7 @@ function ProjectCard({
 
         <div className="mt-4 flex flex-wrap gap-2">
           {tags.map(({ name, color }) => (
-            <p key={name} className={`text-[14px] ${color}`}>
+            <p key={name} className={cn("text-[14px]", color)}>
               #{name}
             </p>
           ))}
@@ -204,12 +206,7 @@ function ProjectCard({
 
 function Projects() {
   return (
-    <>
-      <motion.div variants={textVariant()}>
-        <p className={sectionSubText}>My work</p>
-        <h2 className={sectionHeadText}>Projects</h2>
-      </motion.div>
-
+    <TitleProvider title={"Projects"} subTitle={"My works"}>
       <div className="flex w-full">
         <motion.p
           variants={fadeIn(0.1, 1)}
@@ -227,7 +224,7 @@ function Projects() {
           <ProjectCard key={project.name} index={index} {...project} />
         ))}
       </div>
-    </>
+    </TitleProvider>
   );
 }
 
