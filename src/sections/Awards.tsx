@@ -66,7 +66,7 @@ function AwardCard({ index, title, date, description }: AwardCardProps) {
           <h3 className="pb-4 text-[24px] font-bold text-white">{title}</h3>
         </div>
 
-        <div className="text-[14px] tracking-wider text-white-100">
+        <div className="text-[14px] tracking-wider text-white">
           {description}
         </div>
       </VerticalTimelineElement>
