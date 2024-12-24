@@ -1,7 +1,7 @@
 import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 
-import SectionWrapper from "../components/SectionWrapper";
+import Section from "../components/Section";
 import { fadeIn } from "../utils/motion";
 
 import memorymate from "../assets/memorymate.gif";
@@ -12,7 +12,6 @@ import chessai from "../assets/chessai.gif";
 import github from "../assets/github.png";
 import play from "../assets/play.png";
 import React from "react";
-import TitleProvider from "../components/TitleProvider";
 import { cn } from "../utils";
 
 interface Project {
@@ -204,9 +203,9 @@ function ProjectCard({
   );
 }
 
-function Projects() {
+export default function Projects() {
   return (
-    <TitleProvider title={"Projects"} subTitle={"My works"}>
+    <Section title={"Projects"} subTitle={"My works"}>
       <div className="flex w-full">
         <motion.p
           variants={fadeIn(0.1, 1)}
@@ -224,8 +223,6 @@ function Projects() {
           <ProjectCard key={project.name} index={index} {...project} />
         ))}
       </div>
-    </TitleProvider>
+    </Section>
   );
 }
-
-export default SectionWrapper(Projects);

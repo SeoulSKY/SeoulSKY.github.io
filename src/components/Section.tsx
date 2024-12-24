@@ -1,9 +1,10 @@
 import { motion, useInView } from "framer-motion";
-import { textVariant } from "../utils/motion";
+
+import { staggerContainer, textVariant } from "../utils/motion";
 import { ReactNode, useRef } from "react";
 import { cn } from "../utils";
 
-interface TitleProps {
+interface SectionProps {
   className?: string;
   title: string;
   titleClassName?: string;
@@ -12,19 +13,25 @@ interface TitleProps {
   children: ReactNode;
 }
 
-export default function TitleProvider({
+export default function Section({
   className,
   title,
   titleClassName,
   subTitle,
   subTitleClassName,
   children,
-}: TitleProps) {
+}: SectionProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
   return (
-    <>
+    <motion.section
+      variants={staggerContainer()}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.25 }}
+      className={"container relative z-0 mx-auto max-w-7xl"}
+    >
       <motion.div ref={ref} variants={textVariant()} className={className}>
         <p
           className={cn(
@@ -44,6 +51,6 @@ export default function TitleProvider({
         </h2>
       </motion.div>
       {isInView && children}
-    </>
+    </motion.section>
   );
 }

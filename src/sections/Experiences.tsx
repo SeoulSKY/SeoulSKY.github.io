@@ -5,9 +5,8 @@ import {
 
 import "react-vertical-timeline-component/style.min.css";
 
-import SectionWrapper from "../components/SectionWrapper";
+import Section from "../components/Section";
 import uofs from "../assets/uofs.png";
-import TitleProvider from "../components/TitleProvider";
 
 const experiences = [
   {
@@ -72,7 +71,7 @@ function ExperienceCard({ experience }: ExperienceCardProps) {
         {experience.points.map((point, index) => (
           <li
             key={`experience-point-${index}`}
-            className="text-white-100 pl-1 text-[14px] tracking-wider"
+            className="pl-1 text-[14px] tracking-wider text-white-100"
           >
             {point}
           </li>
@@ -82,9 +81,9 @@ function ExperienceCard({ experience }: ExperienceCardProps) {
   );
 }
 
-function Experiences() {
+export default function Experiences() {
   return (
-    <TitleProvider
+    <Section
       className={"text-center"}
       title={"Work Experience"}
       subTitle={"What I have done so far"}
@@ -99,8 +98,6 @@ function Experiences() {
           ))}
         </VerticalTimeline>
       </div>
-    </TitleProvider>
+    </Section>
   );
 }
-
-export default SectionWrapper(Experiences);

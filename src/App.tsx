@@ -1,18 +1,18 @@
 import { BrowserRouter } from "react-router-dom";
 import AnimatedCursor from "react-animated-cursor";
 
-import About from "./pages/About";
-import Experience from "./pages/Experiences";
-import Hero from "./pages/Hero";
+import About from "./sections/About";
+import Experience from "./sections/Experiences";
+import Hero from "./sections/Hero";
 import Navbar from "./components/Navbar";
-import Projects from "./pages/Projects";
-import Skills from "./pages/Skills";
+import Projects from "./sections/Projects";
+import Skills from "./sections/Skills";
 import Stars from "./components/canvas/Stars";
-import Contact from "./pages/Contact";
+import Contact from "./sections/Contact";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRef } from "react";
-import Awards from "./pages/Awards";
+import Awards from "./sections/Awards";
 
 const sections = [
   {

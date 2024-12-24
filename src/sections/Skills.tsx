@@ -1,6 +1,5 @@
-import SectionWrapper from "../components/SectionWrapper";
+import Section from "../components/Section";
 import { motion } from "framer-motion";
-import TitleProvider from "../components/TitleProvider";
 
 const skills: string[] = [
   "ae",
@@ -65,9 +64,9 @@ function randomFrames(): number[] {
   );
 }
 
-function Skills() {
+export default function Skills() {
   return (
-    <TitleProvider
+    <Section
       className={"text-center"}
       title={"Skills"}
       subTitle={"What I am capable of"}
@@ -104,8 +103,6 @@ function Skills() {
           </motion.div>
         ))}
       </div>
-    </TitleProvider>
+    </Section>
   );
 }
-
-export default SectionWrapper(Skills);

@@ -7,11 +7,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Earth from "../components/canvas/Earth";
-import SectionWrapper from "../components/SectionWrapper";
+import Section from "../components/Section";
 import { pressableMotion, slideIn } from "../utils/motion";
-import TitleProvider from "../components/TitleProvider";
 
-function Contact() {
+export default function Contact() {
   const formRef = useRef(null);
   const [form, setForm] = useState({
     name: "",
@@ -80,20 +79,20 @@ function Contact() {
   }
 
   return (
-    <div
-      className={
-        "flex flex-col-reverse gap-10 overflow-hidden xl:mt-12 xl:flex-row"
-      }
-    >
-      <motion.div
-        variants={slideIn("left", "tween", 0.2, 1)}
-        className="flex-[0.75] rounded-2xl bg-sky-500/50 p-8"
+    <Section title={"Contact"} subTitle={"Get in touch"}>
+      <div
+        className={
+          "flex flex-col-reverse gap-10 overflow-hidden xl:mt-12 xl:flex-row"
+        }
       >
-        <TitleProvider title={"Contact"} subTitle={"Get in touch"}>
+        <motion.div
+          variants={slideIn("left", "tween", 0.2, 1)}
+          className="flex-[0.75] rounded-2xl bg-sky-500/50 p-8"
+        >
           <form
             ref={formRef}
             onSubmit={handleSubmit}
-            className="mt-12 flex flex-col gap-8"
+            className="mt-4 flex flex-col gap-8"
           >
             <label className="flex flex-col">
               <span className="mb-4 font-medium text-white">Your Name</span>
@@ -141,17 +140,15 @@ function Contact() {
               {loading ? "Sending..." : "Send"}
             </motion.button>
           </form>
-        </TitleProvider>
-      </motion.div>
+        </motion.div>
 
-      <motion.div
-        variants={slideIn("right", "tween", 0.2, 1)}
-        className="h-[350px] md:h-[550px] xl:h-auto xl:flex-1"
-      >
-        <Earth />
-      </motion.div>
-    </div>
+        <motion.div
+          variants={slideIn("right", "tween", 0.2, 1)}
+          className="h-[350px] md:h-[550px] xl:h-auto xl:flex-1"
+        >
+          <Earth />
+        </motion.div>
+      </div>
+    </Section>
   );
 }
-
-export default SectionWrapper(Contact);

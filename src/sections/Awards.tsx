@@ -4,9 +4,8 @@ import {
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 
-import SectionWrapper from "../components/SectionWrapper";
+import Section from "../components/Section";
 import { fadeIn } from "../utils/motion";
-import TitleProvider from "../components/TitleProvider";
 
 interface Award {
   title: string;
@@ -67,7 +66,7 @@ function AwardCard({ index, title, date, description }: AwardCardProps) {
           <h3 className="pb-4 text-[24px] font-bold text-white">{title}</h3>
         </div>
 
-        <div className="text-white-100 text-[14px] tracking-wider">
+        <div className="text-[14px] tracking-wider text-white-100">
           {description}
         </div>
       </VerticalTimelineElement>
@@ -75,9 +74,9 @@ function AwardCard({ index, title, date, description }: AwardCardProps) {
   );
 }
 
-function Awards() {
+export default function Awards() {
   return (
-    <TitleProvider title={"Awards"} subTitle={"What I am proud of"}>
+    <Section title={"Awards"} subTitle={"What I am proud of"}>
       <VerticalTimeline layout={"1-column-left"}>
         <div className={"flex flex-wrap gap-7"}>
           {awards.map((award, index) => (
@@ -85,8 +84,6 @@ function Awards() {
           ))}
         </div>
       </VerticalTimeline>
-    </TitleProvider>
+    </Section>
   );
 }
-
-export default SectionWrapper(Awards);
