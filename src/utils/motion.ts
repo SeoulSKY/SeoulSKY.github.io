@@ -1,114 +1,133 @@
-import { MotionProps, Variants } from "framer-motion";
+import { MotionProps, Variant } from "framer-motion";
 
-type Direction = "left" | "right" | "up" | "down";
+type VerticalDirection = "up" | "down";
+
+type HorizontalDirection = "left" | "right";
+
+type Direction = VerticalDirection | HorizontalDirection;
 
 type TransitionType = "spring" | "tween" | "inertia";
 
-export function pressableMotion(amount = 0.1): MotionProps {
+function getMotion(
+  initial: Variant,
+  animate: Variant,
+  isChildren: boolean,
+  direction?: Direction,
+): MotionProps {
   return {
-    whileHover: { scale: 1 + amount },
-    whileTap: { scale: 1 - amount },
+    variants: {
+      hidden: initial,
+      visible: animate,
+    },
+    viewport: {
+      amount: direction && ["up", "down"].includes(direction) ? 0.25 : 0,
+    },
+    initial: isChildren ? undefined : "hidden",
+    whileInView: isChildren ? undefined : "visible",
   };
 }
 
-export function textVariant(delay?: number): Variants {
+export function pressableMotion(delta = 0.1): MotionProps {
   return {
-    hidden: {
-      y: -50,
-      opacity: 0,
-    },
-    show: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        duration: 1.25,
-        delay: delay,
-      },
-    },
+    whileHover: { scale: 1 + delta },
+    whileTap: { scale: 1 - delta },
   };
 }
 
 export function fadeIn(
-  delay: number,
   duration: number,
   direction?: Direction,
   type?: TransitionType,
-): Variants {
-  return {
-    hidden: {
-      x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
-      y: direction === "up" ? 100 : direction === "down" ? -100 : 0,
+  amount = 100,
+  isChildren = false,
+): MotionProps {
+  return getMotion(
+    {
+      x: direction === "left" ? amount : direction === "right" ? -amount : 0,
+      y: direction === "up" ? amount : direction === "down" ? -amount : 0,
       opacity: 0,
     },
-    show: {
+    {
       x: 0,
       y: 0,
       opacity: 1,
       transition: {
         type: type,
-        delay: delay,
         duration: duration,
         ease: "easeOut",
       },
     },
-  };
+    isChildren,
+    direction,
+  );
 }
 
-export function zoomIn(delay: number, duration: number): Variants {
-  return {
-    hidden: {
+export function zoomIn(
+  duration: number,
+  type: TransitionType,
+  isChildren = false,
+): MotionProps {
+  return getMotion(
+    {
       scale: 0,
       opacity: 0,
     },
-    show: {
+    {
       scale: 1,
       opacity: 1,
       transition: {
-        type: "tween",
-        delay: delay,
+        type: type,
         duration: duration,
-        ease: "easeOut",
       },
     },
-  };
+    isChildren,
+  );
 }
 
 export function slideIn(
   direction: Direction,
   type: TransitionType,
-  delay: number,
   duration: number,
-): Variants {
-  return {
-    hidden: {
-      x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
-      y: direction === "up" ? "100%" : direction === "down" ? "100%" : 0,
+  amount = 100,
+  isChildren = false,
+): MotionProps {
+  return getMotion(
+    {
+      x:
+        direction === "left"
+          ? `${-amount}%`
+          : direction === "right"
+            ? `${amount}%`
+            : 0,
+      y:
+        direction === "up"
+          ? `${amount}%`
+          : direction === "down"
+            ? `${amount}%`
+            : 0,
     },
-    show: {
+    {
       x: 0,
       y: 0,
       transition: {
         type: type,
-        delay: delay,
         duration: duration,
         ease: "easeOut",
       },
     },
-  };
+    isChildren,
+    direction,
+  );
 }
 
-export function staggerContainer(
-  staggerChildren?: number,
-  delayChildren?: number,
-): Variants {
-  return {
-    hidden: {},
-    show: {
+export function staggerContainer(delay?: number): MotionProps {
+  return getMotion(
+    {},
+    {
       transition: {
-        staggerChildren: staggerChildren,
-        delayChildren: delayChildren ?? 0,
+        staggerChildren: delay,
       },
     },
-  };
+    false,
+  );
 }

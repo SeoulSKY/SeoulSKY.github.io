@@ -1,11 +1,10 @@
-import { motion } from "framer-motion";
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 
 import Section from "../components/Section";
-import { fadeIn } from "../utils/motion";
+import { twConfig } from "../utils";
 
 interface Award {
   title: string;
@@ -49,36 +48,35 @@ interface AwardCardProps {
   description: string;
 }
 
-function AwardCard({ index, title, date, description }: AwardCardProps) {
+function AwardCard({ title, date, description }: AwardCardProps) {
+  const bgColor = twConfig.theme.colors.blue["950"];
   return (
-    <motion.div variants={fadeIn(index * 0.5, 0.75, undefined, "spring")}>
-      <VerticalTimelineElement
-        contentStyle={{
-          background: "#172554",
-          color: "#fff",
-        }}
-        contentArrowStyle={{ borderRight: "7px solid #172554" }}
-        date={date}
-        iconStyle={{ background: "#085e3f", color: "#fff" }}
-        icon={<SchoolIcon />}
-      >
-        <div>
-          <h3 className="pb-4 text-[24px] font-bold text-white">{title}</h3>
-        </div>
+    <VerticalTimelineElement
+      contentStyle={{
+        background: bgColor,
+        color: "white",
+      }}
+      contentArrowStyle={{ borderRight: `7px solid ${bgColor}` }}
+      date={date}
+      iconStyle={{ background: "#085e3f", color: "white" }}
+      icon={<SchoolIcon />}
+      style={{ marginBottom: 0 }}
+      intersectionObserverProps={{ triggerOnce: false }}
+    >
+      <div>
+        <h3 className="pb-4 text-[24px] font-bold text-white">{title}</h3>
+      </div>
 
-        <div className="text-[14px] tracking-wider text-white">
-          {description}
-        </div>
-      </VerticalTimelineElement>
-    </motion.div>
+      <div className="text-[14px] tracking-wider text-white">{description}</div>
+    </VerticalTimelineElement>
   );
 }
 
 export default function Awards() {
   return (
-    <Section title={"Awards"} subTitle={"What I am proud of"}>
+    <Section id={"awards"} title={"Awards"} subTitle={"What I am proud of"}>
       <VerticalTimeline layout={"1-column-left"}>
-        <div className={"flex flex-wrap gap-7"}>
+        <div className={"flex flex-wrap"}>
           {awards.map((award, index) => (
             <AwardCard key={award.title} index={index} {...award} />
           ))}

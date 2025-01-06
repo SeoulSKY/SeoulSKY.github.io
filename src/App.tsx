@@ -1,9 +1,8 @@
 import { BrowserRouter } from "react-router-dom";
 import AnimatedCursor from "react-animated-cursor";
 
-import About from "./sections/About";
-import Experience from "./sections/Experiences";
-import Hero from "./sections/Hero";
+import Introduction from "./sections/Introduction";
+import Experiences from "./sections/Experiences";
 import Navbar from "./components/Navbar";
 import Projects from "./sections/Projects";
 import Skills from "./sections/Skills";
@@ -11,57 +10,54 @@ import Stars from "./components/canvas/Stars";
 import Contact from "./sections/Contact";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRef } from "react";
 import Awards from "./sections/Awards";
+import Hero from "./sections/Hero";
 
-const sections = [
+interface Section {
+  name: string;
+  Element: () => JSX.Element;
+}
+
+const sections: Section[] = [
   {
-    name: "About",
-    Section: About,
+    name: "Introduction",
+    Element: Introduction,
   },
   {
-    name: "Experience",
-    Section: Experience,
+    name: "Experiences",
+    Element: Experiences,
   },
   {
     name: "Skills",
-    Section: Skills,
+    Element: Skills,
   },
   {
     name: "Projects",
-    Section: Projects,
+    Element: Projects,
   },
   {
     name: "Awards",
-    Section: Awards,
+    Element: Awards,
   },
   {
     name: "Contact",
-    Section: Contact,
+    Element: Contact,
   },
 ];
 
 export default function App() {
-  const components = sections.map((section) => {
-    return {
-      ...section,
-      ref: useRef(null),
-    };
-  });
-
   return (
     <BrowserRouter>
-      <div className="relative z-0 bg-black">
+      <main className="relative z-0 bg-black">
         <Stars />
 
-        <Navbar sections={components} />
+        <Navbar sections={sections.map((section) => section.name)} />
+
         <Hero />
-        {components.map((component) => (
-          <div key={component.name} ref={component.ref}>
-            <component.Section />
-          </div>
+        {sections.map((section) => (
+          <section.Element key={section.name} />
         ))}
-      </div>
+      </main>
 
       <ToastContainer theme="dark" transition={Bounce} />
 

@@ -3,7 +3,7 @@ import Atropos from "atropos/react";
 import { motion } from "framer-motion";
 
 import Section from "../components/Section";
-import { fadeIn } from "../utils/motion";
+import { fadeIn, staggerContainer } from "../utils/motion";
 import backend from "../assets/backend.png";
 import devops from "../assets/devops.png";
 import frontend from "../assets/frontend.png";
@@ -34,15 +34,11 @@ const services: Service[] = [
   },
 ];
 
-interface ServiceCardProps extends Service {
-  index: number;
-}
-
-function ServiceCard({ index, title, icon }: ServiceCardProps) {
+function ServiceCard({ title, icon }: Service) {
   return (
     <Tilt className="w-full xs:w-[250px]">
       <motion.div
-        variants={fadeIn(index * 0.5, 0.75, "right", "spring")}
+        {...fadeIn(0.75, "right", "spring", undefined, true)}
         className="green-blue-gradient w-full rounded-[20px] p-[1px] shadow-card"
       >
         <Atropos shadow={false}>
@@ -62,27 +58,29 @@ function ServiceCard({ index, title, icon }: ServiceCardProps) {
   );
 }
 
-export default function About() {
+export default function Introduction() {
   return (
-    <Section title={"Overview"} subTitle={"Introduction"}>
+    <Section id={"introduction"} title={"Introduction"} subTitle={"Who I am"}>
       <motion.p
-        variants={fadeIn(0.1, 1)}
+        {...fadeIn(1)}
         className="mt-4 max-w-3xl text-[17px] leading-[30px] text-secondary"
       >
-        I'm a skilled software developer with experience in Python, C#, Rust,
-        TypeScript and JavaScript, specializing in frameworks like React.js,
-        React Native and Unity3D. My passion lies in creating efficient,
-        scalable, and user-friendly solutions that tackle real-world problems. I
-        thrive on collaboration and quick learning, making me your ideal partner
-        to bring your ideas to life. Let's work together to turn your vision
-        into reality!
+        I am a software developer experienced in Python, C#, Rust, TypeScript,
+        and JavaScript, with expertise in frameworks such as React.js, React
+        Native, and Unity3D. I enjoy building scalable, intuitive solutions that
+        address practical challenges. With a collaborative mindset and a knack
+        for learning quickly, I can help bring your ideas to fruition. Let’s
+        team up to make your vision a reality!
       </motion.p>
 
-      <div className="mt-20 flex flex-wrap gap-10">
-        {services.map((service, index) => (
-          <ServiceCard key={service.title} index={index} {...service} />
+      <motion.div
+        {...staggerContainer(0.25)}
+        className="mt-20 flex flex-wrap gap-10"
+      >
+        {services.map((service) => (
+          <ServiceCard key={service.title} {...service} />
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }

@@ -79,14 +79,14 @@ export default function Contact() {
   }
 
   return (
-    <Section title={"Contact"} subTitle={"Get in touch"}>
+    <Section id={"contact"} title={"Contact"} subTitle={"Get in touch"}>
       <div
         className={
           "flex flex-col-reverse gap-10 overflow-hidden xl:mt-12 xl:flex-row"
         }
       >
         <motion.div
-          variants={slideIn("left", "tween", 0.2, 1)}
+          {...slideIn("left", "tween", 1)}
           className="flex-[0.75] rounded-2xl bg-sky-500/50 p-8"
         >
           <form
@@ -143,7 +143,7 @@ export default function Contact() {
         </motion.div>
 
         <motion.div
-          variants={slideIn("right", "tween", 0.2, 1)}
+          {...slideIn("right", "tween", 1)}
           className="h-[350px] md:h-[550px] xl:h-auto xl:flex-1"
         >
           <Earth />

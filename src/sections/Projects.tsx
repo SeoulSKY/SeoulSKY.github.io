@@ -2,7 +2,7 @@ import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 
 import Section from "../components/Section";
-import { fadeIn } from "../utils/motion";
+import { fadeIn, pressableMotion, staggerContainer } from "../utils/motion";
 
 import memorymate from "../assets/memorymate.gif";
 import desdemona from "../assets/desdemona.gif";
@@ -27,8 +27,7 @@ const projects: Project[] = [
   {
     name: "Memory Mate",
     description:
-      "Connect with our empathetic AI companion tailored for those with dementia, offering friendly " +
-      "conversations and engaging personalized brain games to enhance cognitive abilities.",
+      "Connect with our empathetic AI companion tailored for those with dementia, offering friendly conversations and engaging personalized brain games to enhance cognitive abilities.",
     tags: [
       {
         name: "React Native",
@@ -49,8 +48,7 @@ const projects: Project[] = [
   {
     name: "Desdemona",
     description:
-      "Engage in a game of Othello against a powerful AI opponent, Desdemona, and explore the intriguing " +
-      "environment surrounding you, and discover what lies inside various buildings.",
+      "Engage in a game of Othello against a powerful AI opponent, Desdemona, and explore the intriguing environment surrounding you, and discover what lies inside various buildings.",
     tags: [
       {
         name: "Rust",
@@ -72,8 +70,7 @@ const projects: Project[] = [
   {
     name: "GoChat",
     description:
-      "Experience a real-time chat web platform powered by WebSocket, Go, React, and MongoDB. " +
-      "Engage in instant communication and uncover the technical prowess behind this project.",
+      "Experience a real-time chat web platform powered by WebSocket, Go, React, and MongoDB. Engage in instant communication and uncover the technical prowess behind this project.",
     tags: [
       {
         name: "Go",
@@ -95,8 +92,7 @@ const projects: Project[] = [
   {
     name: "SoruSora",
     description:
-      "Engage in lifelike AI chats, translate messages into 25 languages simultaneously, and convert " +
-      "videos to text. Explore innovative features for enhanced communication and content sharing.",
+      "Engage in lifelike AI chats, translate messages into 25 languages simultaneously, and convert videos to text. Explore innovative features for enhanced communication and content sharing.",
     tags: [
       {
         name: "Python",
@@ -118,9 +114,7 @@ const projects: Project[] = [
   {
     name: "Chess AI",
     description:
-      "Experience the ultimate in strategic gaming with our customizable chess AI. " +
-      "Play on the web with dynamic difficulty adjustments and personalized settings, perfect for beginners and " +
-      "grandmasters alike. Enhance your skills and enjoy endless strategic fun.",
+      "Experience the ultimate in strategic gaming with our customizable chess AI Play on the web with dynamic difficulty adjustments and personalized settings, perfect for beginners and grandmasters alike. Enhance your skills and enjoy endless strategic fun.",
     tags: [
       {
         name: "Java",
@@ -147,13 +141,14 @@ interface LinkIconProps {
 
 function LinkIcon({ link, icon }: LinkIconProps) {
   return (
-    <motion.div
-      onClick={() => window.open(link, "_blank")}
+    <motion.a
+      {...pressableMotion()}
+      href={link}
+      target={"_blank"}
       className="black-gradient flex h-10 w-10 cursor-pointer items-center justify-center rounded-full"
-      whileHover={{ scale: 1.1 }}
     >
       <img src={icon} alt="link" className="h-1/2 w-1/2 object-contain" />
-    </motion.div>
+    </motion.a>
   );
 }
 
@@ -162,7 +157,6 @@ interface ProjectCardProps extends Project {
 }
 
 function ProjectCard({
-  index,
   name,
   description,
   tags,
@@ -171,7 +165,7 @@ function ProjectCard({
   playLink,
 }: ProjectCardProps) {
   return (
-    <motion.div key={name} variants={fadeIn(index * 0.5, 0.75, "up", "spring")}>
+    <motion.div key={name} {...fadeIn(0.5, "up", "spring", 50, true)}>
       <Tilt className="w-full rounded-2xl bg-blue-950 p-5 sm:w-[360px]">
         <div className="relative aspect-video w-full">
           <img
@@ -205,24 +199,27 @@ function ProjectCard({
 
 export default function Projects() {
   return (
-    <Section title={"Projects"} subTitle={"My works"}>
+    <Section id={"projects"} title={"Projects"} subTitle={"My works"}>
       <div className="flex w-full">
         <motion.p
-          variants={fadeIn(0.1, 1)}
+          {...fadeIn(1)}
           className="mt-3 max-w-3xl text-[17px] leading-[30px] text-secondary"
         >
-          Delve into my personal software development journey, where I've
-          embarked on a range of diverse projects, always striving to deliver
-          top-notch solutions. Explore in detail my approaches to overcoming
-          various challenges in the field.
+          Discover my personal journey in software development, marked by a wide
+          array of projects and a commitment to delivering high-quality
+          solutions. Gain insight into how I approach and resolve different
+          challenges within the field.
         </motion.p>
       </div>
 
-      <div className="mt-20 flex flex-wrap gap-7">
+      <motion.div
+        {...staggerContainer(0.25)}
+        className="mt-20 flex flex-wrap gap-7"
+      >
         {projects.map((project, index) => (
           <ProjectCard key={project.name} index={index} {...project} />
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }

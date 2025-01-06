@@ -1,5 +1,6 @@
 import Section from "../components/Section";
 import { motion } from "framer-motion";
+import { staggerContainer, zoomIn } from "../utils/motion";
 
 const skills: string[] = [
   "ae",
@@ -67,11 +68,15 @@ function randomFrames(): number[] {
 export default function Skills() {
   return (
     <Section
+      id={"skills"}
       className={"text-center"}
       title={"Skills"}
       subTitle={"What I am capable of"}
     >
-      <div className="mt-20 flex flex-row flex-wrap justify-center gap-10">
+      <motion.div
+        {...staggerContainer(0.02)}
+        className="mt-20 flex flex-row flex-wrap justify-center gap-10"
+      >
         {skills.map((tech, index) => (
           <motion.div
             key={`tech-${index}`}
@@ -94,15 +99,11 @@ export default function Skills() {
               className={"h-full w-full"}
               src={`https://skillicons.dev/icons?i=${tech}`}
               alt={tech}
-              initial={{ scale: 0 }}
-              animate={{
-                scale: 1,
-                transition: { type: "spring", delay: index * 0.05 },
-              }}
+              {...zoomIn(1, "spring", true)}
             />
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }

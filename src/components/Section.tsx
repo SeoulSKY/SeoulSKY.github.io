@@ -1,10 +1,11 @@
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 
-import { staggerContainer, textVariant } from "../utils/motion";
-import { ReactNode, useRef } from "react";
+import { fadeIn } from "../utils/motion";
+import { ReactNode } from "react";
 import { cn } from "../utils";
 
 interface SectionProps {
+  id: string;
   className?: string;
   title: string;
   titleClassName?: string;
@@ -14,6 +15,7 @@ interface SectionProps {
 }
 
 export default function Section({
+  id,
   className,
   title,
   titleClassName,
@@ -21,18 +23,12 @@ export default function Section({
   subTitleClassName,
   children,
 }: SectionProps) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-
   return (
-    <motion.section
-      variants={staggerContainer()}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.25 }}
-      className={"container relative z-0 mx-auto max-w-7xl"}
+    <section
+      id={id}
+      className={"container relative z-0 mx-auto max-w-7xl scroll-mt-7"}
     >
-      <motion.div ref={ref} variants={textVariant()} className={className}>
+      <motion.div {...fadeIn(1.25, "down", "spring", 50)} className={className}>
         <p
           className={cn(
             "text-[14px] uppercase tracking-wider text-secondary sm:text-[18px]",
@@ -50,7 +46,7 @@ export default function Section({
           {title}
         </h2>
       </motion.div>
-      {isInView && children}
-    </motion.section>
+      {children}
+    </section>
   );
 }

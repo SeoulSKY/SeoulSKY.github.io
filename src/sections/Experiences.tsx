@@ -7,13 +7,23 @@ import "react-vertical-timeline-component/style.min.css";
 
 import Section from "../components/Section";
 import uofs from "../assets/uofs.png";
+import { twConfig } from "../utils";
 
-const experiences = [
+interface Experience {
+  title: string;
+  companyName: string;
+  date: string;
+  icon: string;
+  iconBg: string;
+  points: string[];
+}
+
+const experiences: Experience[] = [
   {
     title: "Research Assistant",
     companyName: "Interaction Lab",
     icon: uofs,
-    iconBg: "#383E56",
+    iconBg: twConfig.theme.colors.blue["950"],
     date: "May 2021 - August 2021",
     points: [
       "Worked as a research assistant at the Human-Computer Interaction Laboratory, University of Saskatchewan.",
@@ -27,24 +37,18 @@ const experiences = [
 ];
 
 interface ExperienceCardProps {
-  experience: {
-    title: string;
-    companyName: string;
-    date: string;
-    icon: string;
-    iconBg: string;
-    points: string[];
-  };
+  experience: Experience;
 }
 
 function ExperienceCard({ experience }: ExperienceCardProps) {
+  const bgColor = twConfig.theme.colors.blue["950"];
   return (
     <VerticalTimelineElement
       contentStyle={{
-        background: "#172554",
-        color: "#fff",
+        background: bgColor,
+        color: "white",
       }}
-      contentArrowStyle={{ borderRight: "7px solid #172554" }}
+      contentArrowStyle={{ borderRight: `7px solid ${bgColor}` }}
       date={experience.date}
       iconStyle={{ background: experience.iconBg }}
       icon={
@@ -56,6 +60,7 @@ function ExperienceCard({ experience }: ExperienceCardProps) {
           />
         </div>
       }
+      intersectionObserverProps={{ triggerOnce: false }}
     >
       <div>
         <h3 className="text-[24px] font-bold text-white">{experience.title}</h3>
@@ -84,6 +89,7 @@ function ExperienceCard({ experience }: ExperienceCardProps) {
 export default function Experiences() {
   return (
     <Section
+      id={"experiences"}
       className={"text-center"}
       title={"Work Experience"}
       subTitle={"What I have done so far"}
