@@ -2,9 +2,9 @@
 
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import emailjs from "@emailjs/browser";
 
 import Earth from "../components/canvas/Earth";
 import Section from "../components/Section";
@@ -133,9 +133,9 @@ export default function Contact() {
 
             <motion.button
               type="submit"
-              className="w-fit rounded-xl bg-blue-950 px-8 py-3 font-bold text-white shadow-primary outline-none"
+              className="w-fit rounded-xl bg-blue-950 px-8 py-3 font-bold text-white shadow-primary outline-none disabled:opacity-30"
               disabled={loading}
-              {...pressableMotion()}
+              {...pressableMotion(loading ? 0 : undefined)}
             >
               {loading ? "Sending..." : "Send"}
             </motion.button>
