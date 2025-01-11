@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="https://www.seoulsky.dev" target="_blank">
+    <a href="https://www.seoulsky.dev">
       <img alt="hero" src="https://github.com/SeoulSKY/SeoulSKY/blob/main/assets/hero.gif">
     </a>
     <h1>SeoulSKY</h1>
