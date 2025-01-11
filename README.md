@@ -1,6 +1,6 @@
 <div align="center">
-    <a href="https://www.seoulsky.dev">
-      <img alt="hero" src="https://github.com/SeoulSKY/SeoulSKY/blob/main/assets/header.gif">
+    <a href="https://www.seoulsky.dev" target="_blank">
+      <img alt="hero" src="https://github.com/SeoulSKY/SeoulSKY/blob/main/assets/hero.gif">
     </a>
     <h1>SeoulSKY</h1>
 </div>
@@ -24,7 +24,7 @@ npm install
 ### Description of Environment Variables
 
 | Name                     | Description                                        |
-| ------------------------ | -------------------------------------------------- |
+|--------------------------|----------------------------------------------------|
 | VITE_EMAILJS_PUBLIC_KEY  | Public Key for [EmailJS](https://www.emailjs.com)  |
 | VITE_EMAILJS_TEMPLATE_ID | Template ID for [EmailJS](https://www.emailjs.com) |
 
