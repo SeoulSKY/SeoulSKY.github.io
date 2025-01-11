@@ -8,7 +8,7 @@ import emailjs from "@emailjs/browser";
 
 import Earth from "../components/canvas/Earth";
 import Section from "../components/Section";
-import { pressableMotion, slideIn } from "../utils/motion";
+import { pressableMotion, slideIn, staggerContainer } from "../utils/motion";
 
 export default function Contact() {
   const formRef = useRef(null);
@@ -80,13 +80,14 @@ export default function Contact() {
 
   return (
     <Section id={"contact"} title={"Contact"} subTitle={"Get in touch"}>
-      <div
+      <motion.div
+        {...staggerContainer()}
         className={
           "flex flex-col-reverse gap-10 overflow-hidden xl:mt-12 xl:flex-row"
         }
       >
         <motion.div
-          {...slideIn("left", "tween", 1)}
+          {...slideIn("left", "tween", 1, undefined, true)}
           className="flex-[0.75] rounded-2xl bg-sky-500/50 p-8"
         >
           <form
@@ -107,7 +108,7 @@ export default function Contact() {
               />
             </label>
             <label className="flex flex-col">
-              <span className="mb-4 font-medium text-white">Your email</span>
+              <span className="mb-4 font-medium text-white">Your Email</span>
               <motion.input
                 type="email"
                 name="email"
@@ -143,12 +144,12 @@ export default function Contact() {
         </motion.div>
 
         <motion.div
-          {...slideIn("right", "tween", 1)}
+          {...slideIn("right", "tween", 1, undefined, true)}
           className="h-[350px] md:h-[550px] xl:h-auto xl:flex-1"
         >
           <Earth />
         </motion.div>
-      </div>
+      </motion.div>
     </Section>
   );
 }
