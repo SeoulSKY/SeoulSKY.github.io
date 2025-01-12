@@ -24,7 +24,7 @@ npm install
 ### Description of Environment Variables
 
 | Name                     | Description                                        |
-|--------------------------|----------------------------------------------------|
+| ------------------------ | -------------------------------------------------- |
 | VITE_EMAILJS_PUBLIC_KEY  | Public Key for [EmailJS](https://www.emailjs.com)  |
 | VITE_EMAILJS_TEMPLATE_ID | Template ID for [EmailJS](https://www.emailjs.com) |
 
