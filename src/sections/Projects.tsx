@@ -65,7 +65,7 @@ const projects: Project[] = [
     ],
     image: desdemona,
     sourceCodeLink: "https://github.com/SeoulSKY/Desdemona",
-    playLink: "https://desdemona.seoulsky.org",
+    playLink: "https://desdemona.seoulsky.dev",
   },
   {
     name: "GoChat",
@@ -87,7 +87,7 @@ const projects: Project[] = [
     ],
     image: gochat,
     sourceCodeLink: "https://github.com/SeoulSKY/go-chat",
-    playLink: "https://gochat.seoulsky.org",
+    playLink: "https://gochat.seoulsky.dev",
   },
   {
     name: "SoruSora",
@@ -109,7 +109,7 @@ const projects: Project[] = [
     ],
     image: sorusora,
     sourceCodeLink: "https://github.com/SeoulSKY/SoruSora",
-    playLink: "https://sorusora.seoulsky.org",
+    playLink: "https://sorusora.seoulsky.dev",
   },
   {
     name: "Chess AI",
