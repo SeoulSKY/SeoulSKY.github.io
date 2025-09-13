@@ -6,8 +6,7 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/badge/Node.js-v21.7-84ba64" alt="nodejs">
-    <img src="https://github.com/SeoulSKY/SeoulSKY.github.io/actions/workflows/lint.yml/badge.svg" alt="lint">
+    <img src="https://img.shields.io/badge/Node.js-v23.11-84ba64" alt="nodejs">
 </div>
 
 ## How to Setup Development Environment
