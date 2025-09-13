@@ -121,7 +121,7 @@ export default function Projects() {
               {...fadeIn(0.5, "up", "tween", 50, true)}
             >
               <CometCard>
-                <div className="w-full rounded-2xl border border-muted-foreground/30 backdrop-blur-md p-5 sm:w-85">
+                <div className="w-full rounded-2xl border border-muted-foreground/30 p-5 backdrop-blur-md sm:w-85">
                   <div className="relative aspect-video w-full">
                     <img
                       src={image}
