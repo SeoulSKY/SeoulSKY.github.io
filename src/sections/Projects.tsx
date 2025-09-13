@@ -145,7 +145,7 @@ export default function Projects() {
 
                   <div className="mt-4 flex flex-wrap gap-3">
                     {tags.map((tag) => (
-                      <p key={title} className="text-sm">
+                      <p key={tag} className="text-sm">
                         #{tag}
                       </p>
                     ))}
