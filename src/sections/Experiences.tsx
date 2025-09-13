@@ -1,30 +1,31 @@
-import {
-  VerticalTimeline,
-  VerticalTimelineElement,
-} from "react-vertical-timeline-component";
-
-import "react-vertical-timeline-component/style.min.css";
+import { Timeline } from "@/components/ui/timeline";
 
 import Section from "../components/Section";
-import uofs from "../assets/uofs.png";
-import { twConfig } from "../utils";
 
 interface Experience {
   title: string;
   companyName: string;
   date: string;
-  icon: string;
-  iconBg: string;
   points: string[];
 }
 
 const experiences: Experience[] = [
   {
+    title: "Software Engineer",
+    companyName: "NutraMate",
+    date: "Jan 2025 - Present",
+    points: [
+      "Took full ownership of the company’s desktop application, building with Tauri, React.js, TypeScript, Tailwind CSS, Zod, Vite, TanStack, and Zustand to deliver a fast, responsive, secure, and user-centric experience.",
+      "Developed robust Rust backend logic for system-level operations and performance-critical tasks, including TWAIN-based scanner integration via FFI (Foreign Function Interface) to enable seamless hardware interaction for image acquisition.",
+      "Owned microservices for user management and usage data collection, while contributing to others by adding REST API endpoints, integrating an LLM to enhance the AI pipeline with data generation for training, and implementing automated test cases to ensure maintainability and reliability.",
+      "Built lightweight yet robust CI pipelines to automate regression testing and static analysis; enforced engineering best practices through linters, formatters, type checkers, and pre-commit Git hooks.",
+      "Consistently delivered features under rapidly changing requirements, providing accurate timeline estimates and adapting quickly to evolving scope in a fast-paced startup environment.",
+    ],
+  },
+  {
     title: "Research Assistant",
     companyName: "Interaction Lab",
-    icon: uofs,
-    iconBg: twConfig.theme.colors.blue["950"],
-    date: "May 2021 - August 2021",
+    date: "May 2021 - Aug 2021",
     points: [
       "Worked as a research assistant at the Human-Computer Interaction Laboratory, University of Saskatchewan.",
       "Engaged with the supervisor to elicit detailed project requirements, ensuring a clear understanding of their " +
@@ -36,73 +37,44 @@ const experiences: Experience[] = [
   },
 ];
 
-interface ExperienceCardProps {
-  experience: Experience;
-}
-
-function ExperienceCard({ experience }: ExperienceCardProps) {
-  const bgColor = twConfig.theme.colors.blue["950"];
-  return (
-    <VerticalTimelineElement
-      contentStyle={{
-        background: bgColor,
-        color: "white",
-      }}
-      contentArrowStyle={{ borderRight: `7px solid ${bgColor}` }}
-      date={experience.date}
-      iconStyle={{ background: experience.iconBg }}
-      icon={
-        <div className="flex h-full w-full items-center justify-center">
-          <img
-            src={experience.icon}
-            alt={experience.companyName}
-            className="h-[60%] w-[60%] object-contain"
-          />
-        </div>
-      }
-      intersectionObserverProps={{ triggerOnce: false }}
-    >
-      <div>
-        <h3 className="text-[24px] font-bold text-white">{experience.title}</h3>
-        <p
-          className="text-[16px] font-semibold text-secondary"
-          style={{ margin: 0 }}
-        >
-          {experience.companyName}
-        </p>
-      </div>
-
-      <ul className="ml-5 mt-5 list-disc space-y-2">
-        {experience.points.map((point, index) => (
-          <li
-            key={`experience-point-${index}`}
-            className="pl-1 text-[14px] tracking-wider text-white"
-          >
-            {point}
-          </li>
-        ))}
-      </ul>
-    </VerticalTimelineElement>
-  );
-}
-
 export default function Experiences() {
   return (
-    <Section
-      id={"experiences"}
-      className={"text-center"}
-      title={"Work Experience"}
-      subTitle={"What I have done so far"}
-    >
+    // biome-ignore lint/correctness/useUniqueElementIds: Used for navigation
+    <Section id="experiences" title="Work Experience">
       <div className="mt-20 flex flex-col">
-        <VerticalTimeline>
-          {experiences.map((experience, index) => (
-            <ExperienceCard
-              key={`experience-${index}`}
-              experience={experience}
-            />
-          ))}
-        </VerticalTimeline>
+        <div className="relative w-full overflow-clip">
+          <Timeline
+            data={experiences.map((exp) => ({
+              title: exp.date,
+              content: (
+                <div>
+                  <div>
+                    <h3 className="font-bold text-3xl text-white">
+                      {exp.title}
+                    </h3>
+                    <p
+                      className="font-semibold text-muted-foreground text-xl"
+                      style={{ margin: 0 }}
+                    >
+                      {exp.companyName}
+                    </p>
+                  </div>
+
+                  <ul className="mt-5 ml-5 list-disc space-y-2">
+                    {exp.points.map((point) => (
+                      <li
+                        key={point}
+                        className="pl- text-lg text-white tracking-wider"
+                      >
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ),
+            }))}
+          />
+        </div>
       </div>
     </Section>
   );

@@ -1,5 +1,5 @@
 import Section from "../components/Section";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { staggerContainer, zoomIn } from "../utils/motion";
 
 const skills: string[] = [
@@ -67,39 +67,34 @@ function randomFrames(): number[] {
 
 export default function Skills() {
   return (
-    <Section
-      id={"skills"}
-      className={"text-center"}
-      title={"Skills"}
-      subTitle={"What I am capable of"}
-    >
+    // biome-ignore lint/correctness/useUniqueElementIds: Used for navigation
+    <Section id="skills" className="text-center" title="Skills">
       <motion.div
         {...staggerContainer(0.02)}
         className="mt-20 flex flex-row flex-wrap justify-center gap-10"
       >
-        {skills.map((tech, index) => (
+        {skills.map((tech) => (
           <motion.div
-            key={`tech-${index}`}
-            className="h-20 w-20"
+            key={tech}
+            className="size-20 cursor-target"
             animate={{
               x: randomFrames(),
               y: randomFrames(),
               transition: {
-                type: "string",
+                type: "tween",
                 duration: NUM_FRAMES * 2,
                 repeat: Infinity,
                 repeatType: "reverse",
                 delay: Math.random(),
               },
             }}
-            whileHover={{ scale: 1.1, rotate: 20 }}
           >
             <motion.img
-              key={`tech-${index}`}
-              className={"h-full w-full"}
+              key={tech}
+              className="h-full w-full duration-300 hover:rotate-12 hover:scale-110"
               src={`https://skillicons.dev/icons?i=${tech}`}
               alt={tech}
-              {...zoomIn(1, "spring", true)}
+              {...zoomIn(0.1, "tween", true)}
             />
           </motion.div>
         ))}

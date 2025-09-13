@@ -1,87 +1,61 @@
-import {
-  VerticalTimeline,
-  VerticalTimelineElement,
-} from "react-vertical-timeline-component";
+import { Timeline } from "@/components/ui/timeline";
 
-import Section from "../components/Section";
-import { twConfig } from "../utils";
+import Section from "@/components/Section";
 
 interface Award {
   title: string;
-  date: string;
   description: string;
+  date: string;
 }
 
 const awards: Award[] = [
   {
-    title: "Dean’s Honour List 2020-21",
-    date: "September 2020",
+    title: "Academic Excellence Scholarship",
     description:
-      "The Dean’s Honour List recognizes undergraduate students whose grades rank in the top 5% of " +
-      "those studying with a full course load in the College of Arts and Science",
+      "The College of Arts and Science awards the Academic Excellence Scholarship to students who maintain the highest overall academic averages in their respective programs. I was honoured to receive the scholarship in January 2024, recognizing my academic accomplishments during the 2022-2023 academic year in the Bachelor of Science Honours Software Engineering.",
+    date: "Jan 2024",
   },
   {
-    title: "University of Saskatchewan Entrance Scholarship",
-    date: "January 2019",
+    title: "Undergraduate Summer Research Award",
     description:
-      "Recognizing academic accomplishment with an admission average of 90+%",
+      "The Undergraduate Summer Research Awards (USRA) competition is an opportunity for talented and motivated undergraduate students to gain leading-edge research and software development experience by working during the summer on a research project under the supervision of a Computer Science faculty member.",
+
+    date: "Aug 2021",
+  },
+  {
+    title: "Dean's Honour List 2020-21",
+    description:
+      "The Dean’s Honour List recognizes undergraduate students whose grades rank in the top 5% of those studying with a full course load in the College of Arts and Science.",
+
+    date: "Sep 2020",
+  },
+  {
+    title: "Academic Excellence Entrance Scholarship",
+    description:
+      "Recognizing academic accomplishment with an admission average of 90+%.",
+    date: "Jan 2019",
   },
 ];
 
-function SchoolIcon() {
-  return (
-    <svg focusable={"false"} viewBox={"0 0 24 24"} aria-hidden={"true"}>
-      <path
-        d={
-          "M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"
-        }
-        fill={"white"}
-      ></path>
-    </svg>
-  );
-}
-
-interface AwardCardProps {
-  index: number;
-  title: string;
-  date: string;
-  description: string;
-}
-
-function AwardCard({ title, date, description }: AwardCardProps) {
-  const bgColor = twConfig.theme.colors.blue["950"];
-  return (
-    <VerticalTimelineElement
-      contentStyle={{
-        background: bgColor,
-        color: "white",
-      }}
-      contentArrowStyle={{ borderRight: `7px solid ${bgColor}` }}
-      date={date}
-      iconStyle={{ background: "#085e3f", color: "white" }}
-      icon={<SchoolIcon />}
-      style={{ marginBottom: 0 }}
-      intersectionObserverProps={{ triggerOnce: false }}
-    >
-      <div>
-        <h3 className="pb-4 text-[24px] font-bold text-white">{title}</h3>
-      </div>
-
-      <div className="text-[14px] tracking-wider text-white">{description}</div>
-    </VerticalTimelineElement>
-  );
-}
-
 export default function Awards() {
   return (
-    <Section id={"awards"} title={"Awards"} subTitle={"What I am proud of"}>
-      <VerticalTimeline layout={"1-column-left"}>
-        <div className={"flex flex-wrap"}>
-          {awards.map((award, index) => (
-            <AwardCard key={award.title} index={index} {...award} />
-          ))}
+    // biome-ignore lint/correctness/useUniqueElementIds: Used for navigation
+    <Section id="awards" title="Awards">
+      <div className="mt-20 flex flex-col">
+        <div className="relative w-full overflow-clip">
+          <Timeline
+            data={awards.map((exp) => ({
+              title: exp.date,
+              content: (
+                <div className="flex flex-col gap-8">
+                  <h3 className="font-bold text-3xl text-white">{exp.title}</h3>
+                  <p className="leading-8">{exp.description}</p>
+                </div>
+              ),
+            }))}
+          />
         </div>
-      </VerticalTimeline>
+      </div>
     </Section>
   );
 }

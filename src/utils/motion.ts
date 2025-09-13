@@ -1,4 +1,4 @@
-import { MotionProps, Variant } from "framer-motion";
+import type { MotionProps, Variant } from "framer-motion";
 
 type VerticalDirection = "up" | "down";
 
@@ -6,13 +6,13 @@ type HorizontalDirection = "left" | "right";
 
 type Direction = VerticalDirection | HorizontalDirection;
 
-type TransitionType = "spring" | "tween" | "inertia";
+type TransitionType = "tween" | "inertia";
 
 function getMotion(
   initial: Variant,
   animate: Variant,
   isChildren: boolean,
-  direction?: Direction,
+  direction?: Direction
 ): MotionProps {
   return {
     variants: {
@@ -39,7 +39,7 @@ export function fadeIn(
   direction?: Direction,
   type?: TransitionType,
   amount = 100,
-  isChildren = false,
+  isChildren = false
 ): MotionProps {
   return getMotion(
     {
@@ -58,14 +58,14 @@ export function fadeIn(
       },
     },
     isChildren,
-    direction,
+    direction
   );
 }
 
 export function zoomIn(
   duration: number,
   type: TransitionType,
-  isChildren = false,
+  isChildren = false
 ): MotionProps {
   return getMotion(
     {
@@ -80,7 +80,7 @@ export function zoomIn(
         duration: duration,
       },
     },
-    isChildren,
+    isChildren
   );
 }
 
@@ -89,7 +89,7 @@ export function slideIn(
   type: TransitionType,
   duration: number,
   amount = 100,
-  isChildren = false,
+  isChildren = false
 ): MotionProps {
   return getMotion(
     {
@@ -97,14 +97,14 @@ export function slideIn(
         direction === "left"
           ? `${-amount}%`
           : direction === "right"
-            ? `${amount}%`
-            : 0,
+          ? `${amount}%`
+          : 0,
       y:
         direction === "up"
           ? `${amount}%`
           : direction === "down"
-            ? `${amount}%`
-            : 0,
+          ? `${amount}%`
+          : 0,
     },
     {
       x: 0,
@@ -116,7 +116,7 @@ export function slideIn(
       },
     },
     isChildren,
-    direction,
+    direction
   );
 }
 
@@ -128,6 +128,6 @@ export function staggerContainer(delay?: number): MotionProps {
         staggerChildren: delay,
       },
     },
-    false,
+    false
   );
 }

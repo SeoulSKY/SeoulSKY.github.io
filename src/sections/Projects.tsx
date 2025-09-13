@@ -1,18 +1,17 @@
 import Tilt from "react-parallax-tilt";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
-import Section from "../components/Section";
-import { fadeIn, pressableMotion, staggerContainer } from "../utils/motion";
+import Section from "@/components/Section";
+import { fadeIn, staggerContainer } from "@/utils/motion";
 
-import memorymate from "../assets/memorymate.gif";
-import desdemona from "../assets/desdemona.gif";
-import gochat from "../assets/gochat.png";
-import sorusora from "../assets/sorusora.gif";
-import chessai from "../assets/chessai.gif";
-import github from "../assets/github.png";
-import play from "../assets/play.png";
-import React from "react";
-import { cn } from "../utils";
+import memorymate from "@/assets/memorymate.gif";
+import desdemona from "@/assets/desdemona.gif";
+import gochat from "@/assets/gochat.png";
+import sorusora from "@/assets/sorusora.gif";
+import chessai from "@/assets/chessai.gif";
+import github from "@/assets/github.png";
+import play from "@/assets/play.png";
+import { cn } from "@/lib/utils";
 
 interface Project {
   name: string;
@@ -141,14 +140,13 @@ interface LinkIconProps {
 
 function LinkIcon({ link, icon }: LinkIconProps) {
   return (
-    <motion.a
-      {...pressableMotion()}
+    <a
       href={link}
-      target={"_blank"}
-      className="black-gradient flex h-10 w-10 cursor-pointer items-center justify-center rounded-full"
+      target="_blank"
+      className="flex h-10 w-10 cursor-pointer cursor-target items-center justify-center rounded-full bg-black/70 hover:scale-110"
     >
       <img src={icon} alt="link" className="h-1/2 w-1/2 object-contain" />
-    </motion.a>
+    </a>
   );
 }
 
@@ -165,8 +163,12 @@ function ProjectCard({
   playLink,
 }: ProjectCardProps) {
   return (
-    <motion.div key={name} {...fadeIn(0.5, "up", "spring", 50, true)}>
-      <Tilt className="w-full rounded-2xl bg-blue-950 p-5 sm:w-[360px]">
+    <motion.div
+      className="cursor-target"
+      key={name}
+      {...fadeIn(0.5, "up", "tween", 50, true)}
+    >
+      <div className="w-full rounded-2xl bg-blue-950 p-5 sm:w-[360px]">
         <div className="relative aspect-video w-full">
           <img
             src={image}
@@ -181,8 +183,10 @@ function ProjectCard({
         </div>
 
         <div className="mt-5">
-          <h3 className="text-[24px] font-bold text-white">{name}</h3>
-          <p className="mt-2 text-[14px] text-secondary">{description}</p>
+          <h3 className="font-bold text-[24px] text-white">{name}</h3>
+          <p className="mt-2 text-[14px] text-muted-foreground">
+            {description}
+          </p>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
@@ -192,19 +196,17 @@ function ProjectCard({
             </p>
           ))}
         </div>
-      </Tilt>
+      </div>
     </motion.div>
   );
 }
 
 export default function Projects() {
   return (
-    <Section id={"projects"} title={"Projects"} subTitle={"My works"}>
+    // biome-ignore lint/correctness/useUniqueElementIds: Used for navigation
+    <Section id="projects" title="Projects">
       <div className="flex w-full">
-        <motion.p
-          {...fadeIn(1)}
-          className="mt-3 max-w-3xl text-[17px] leading-[30px] text-secondary"
-        >
+        <motion.p {...fadeIn(1)} className="mt-4 max-w-3xl text-lg leading-8">
           Discover my personal journey in software development, marked by a wide
           array of projects and a commitment to delivering high-quality
           solutions. Gain insight into how I approach and resolve different
