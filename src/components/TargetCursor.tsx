@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
-import { gsap } from 'gsap';
+import { gsap } from "gsap";
+import type React from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 export interface TargetCursorProps {
   targetSelector?: string;
@@ -8,9 +9,9 @@ export interface TargetCursorProps {
 }
 
 const TargetCursor: React.FC<TargetCursorProps> = ({
-  targetSelector = '.cursor-target',
+  targetSelector = ".cursor-target",
   spinDuration = 2,
-  hideDefaultCursor = true
+  hideDefaultCursor = true,
 }) => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const cornersRef = useRef<NodeListOf<HTMLDivElement>>(null);
@@ -20,9 +21,9 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
     () => ({
       borderWidth: 3,
       cornerSize: 12,
-      parallaxStrength: 0.00005
+      parallaxStrength: 0.00005,
     }),
-    []
+    [],
   );
 
   const moveCursor = useCallback((x: number, y: number) => {
@@ -31,7 +32,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       x,
       y,
       duration: 0.1,
-      ease: 'power3.out'
+      ease: "power3.out",
     });
   }, []);
 
@@ -40,11 +41,13 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
 
     const originalCursor = document.body.style.cursor;
     if (hideDefaultCursor) {
-      document.body.style.cursor = 'none';
+      document.body.style.cursor = "none";
     }
 
     const cursor = cursorRef.current;
-    cornersRef.current = cursor.querySelectorAll<HTMLDivElement>('.target-cursor-corner');
+    cornersRef.current = cursor.querySelectorAll<HTMLDivElement>(
+      ".target-cursor-corner",
+    );
 
     let activeTarget: Element | null = null;
     let currentTargetMove: ((ev: Event) => void) | null = null;
@@ -54,10 +57,10 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
 
     const cleanupTarget = (target: Element) => {
       if (currentTargetMove) {
-        target.removeEventListener('mousemove', currentTargetMove);
+        target.removeEventListener("mousemove", currentTargetMove);
       }
       if (currentLeaveHandler) {
-        target.removeEventListener('mouseleave', currentLeaveHandler);
+        target.removeEventListener("mouseleave", currentLeaveHandler);
       }
       currentTargetMove = null;
       currentLeaveHandler = null;
@@ -67,33 +70,36 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       xPercent: -50,
       yPercent: -50,
       x: window.innerWidth / 2,
-      y: window.innerHeight / 2
+      y: window.innerHeight / 2,
     });
 
     const createSpinTimeline = () => {
       if (spinTl.current) {
         spinTl.current.kill();
       }
-      spinTl.current = gsap
-        .timeline({ repeat: -1 })
-        .to(cursor, { rotation: '+=360', duration: spinDuration, ease: 'none' });
+      spinTl.current = gsap.timeline({ repeat: -1 }).to(cursor, {
+        rotation: "+=360",
+        duration: spinDuration,
+        ease: "none",
+      });
     };
 
     createSpinTimeline();
 
     const moveHandler = (e: MouseEvent) => moveCursor(e.clientX, e.clientY);
-    window.addEventListener('mousemove', moveHandler);
+    window.addEventListener("mousemove", moveHandler);
 
     const scrollHandler = () => {
       if (!activeTarget || !cursorRef.current) return;
 
-      const mouseX = gsap.getProperty(cursorRef.current, 'x') as number;
-      const mouseY = gsap.getProperty(cursorRef.current, 'y') as number;
+      const mouseX = gsap.getProperty(cursorRef.current, "x") as number;
+      const mouseY = gsap.getProperty(cursorRef.current, "y") as number;
 
       const elementUnderMouse = document.elementFromPoint(mouseX, mouseY);
       const isStillOverTarget =
         elementUnderMouse &&
-        (elementUnderMouse === activeTarget || elementUnderMouse.closest(targetSelector) === activeTarget);
+        (elementUnderMouse === activeTarget ||
+          elementUnderMouse.closest(targetSelector) === activeTarget);
 
       if (!isStillOverTarget) {
         if (currentLeaveHandler) {
@@ -102,8 +108,8 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       }
     };
 
-    window.addEventListener('scroll', scrollHandler, { passive: true });
-    window.addEventListener('mousemove', moveHandler);
+    window.addEventListener("scroll", scrollHandler, { passive: true });
+    window.addEventListener("mousemove", moveHandler);
 
     const mouseDownHandler = (): void => {
       if (!dotRef.current) return;
@@ -117,8 +123,8 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       gsap.to(cursorRef.current, { scale: 1, duration: 0.2 });
     };
 
-    window.addEventListener('mousedown', mouseDownHandler);
-    window.addEventListener('mouseup', mouseUpHandler);
+    window.addEventListener("mousedown", mouseDownHandler);
+    window.addEventListener("mouseup", mouseUpHandler);
 
     const enterHandler = (e: MouseEvent) => {
       const directTarget = e.target as Element;
@@ -148,10 +154,10 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
 
       activeTarget = target;
       const corners = Array.from(cornersRef.current);
-      corners.forEach(corner => {
+      corners.forEach((corner) => {
         gsap.killTweensOf(corner);
       });
-      gsap.killTweensOf(cursorRef.current, 'rotation');
+      gsap.killTweensOf(cursorRef.current, "rotation");
       spinTl.current?.pause();
 
       gsap.set(cursorRef.current, { rotation: 0 });
@@ -167,21 +173,21 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
 
         const { borderWidth, cornerSize, parallaxStrength } = constants;
 
-        let tlOffset = {
+        const tlOffset = {
           x: rect.left - cursorCenterX - borderWidth,
-          y: rect.top - cursorCenterY - borderWidth
+          y: rect.top - cursorCenterY - borderWidth,
         };
-        let trOffset = {
+        const trOffset = {
           x: rect.right - cursorCenterX + borderWidth - cornerSize,
-          y: rect.top - cursorCenterY - borderWidth
+          y: rect.top - cursorCenterY - borderWidth,
         };
-        let brOffset = {
+        const brOffset = {
           x: rect.right - cursorCenterX + borderWidth - cornerSize,
-          y: rect.bottom - cursorCenterY + borderWidth - cornerSize
+          y: rect.bottom - cursorCenterY + borderWidth - cornerSize,
         };
-        let blOffset = {
+        const blOffset = {
           x: rect.left - cursorCenterX - borderWidth,
-          y: rect.bottom - cursorCenterY + borderWidth - cornerSize
+          y: rect.bottom - cursorCenterY + borderWidth - cornerSize,
         };
 
         if (mouseX !== undefined && mouseY !== undefined) {
@@ -211,9 +217,9 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
               x: offsets[index].x,
               y: offsets[index].y,
               duration: 0.2,
-              ease: 'power2.out'
+              ease: "power2.out",
             },
-            0
+            0,
           );
         });
       };
@@ -248,7 +254,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
             { x: -cornerSize * 1.5, y: -cornerSize * 1.5 },
             { x: cornerSize * 0.5, y: -cornerSize * 1.5 },
             { x: cornerSize * 0.5, y: cornerSize * 0.5 },
-            { x: -cornerSize * 1.5, y: cornerSize * 0.5 }
+            { x: -cornerSize * 1.5, y: cornerSize * 0.5 },
           ];
 
           const tl = gsap.timeline();
@@ -259,30 +265,37 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
                 x: positions[index].x,
                 y: positions[index].y,
                 duration: 0.3,
-                ease: 'power3.out'
+                ease: "power3.out",
               },
-              0
+              0,
             );
           });
         }
 
         resumeTimeout = setTimeout(() => {
           if (!activeTarget && cursorRef.current && spinTl.current) {
-            const currentRotation = gsap.getProperty(cursorRef.current, 'rotation') as number;
+            const currentRotation = gsap.getProperty(
+              cursorRef.current,
+              "rotation",
+            ) as number;
             const normalizedRotation = currentRotation % 360;
 
             spinTl.current.kill();
             spinTl.current = gsap
               .timeline({ repeat: -1 })
-              .to(cursorRef.current, { rotation: '+=360', duration: spinDuration, ease: 'none' });
+              .to(cursorRef.current, {
+                rotation: "+=360",
+                duration: spinDuration,
+                ease: "none",
+              });
 
             gsap.to(cursorRef.current, {
               rotation: normalizedRotation + 360,
               duration: spinDuration * (1 - normalizedRotation / 360),
-              ease: 'none',
+              ease: "none",
               onComplete: () => {
                 spinTl.current?.restart();
-              }
+              },
             });
           }
           resumeTimeout = null;
@@ -294,16 +307,16 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       currentTargetMove = targetMove;
       currentLeaveHandler = leaveHandler;
 
-      target.addEventListener('mousemove', targetMove);
-      target.addEventListener('mouseleave', leaveHandler);
+      target.addEventListener("mousemove", targetMove);
+      target.addEventListener("mouseleave", leaveHandler);
     };
 
-    window.addEventListener('mouseover', enterHandler, { passive: true });
+    window.addEventListener("mouseover", enterHandler, { passive: true });
 
     return () => {
-      window.removeEventListener('mousemove', moveHandler);
-      window.removeEventListener('mouseover', enterHandler);
-      window.removeEventListener('scroll', scrollHandler);
+      window.removeEventListener("mousemove", moveHandler);
+      window.removeEventListener("mouseover", enterHandler);
+      window.removeEventListener("scroll", scrollHandler);
 
       if (activeTarget) {
         cleanupTarget(activeTarget);
@@ -319,38 +332,40 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
 
     if (spinTl.current.isActive()) {
       spinTl.current.kill();
-      spinTl.current = gsap
-        .timeline({ repeat: -1 })
-        .to(cursorRef.current, { rotation: '+=360', duration: spinDuration, ease: 'none' });
+      spinTl.current = gsap.timeline({ repeat: -1 }).to(cursorRef.current, {
+        rotation: "+=360",
+        duration: spinDuration,
+        ease: "none",
+      });
     }
   }, [spinDuration]);
 
   return (
     <div
       ref={cursorRef}
-      className="fixed top-0 left-0 w-0 h-0 pointer-events-none z-[9999] mix-blend-difference transform -translate-x-1/2 -translate-y-1/2"
-      style={{ willChange: 'transform' }}
+      className="-translate-x-1/2 -translate-y-1/2 pointer-events-none fixed top-0 left-0 z-[9999] h-0 w-0 transform mix-blend-difference"
+      style={{ willChange: "transform" }}
     >
       <div
         ref={dotRef}
-        className="absolute left-1/2 top-1/2 w-1 h-1 bg-white rounded-full transform -translate-x-1/2 -translate-y-1/2"
-        style={{ willChange: 'transform' }}
+        className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 h-1 w-1 transform rounded-full bg-white"
+        style={{ willChange: "transform" }}
       />
       <div
-        className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-white transform -translate-x-[150%] -translate-y-[150%] border-r-0 border-b-0"
-        style={{ willChange: 'transform' }}
+        className="target-cursor-corner -translate-x-[150%] -translate-y-[150%] absolute top-1/2 left-1/2 h-3 w-3 transform border-[3px] border-white border-r-0 border-b-0"
+        style={{ willChange: "transform" }}
       />
       <div
-        className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-white transform translate-x-1/2 -translate-y-[150%] border-l-0 border-b-0"
-        style={{ willChange: 'transform' }}
+        className="target-cursor-corner -translate-y-[150%] absolute top-1/2 left-1/2 h-3 w-3 translate-x-1/2 transform border-[3px] border-white border-b-0 border-l-0"
+        style={{ willChange: "transform" }}
       />
       <div
-        className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-white transform translate-x-1/2 translate-y-1/2 border-l-0 border-t-0"
-        style={{ willChange: 'transform' }}
+        className="target-cursor-corner absolute top-1/2 left-1/2 h-3 w-3 translate-x-1/2 translate-y-1/2 transform border-[3px] border-white border-t-0 border-l-0"
+        style={{ willChange: "transform" }}
       />
       <div
-        className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-white transform -translate-x-[150%] translate-y-1/2 border-r-0 border-t-0"
-        style={{ willChange: 'transform' }}
+        className="target-cursor-corner -translate-x-[150%] absolute top-1/2 left-1/2 h-3 w-3 translate-y-1/2 transform border-[3px] border-white border-t-0 border-r-0"
+        style={{ willChange: "transform" }}
       />
     </div>
   );

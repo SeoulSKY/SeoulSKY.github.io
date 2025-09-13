@@ -52,10 +52,7 @@ export default function Experiences() {
                     <h3 className="font-bold text-3xl text-white">
                       {exp.title}
                     </h3>
-                    <p
-                      className="font-semibold text-muted-foreground text-xl"
-                      style={{ margin: 0 }}
-                    >
+                    <p className="font-semibold text-muted-foreground text-xl">
                       {exp.companyName}
                     </p>
                   </div>

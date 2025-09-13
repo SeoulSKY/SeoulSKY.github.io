@@ -1,16 +1,16 @@
 "use client";
+import { OrbitControls } from "@react-three/drei";
+import { Canvas, useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import {
   Color,
-  Scene,
   Fog,
-  PerspectiveCamera,
-  Vector3,
   type Group,
+  PerspectiveCamera,
+  Scene,
+  Vector3,
 } from "three";
 import ThreeGlobe from "three-globe";
-import { useThree, Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
 import countries from "@/assets/globe.json";
 
 const RING_PROPAGATION_SPEED = 3;

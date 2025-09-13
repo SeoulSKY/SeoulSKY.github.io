@@ -1,13 +1,13 @@
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type React from "react";
 import {
+  type ReactNode,
+  type RefObject,
   useEffect,
   useMemo,
   useRef,
-  type ReactNode,
-  type RefObject,
 } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);

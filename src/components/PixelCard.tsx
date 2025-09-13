@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
 import type { JSX } from "react";
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 class Pixel {
@@ -256,7 +256,7 @@ export default function PixelCard({
     let allIdle = true;
     for (let i = 0; i < pixelsRef.current.length; i++) {
       const pixel = pixelsRef.current[i];
-      // @ts-ignore
+      // @ts-expect-error
       pixel[fnName]();
       if (!pixel.isIdle) {
         allIdle = false;

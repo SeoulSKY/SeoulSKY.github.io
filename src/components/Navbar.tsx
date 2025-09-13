@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { motion, useScroll } from "motion/react";
-
+import { useState } from "react";
+import close from "@/assets/close.svg";
 import logo from "@/assets/logo.png";
 import menu from "@/assets/menu.svg";
-import close from "@/assets/close.svg";
 import { cn } from "@/lib/utils";
 
 function ScrollBar() {
@@ -63,7 +62,7 @@ export default function Navbar({ sections }: NavbarProps) {
 
             <div
               className={cn(
-                "black-gradient absolute top-20 right-0 z-10 mx-4 my-2 min-w-[140px] rounded-xl p-6",
+                "absolute top-20 right-0 z-10 mx-4 my-2 min-w-[140px] rounded-xl p-6",
                 toggle ? "flex" : "hidden",
               )}
             >

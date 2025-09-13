@@ -1,22 +1,20 @@
-import Tilt from "react-parallax-tilt";
 import { motion } from "motion/react";
-
+import chessai from "@/assets/chessai.gif";
+import desdemona from "@/assets/desdemona.gif";
+import github from "@/assets/github.png";
+import gochat from "@/assets/gochat.png";
+import memorymate from "@/assets/memorymate.gif";
+import play from "@/assets/play.png";
+import sorusora from "@/assets/sorusora.gif";
 import Section from "@/components/Section";
+import { CometCard } from "@/components/ui/comet-card";
 import { fadeIn, staggerContainer } from "@/utils/motion";
 
-import memorymate from "@/assets/memorymate.gif";
-import desdemona from "@/assets/desdemona.gif";
-import gochat from "@/assets/gochat.png";
-import sorusora from "@/assets/sorusora.gif";
-import chessai from "@/assets/chessai.gif";
-import github from "@/assets/github.png";
-import play from "@/assets/play.png";
-import { cn } from "@/lib/utils";
-
 interface Project {
-  name: string;
+  title: string;
+  subTitle: string;
   description: string;
-  tags: { name: string; color: string }[];
+  tags: string[];
   image: string;
   sourceCodeLink?: string;
   playLink?: string;
@@ -24,110 +22,50 @@ interface Project {
 
 const projects: Project[] = [
   {
-    name: "Memory Mate",
+    title: "Memory Mate",
+    subTitle: "AI-Powered Dementia Treatment Platform",
     description:
       "Connect with our empathetic AI companion tailored for those with dementia, offering friendly conversations and engaging personalized brain games to enhance cognitive abilities.",
-    tags: [
-      {
-        name: "React Native",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "Gemini AI",
-        color: "green-text-gradient",
-      },
-      {
-        name: "TypeScript",
-        color: "pink-text-gradient",
-      },
-    ],
+    tags: ["React Native", "TypeScript", "Gemini AI"],
     image: memorymate,
     sourceCodeLink: "https://github.com/SeoulSKY/MemoryMate",
   },
   {
-    name: "Desdemona",
+    title: "Desdemona",
+    subTitle: "Powerful Othello AI",
     description:
       "Engage in a game of Othello against a powerful AI opponent, Desdemona, and explore the intriguing environment surrounding you, and discover what lies inside various buildings.",
-    tags: [
-      {
-        name: "Rust",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "Unity3D",
-        color: "green-text-gradient",
-      },
-      {
-        name: "Node.js",
-        color: "pink-text-gradient",
-      },
-    ],
+    tags: ["Rust", "Unity3D", "Node.js"],
     image: desdemona,
     sourceCodeLink: "https://github.com/SeoulSKY/Desdemona",
     playLink: "https://desdemona.seoulsky.dev",
   },
   {
-    name: "GoChat",
+    title: "GoChat",
+    subTitle: "Real-Time Chat Web Platform",
     description:
       "Experience a real-time chat web platform powered by WebSocket, Go, React, and MongoDB. Engage in instant communication and uncover the technical prowess behind this project.",
-    tags: [
-      {
-        name: "Go",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "React.js",
-        color: "green-text-gradient",
-      },
-      {
-        name: "tailwindcss",
-        color: "pink-text-gradient",
-      },
-    ],
+    tags: ["Go", "React.js", "tailwindcss"],
     image: gochat,
     sourceCodeLink: "https://github.com/SeoulSKY/go-chat",
     playLink: "https://gochat.seoulsky.dev",
   },
   {
-    name: "SoruSora",
+    title: "SoruSora",
+    subTitle: "Officially Verified AI-Powered Discord Bot",
     description:
-      "Engage in lifelike AI chats, translate messages into 25 languages simultaneously, and convert videos to text. Explore innovative features for enhanced communication and content sharing.",
-    tags: [
-      {
-        name: "Python",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "MongoDB",
-        color: "green-text-gradient",
-      },
-      {
-        name: "Docker",
-        color: "pink-text-gradient",
-      },
-    ],
+      "SoruSora is an advanced, AI-driven Discord bot designed to enhance communication and collaboration within online communities. It enables natural, lifelike AI conversations and supports real-time translation across 45 languages. Now officially verified by Discord, SoruSora is trusted and actively used across 100+ servers worldwide.",
+    tags: ["Python", "MongoDB", "Docker"],
     image: sorusora,
     sourceCodeLink: "https://github.com/SeoulSKY/SoruSora",
     playLink: "https://sorusora.seoulsky.dev",
   },
   {
-    name: "Chess AI",
+    title: "Chess AI",
+    subTitle: "Highly Customizable Chess AI",
     description:
       "Experience the ultimate in strategic gaming with our customizable chess AI Play on the web with dynamic difficulty adjustments and personalized settings, perfect for beginners and grandmasters alike. Enhance your skills and enjoy endless strategic fun.",
-    tags: [
-      {
-        name: "Java",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "React.js",
-        color: "green-text-gradient",
-      },
-      {
-        name: "CSS",
-        color: "pink-text-gradient",
-      },
-    ],
+    tags: ["Java", "React.js", "CSS"],
     image: chessai,
     sourceCodeLink: "https://github.com/SeoulSKY/ChessAI",
   },
@@ -150,57 +88,6 @@ function LinkIcon({ link, icon }: LinkIconProps) {
   );
 }
 
-interface ProjectCardProps extends Project {
-  index: number;
-}
-
-function ProjectCard({
-  name,
-  description,
-  tags,
-  image,
-  sourceCodeLink,
-  playLink,
-}: ProjectCardProps) {
-  return (
-    <motion.div
-      className="cursor-target"
-      key={name}
-      {...fadeIn(0.5, "up", "tween", 50, true)}
-    >
-      <div className="w-full rounded-2xl bg-blue-950 p-5 sm:w-[360px]">
-        <div className="relative aspect-video w-full">
-          <img
-            src={image}
-            alt="project_image"
-            className="h-full w-full rounded-2xl object-cover"
-          />
-
-          <div className="card-img_hover absolute inset-0 m-3 flex justify-end space-x-1">
-            {sourceCodeLink && <LinkIcon link={sourceCodeLink} icon={github} />}
-            {playLink && <LinkIcon link={playLink} icon={play} />}
-          </div>
-        </div>
-
-        <div className="mt-5">
-          <h3 className="font-bold text-[24px] text-white">{name}</h3>
-          <p className="mt-2 text-[14px] text-muted-foreground">
-            {description}
-          </p>
-        </div>
-
-        <div className="mt-4 flex flex-wrap gap-2">
-          {tags.map(({ name, color }) => (
-            <p key={name} className={cn("text-[14px]", color)}>
-              #{name}
-            </p>
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 export default function Projects() {
   return (
     // biome-ignore lint/correctness/useUniqueElementIds: Used for navigation
@@ -218,9 +105,56 @@ export default function Projects() {
         {...staggerContainer(0.25)}
         className="mt-20 flex flex-wrap gap-7"
       >
-        {projects.map((project, index) => (
-          <ProjectCard key={project.name} index={index} {...project} />
-        ))}
+        {projects.map(
+          ({
+            title,
+            subTitle,
+            description,
+            tags,
+            image,
+            sourceCodeLink,
+            playLink,
+          }) => (
+            <motion.div
+              className="cursor-target"
+              key={title}
+              {...fadeIn(0.5, "up", "tween", 50, true)}
+            >
+              <CometCard>
+                <div className="w-full rounded-2xl border border-muted-foreground/30 backdrop-blur-md p-5 sm:w-85">
+                  <div className="relative aspect-video w-full">
+                    <img
+                      src={image}
+                      alt="project thumbnail"
+                      className="h-full w-full rounded-2xl object-cover"
+                    />
+
+                    <div className="absolute inset-0 m-3 flex justify-end space-x-1">
+                      {sourceCodeLink && (
+                        <LinkIcon link={sourceCodeLink} icon={github} />
+                      )}
+                      {playLink && <LinkIcon link={playLink} icon={play} />}
+                    </div>
+                  </div>
+
+                  <div className="mt-5">
+                    <h3 className="font-bold text-2xl text-white">{title}</h3>
+                    <p className="text-muted-foreground">{subTitle}</p>
+                    <p className="mt-4 text-sm">{description}</p>
+                  </div>
+
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    {tags.map((tag) => (
+                      <p key={title} className="text-sm">
+                        #{tag}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              </CometCard>
+            </motion.div>
+          ),
+        )}
       </motion.div>
     </Section>
   );

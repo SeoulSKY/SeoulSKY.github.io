@@ -1,6 +1,5 @@
-import { Timeline } from "@/components/ui/timeline";
-
 import Section from "@/components/Section";
+import { Timeline } from "@/components/ui/timeline";
 
 interface Award {
   title: string;

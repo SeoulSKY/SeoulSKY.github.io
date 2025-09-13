@@ -1,16 +1,16 @@
-import Introduction from "./sections/Introduction";
-import Experiences from "./sections/Experiences";
-import Navbar from "./components/Navbar";
-import Projects from "./sections/Projects";
-import Skills from "./sections/Skills";
-import Contact from "./sections/Contact";
-import { Toaster } from "@/components/ui/sonner";
-import Awards from "./sections/Awards";
-import Hero from "./sections/Hero";
 import type { JSX } from "react";
 import Galaxy from "@/components/Galaxy";
+import { Toaster } from "@/components/ui/sonner";
+import Navbar from "./components/Navbar";
 import TargetCursor from "./components/TargetCursor";
 import { ThemeProvider } from "./components/theme-provider";
+import Awards from "./sections/Awards";
+import Contact from "./sections/Contact";
+import Experiences from "./sections/Experiences";
+import Hero from "./sections/Hero";
+import Introduction from "./sections/Introduction";
+import Projects from "./sections/Projects";
+import Skills from "./sections/Skills";
 
 interface Section {
   name: string;
@@ -56,7 +56,10 @@ export default function App() {
 
         <Navbar sections={sections.map((section) => section.name)} />
 
-        <Hero />
+        <div className="px-6 sm:px-24">
+          <Hero />
+        </div>
+
         <div className="my-24 flex flex-col gap-20 px-6 sm:px-24">
           {sections.map((section) => (
             <section.Element key={section.name} />

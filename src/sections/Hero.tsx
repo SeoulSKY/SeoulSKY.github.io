@@ -1,7 +1,6 @@
 import { motion } from "motion/react";
-
-import Rocket from "../components/canvas/Rocket";
 import TextType from "@/components/TextType";
+import Rocket from "../components/canvas/Rocket";
 
 export default function Hero() {
   return (

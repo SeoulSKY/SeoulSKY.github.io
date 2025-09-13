@@ -1,14 +1,14 @@
 "use client";
-import { cn } from "@/lib/utils";
-import { useMotionTemplate, useMotionValue, motion } from "motion/react";
+import { motion, useMotionTemplate, useMotionValue } from "motion/react";
 import { forwardRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
 export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, rows, ...props }, ref) => {
-    const radius = (rows || 1) * 30;  // change this to increase the radius of the hover effect
+    const radius = (rows || 1) * 30; // change this to increase the radius of the hover effect
 
     const [visible, setVisible] = useState(false);
 

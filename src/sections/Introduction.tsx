@@ -1,9 +1,8 @@
+import { AppWindow, type LucideIcon, Server, Workflow } from "lucide-react";
 import { motion } from "motion/react";
-
+import PixelCard from "@/components/PixelCard";
 import Section from "@/components/Section";
 import { fadeIn, staggerContainer } from "@/utils/motion";
-import PixelCard from "@/components/PixelCard";
-import { Server, AppWindow, Workflow, type LucideIcon } from "lucide-react";
 
 interface Service {
   title: string;
@@ -38,7 +37,6 @@ function ServiceCard({ title, Icon }: Service) {
       <PixelCard className="h-80 w-auto" variant="blue">
         <div className="absolute flex flex-col items-center gap-10 p-2">
           <Icon className="size-12" />
-
           <h3 className="text-center font-bold text-white text-xl">{title}</h3>
         </div>
       </PixelCard>

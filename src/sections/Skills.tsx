@@ -1,5 +1,5 @@
-import Section from "../components/Section";
 import { motion } from "motion/react";
+import Section from "../components/Section";
 import { staggerContainer, zoomIn } from "../utils/motion";
 
 const skills: string[] = [
