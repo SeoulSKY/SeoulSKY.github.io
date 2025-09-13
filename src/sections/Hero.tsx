@@ -14,8 +14,8 @@ export default function Hero() {
           </h1>
           <TextType
             text={[
-              "I’m a Software Engineer at NutraMate, building innovative solutions in healthcare industry.",
-              "I'm an alumnus of the University of Saskatchewan, where I earned an Honours degree in Software Engineering with a Minor in Applied Mathematics.",
+              "Software Engineer creating innovative solutions for the healthcare industry.",
+              "Graduate in Software Engineering Honours with a Minor in Applied Mathematics.",
             ]}
             className="mt-2 font-medium text-3xl text-neutral-100"
             typingSpeed={20}
