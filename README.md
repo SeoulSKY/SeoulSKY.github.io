@@ -1,6 +1,6 @@
 <div align="center">
     <a href="https://www.seoulsky.dev">
-      <img alt="hero" src="https://github.com/SeoulSKY/SeoulSKY/blob/main/assets/hero.gif">
+      <img alt="hero" src="https://github.com/user-attachments/assets/79ab15d1-5a2b-4784-a4a2-de7f5010e3cf">
     </a>
     <h1>SeoulSKY</h1>
 </div>
