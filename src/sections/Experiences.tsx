@@ -17,7 +17,7 @@ const experiences: Experience[] = [
     points: [
       "Took full ownership of the company’s desktop application, building with Tauri, React.js, TypeScript, Tailwind CSS, Zod, Vite, TanStack, and Zustand to deliver a fast, responsive, secure, and user-centric experience.",
       "Developed robust Rust backend logic for performance-critical tasks and low-level operations, including scanner integration via FFI (Foreign Function Interface) to enable seamless hardware interaction for image acquisition.",
-      "wned microservices for user management and usage data collection, while contributing to others by adding REST API endpoints for database queries, integrating an LLM to enhance the AI pipeline with data generation for training, and implementing automated test cases to ensure maintainability and reliability.",
+      "Owned microservices for user management and usage data collection, while contributing to others by adding REST API endpoints for database queries, integrating an LLM to enhance the AI pipeline with data generation for training, and implementing automated test cases to ensure maintainability and reliability.",
       "Built lightweight yet robust CI pipelines to automate regression testing and static analysis; enforced engineering best practices through linters, formatters, type checkers, and pre-commit Git hooks.",
       "Consistently delivered features under rapidly changing requirements, providing accurate timeline estimates and adapting quickly to evolving scope in a fast-paced startup environment.",
     ],
