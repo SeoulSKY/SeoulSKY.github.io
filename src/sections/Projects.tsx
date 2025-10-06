@@ -3,6 +3,7 @@ import chessai from "@/assets/chessai.gif";
 import desdemona from "@/assets/desdemona.gif";
 import github from "@/assets/github.png";
 import gochat from "@/assets/gochat.png";
+import ytnoti from "@/assets/ytnoti.png";
 import memorymate from "@/assets/memorymate.gif";
 import play from "@/assets/play.png";
 import sorusora from "@/assets/sorusora.gif";
@@ -22,13 +23,24 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: "Memory Mate",
-    subTitle: "AI-Powered Dementia Treatment Platform",
+    title: "ytnoti",
+    subTitle:
+      "Python library for receiving real-time YouTube notifications via PubSubHubbub",
     description:
-      "Connect with our empathetic AI companion tailored for those with dementia, offering friendly conversations and engaging personalized brain games to enhance cognitive abilities.",
-    tags: ["React Native", "TypeScript", "Gemini AI"],
-    image: memorymate,
-    sourceCodeLink: "https://github.com/SeoulSKY/MemoryMate",
+      "ytnoti is a Python library that provides real-time notifications for YouTube video uploads and edits via PubSubHubbub Protocol—no API polling needed. With 16,000+ downloads and 99% code coverage, it’s a lightweight, reliable, and easy-to-integrate solution for developers.",
+    tags: ["Python", "FastAPI", "Github Actions"],
+    image: ytnoti,
+    sourceCodeLink: "https://github.com/SeoulSKY/ytnoti",
+  },
+  {
+    title: "SoruSora",
+    subTitle: "Officially Verified AI-Powered Discord Bot",
+    description:
+      "SoruSora is an advanced, AI-driven Discord bot designed to enhance communication and collaboration within online communities. It enables natural, lifelike AI conversations and supports real-time translation across 45 languages. Now officially verified by Discord, SoruSora is trusted and actively used across 100+ servers worldwide.",
+    tags: ["Python", "MongoDB", "Docker"],
+    image: sorusora,
+    sourceCodeLink: "https://github.com/SeoulSKY/SoruSora",
+    playLink: "https://sorusora.seoulsky.dev",
   },
   {
     title: "Desdemona",
@@ -41,24 +53,23 @@ const projects: Project[] = [
     playLink: "https://desdemona.seoulsky.dev",
   },
   {
+    title: "Memory Mate",
+    subTitle: "AI-Powered Dementia Treatment Platform",
+    description:
+      "Connect with our empathetic AI companion tailored for those with dementia, offering friendly conversations and engaging personalized brain games to enhance cognitive abilities.",
+    tags: ["React Native", "TypeScript", "Gemini AI"],
+    image: memorymate,
+    sourceCodeLink: "https://github.com/SeoulSKY/MemoryMate",
+  },
+  {
     title: "GoChat",
     subTitle: "Real-Time Chat Web Platform",
     description:
       "Experience a real-time chat web platform powered by WebSocket, Go, React, and MongoDB. Engage in instant communication and uncover the technical prowess behind this project.",
-    tags: ["Go", "React.js", "tailwindcss"],
+    tags: ["Go", "React.js", "TailwindCSS"],
     image: gochat,
     sourceCodeLink: "https://github.com/SeoulSKY/go-chat",
     playLink: "https://gochat.seoulsky.dev",
-  },
-  {
-    title: "SoruSora",
-    subTitle: "Officially Verified AI-Powered Discord Bot",
-    description:
-      "SoruSora is an advanced, AI-driven Discord bot designed to enhance communication and collaboration within online communities. It enables natural, lifelike AI conversations and supports real-time translation across 45 languages. Now officially verified by Discord, SoruSora is trusted and actively used across 100+ servers worldwide.",
-    tags: ["Python", "MongoDB", "Docker"],
-    image: sorusora,
-    sourceCodeLink: "https://github.com/SeoulSKY/SoruSora",
-    playLink: "https://sorusora.seoulsky.dev",
   },
   {
     title: "Chess AI",
