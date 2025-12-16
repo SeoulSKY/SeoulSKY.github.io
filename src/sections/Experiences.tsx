@@ -15,11 +15,11 @@ const experiences: Experience[] = [
     companyName: "NutraMate",
     date: "Jan 2025 - Present",
     points: [
-      "Took full ownership of the company’s desktop application, building with Tauri, React.js, TypeScript, Tailwind CSS, Zod, Vite, TanStack, and Zustand to deliver a fast, responsive, secure, and user-centric experience.",
-      "Developed robust Rust backend logic for CPU-intensive tasks and low-level operations, including scanner integration via FFI (Foreign Function Interface) to enable seamless hardware interaction for image acquisition.",
-      "Contributed to system design and architectural decisions, improving scalability, reliability and overall system performance under high load.",
-      "Owned microservices for user management and usage data collection, while contributing to others by adding REST API endpoints for database queries, integrating an LLM to enhance the AI pipeline with data generation for training, and implementing automated test cases to ensure maintainability and reliability.",
-      "Built lightweight yet robust CI pipelines to automate regression testing and static analysis; enforced engineering best practices through linters, formatters, type checkers, and pre-commit Git hooks.",
+      "Led development of the company’s desktop application using Tauri and React.js, taking ownership of architectural decisions, front-end design and implementation, backend integration, testing, and deployment to deliver a high-quality end-user experience.",
+      "Developed high-performance Rust backend module for CPU-intensive processing and low-level operations, including scanner integration through FFI and direct Windows API interaction.",
+      "Drove key architectural and system design decisions, improving scalability, reliability, and performance across services operating under high load.",
+      "Led development of core microservices for user management and usage analytics, and contributed across the backend by implementing new REST API endpoints, integrating an LLM into the existing AI pipeline to enhance prescription entity extraction, and strengthening service reliability through automated test suites.",
+      "Built and maintained CI pipelines automating regression testing and static analysis, while enforcing engineering best practices through linters, formatters, type checkers, and pre-commit workflows.",
     ],
   },
   {

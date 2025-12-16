@@ -1,4 +1,10 @@
-import { AppWindow, type LucideIcon, Server, Workflow } from "lucide-react";
+import {
+  AppWindow,
+  Compass,
+  type LucideIcon,
+  Server,
+  Workflow,
+} from "lucide-react";
 import { motion } from "motion/react";
 import PixelCard from "@/components/PixelCard";
 import Section from "@/components/Section";
@@ -16,14 +22,14 @@ const services: Service[] = [
   },
   {
     title: "Front End Engineer",
-    Icon: AppWindow,
+    Icon: Compass,
   },
   {
     title: "DevOps Engineer",
     Icon: Workflow,
   },
   {
-    title: "Application Engineer",
+    title: "Application Developer",
     Icon: AppWindow,
   },
 ];
