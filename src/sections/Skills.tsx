@@ -1,6 +1,4 @@
 import { motion } from "motion/react";
-import Section from "@/components/Section";
-import { staggerContainer, zoomIn } from "@/utils/motion";
 import aws from "@/assets/skill-icons/AWS-Dark.svg";
 import bash from "@/assets/skill-icons/Bash-Dark.svg";
 import c from "@/assets/skill-icons/C.svg";
@@ -39,6 +37,8 @@ import ubuntu from "@/assets/skill-icons/Ubuntu-Dark.svg";
 import unity from "@/assets/skill-icons/Unity-Dark.svg";
 import vercel from "@/assets/skill-icons/Vercel-Dark.svg";
 import vite from "@/assets/skill-icons/Vite-Dark.svg";
+import Section from "@/components/Section";
+import { staggerContainer, zoomIn } from "@/utils/motion";
 
 const skills: string[] = [
   aws,

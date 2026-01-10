@@ -399,8 +399,8 @@ const sampleArcs = [
 function BottomGradient() {
   return (
     <>
-      <span className="absolute inset-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
-      <span className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
+      <span className="-bottom-px absolute inset-x-0 block h-px w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
+      <span className="-bottom-px absolute inset-x-10 mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
     </>
   );
 }
@@ -475,6 +475,7 @@ export default function Contact() {
   }
 
   return (
+    // biome-ignore lint/correctness/useUniqueElementIds: Used for navigation
     <Section id="contact" title="Contact">
       <motion.div
         {...staggerContainer()}
@@ -482,7 +483,7 @@ export default function Contact() {
       >
         <motion.div
           {...slideIn("left", "tween", 1, undefined, true)}
-          className="flex-[0.75] rounded-2xl backdrop-blur border border-muted-background  p-8"
+          className="flex-[0.75] rounded-2xl border border-muted-background p-8 backdrop-blur"
         >
           <form
             ref={formRef}
@@ -522,7 +523,7 @@ export default function Contact() {
             </Label>
 
             <button
-              className="flex justify-center items-center duration-300 transition-opacity cursor-target cursor-pointer group/btn disabled:cursor-not-allowed disabled:opacity-50 relative h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
+              className="group/btn relative flex h-10 w-full cursor-pointer cursor-target items-center justify-center rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
               type="submit"
               disabled={
                 form.name.trim() === "" ||
