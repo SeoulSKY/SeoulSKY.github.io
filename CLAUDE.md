@@ -75,6 +75,20 @@ Copy changes go in `src/data/content.ts`, not in section components.
 Static files (logo, project media, skill logos) live in `public/` and are
 referenced by URL (`/projects/ytnoti.jpg`).
 
+## Code style
+
+- Write named functions as `function` declarations, never as an arrow
+  assigned to a `const`: `function seek(t: number) { … }`, not
+  `const seek = (t: number) => { … }`. This holds for exports, module
+  helpers and functions nested in components or effects alike. Biome has
+  no rule for it, so keep to it by hand.
+- Arrows stay for anonymous callbacks (`.map`, `useEffect`, `useGSAP`,
+  `useCallback`, GSAP options, JSX event props) and for a `let` that holds
+  a swappable function, such as a cleanup that starts as a no-op.
+- A null check does not carry into a nested function declaration, because
+  declarations are hoisted. Re-bind the checked value to a new `const`
+  after the check, as `starfield.tsx` does with `canvas` and `ctx`.
+
 ---
 
 # SeoulSKY design system
