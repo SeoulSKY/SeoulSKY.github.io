@@ -777,7 +777,7 @@ export function CityLayer({
             x: 1168,
             anchor: "start",
             title: "LOTTE WORLD TOWER",
-            sub: "롯데월드타워 · SEOUL SKY 117F",
+            sub: "롯데월드타워 · 555M",
           },
           {
             path: "M910,410 L950,446 L972,446",
