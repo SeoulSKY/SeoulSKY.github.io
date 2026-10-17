@@ -614,13 +614,26 @@ function PreloaderScene() {
       const unregister = registerTimeline("preloader", tl);
 
       const skip = contextSafe?.(() => {
-        if (tl.time() < tl.labels.dive) tl.seek("dive").play();
+        if (tl.time() >= tl.labels.dive) return;
+        // The intro scrubber nests this timeline in its own, and a nested
+        // timeline follows its parent's playhead, so seek whichever drives it.
+        const parent = tl.parent;
+        if (parent && parent !== gsap.globalTimeline) {
+          parent.seek(tl.startTime() + tl.labels.dive).play();
+        } else {
+          tl.seek("dive").play();
+        }
       });
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === "Enter" && !e.repeat) skip?.();
+      };
       const btn = q(".pl-skip")[0];
       if (skip && btn) btn.addEventListener("click", skip);
+      window.addEventListener("keydown", onKey);
       return () => {
         unregister();
         if (skip && btn) btn.removeEventListener("click", skip);
+        window.removeEventListener("keydown", onKey);
       };
     },
     { scope: root },
