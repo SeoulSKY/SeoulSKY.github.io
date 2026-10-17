@@ -172,7 +172,7 @@ export default function About() {
                   </span>
                   <span className="text-peach">{s.suffix}</span>
                 </dd>
-                <dd className="mt-1 font-mono text-[11px] text-mist/55 uppercase tracking-[0.18em]">
+                <dd className="mt-1 font-mono text-2xs text-mist/55 uppercase tracking-[0.18em]">
                   {s.label}
                 </dd>
               </div>

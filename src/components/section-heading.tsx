@@ -60,7 +60,7 @@ export default function SectionHeading({
 
   return (
     <div ref={root} className={cn("relative", className)}>
-      <div className="flex items-center gap-3 font-mono text-[11px] text-mist/55 uppercase tracking-[0.3em] sm:gap-4">
+      <div className="flex items-center gap-3 font-mono text-2xs text-mist/55 uppercase tracking-eyebrow sm:gap-4">
         <span className="sh-meta flex shrink-0 items-center gap-2.5">
           <span
             className="grid size-7 place-items-center rounded-full font-bold font-display text-sm tracking-normal shadow-[0_0_0_3px_rgb(6_7_26)]"
@@ -69,18 +69,18 @@ export default function SectionHeading({
           >
             {index}
           </span>
-          <span className="font-kr font-semibold text-mist/85 text-xs tracking-[0.12em]">
+          <span className="font-kr font-semibold text-mist/85 text-xs tracking-sign">
             {index}호선
           </span>
           <span className="hidden text-mist/45 sm:inline">Line {index}</span>
         </span>
         <span
-          className="sh-rule h-[3px] flex-1 origin-left rounded-full"
+          className="sh-rule h-0.75 flex-1 origin-left rounded-full"
           style={{
             background: `linear-gradient(90deg, ${line.color} 0%, ${line.color}99 45%, transparent 100%)`,
           }}
         />
-        <span className="sh-meta font-kr tracking-[0.2em]">{KOREAN[id]}</span>
+        <span className="sh-meta font-kr tracking-label">{KOREAN[id]}</span>
       </div>
       <h2 className="sh-title mt-6 font-bold font-display text-[clamp(2.6rem,7vw,6.5rem)] leading-[0.95] tracking-[-0.035em]">
         {title}

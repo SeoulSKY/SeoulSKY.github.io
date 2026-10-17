@@ -89,7 +89,7 @@ export default function Navbar() {
             alt=""
             width={32}
             height={32}
-            className="size-8 rounded-full ring-1 ring-white/20 transition-transform duration-500 group-hover:rotate-[-12deg] group-hover:scale-110"
+            className="group-hover:-rotate-12 size-8 rounded-full ring-1 ring-white/20 transition-transform duration-500 group-hover:scale-110"
           />
           <span className="font-bold font-display text-[17px] tracking-tight">
             SeoulSKY
@@ -110,7 +110,7 @@ export default function Navbar() {
               >
                 <span
                   className={cn(
-                    "absolute inset-0 rounded-full bg-white/[0.07] transition-all duration-500",
+                    "absolute inset-0 rounded-full bg-white/7 transition-all duration-500",
                     active === id
                       ? "scale-100 opacity-100"
                       : "scale-75 opacity-0",
@@ -128,14 +128,14 @@ export default function Navbar() {
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub profile"
-            className="grid size-9 place-items-center rounded-full border border-white/10 bg-white/[0.03] text-mist/80 transition hover:border-white/25 hover:text-mist"
+            className="grid size-9 place-items-center rounded-full border border-white/10 bg-white/3 text-mist/80 transition hover:border-white/25 hover:text-mist"
           >
             <GithubIcon className="size-4" />
           </a>
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger
-              className="grid size-9 cursor-pointer place-items-center rounded-full border border-white/10 bg-white/[0.03] lg:hidden"
+              className="grid size-9 cursor-pointer place-items-center rounded-full border border-white/10 bg-white/3 lg:hidden"
               aria-label="Open menu"
             >
               <Menu className="size-4" />
@@ -144,7 +144,7 @@ export default function Navbar() {
               side="right"
               className="w-full border-white/10 bg-night-950/95 p-8 backdrop-blur-xl sm:max-w-sm"
             >
-              <SheetTitle className="font-kr text-peach text-sm tracking-[0.3em]">
+              <SheetTitle className="font-kr text-peach text-sm tracking-eyebrow">
                 서울하늘
               </SheetTitle>
               <SheetDescription className="sr-only">
@@ -176,7 +176,7 @@ export default function Navbar() {
           </Sheet>
         </div>
       </nav>
-      <div className="nav-progress pointer-events-none fixed inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-gradient-to-r from-lavender via-dusk to-peach" />
+      <div className="nav-progress pointer-events-none fixed inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-lavender via-dusk to-peach" />
     </header>
   );
 }

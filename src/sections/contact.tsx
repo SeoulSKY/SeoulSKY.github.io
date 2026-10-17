@@ -182,13 +182,13 @@ export default function Contact() {
       className="relative overflow-hidden px-5 py-28 sm:px-10 sm:py-40"
     >
       {/* warm glow behind the tower */}
-      <div className="-bottom-40 -left-40 pointer-events-none absolute size-[42rem] rounded-full bg-dusk/10 blur-[120px]" />
+      <div className="-bottom-40 -left-40 pointer-events-none absolute size-168 rounded-full bg-dusk/10 blur-[120px]" />
 
       <div className="relative mx-auto grid max-w-7xl gap-16 lg:grid-cols-12 lg:gap-10">
         <div className="relative lg:col-span-6">
           {/* N Seoul Tower stands in the free space beside the headline,
               its hill level with the bottom of the form; it adds no height */}
-          <TowerLineArt className="ct-art -right-2 pointer-events-none absolute bottom-0 hidden h-[460px] w-auto opacity-80 [mask-image:linear-gradient(90deg,transparent,#000_30%,#000_70%,transparent)] xl:block" />
+          <TowerLineArt className="ct-art -right-2 pointer-events-none absolute bottom-0 hidden h-115 w-auto opacity-80 [mask-image:linear-gradient(90deg,transparent,#000_30%,#000_70%,transparent)] xl:block" />
           <SectionHeading
             id="contact"
             index={6}
@@ -214,7 +214,7 @@ export default function Contact() {
         <div className="lg:col-span-6 lg:pt-10">
           <form
             onSubmit={handleSubmit}
-            className="ct-form glass relative flex flex-col gap-6 overflow-hidden rounded-[2rem] p-6 sm:p-10"
+            className="ct-form glass relative flex flex-col gap-6 overflow-hidden rounded-4xl p-6 sm:p-10"
           >
             <div className="-top-24 -right-24 pointer-events-none absolute size-56 rounded-full bg-peach/10 blur-3xl" />
             <div className="grid gap-6 sm:grid-cols-2">

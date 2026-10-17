@@ -28,15 +28,15 @@ export default function Experience() {
             color={LINE}
             next={
               <div className="pt-1">
-                <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.2em]">
+                <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-2xs uppercase tracking-label">
                   <span style={{ color: LINE }}>
-                    <span className="font-kr font-semibold tracking-[0.1em]">
+                    <span className="font-kr font-semibold tracking-widest">
                       다음 역
                     </span>{" "}
                     · Next stop
                   </span>
                   <span className="text-mist/40">
-                    <span className="font-kr tracking-[0.1em]">공사 중</span> ·
+                    <span className="font-kr tracking-widest">공사 중</span> ·
                     Under construction
                   </span>
                 </p>
@@ -48,7 +48,7 @@ export default function Experience() {
                 </p>
                 <SectionLink
                   to="contact"
-                  className="group mt-4 inline-flex items-center gap-1.5 font-mono text-mist/60 text-xs uppercase tracking-[0.2em] transition-colors hover:text-peach"
+                  className="group mt-4 inline-flex items-center gap-1.5 font-mono text-mist/60 text-xs uppercase tracking-label transition-colors hover:text-peach"
                 >
                   {nextStop.cta}
                   <ArrowDownRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
@@ -73,7 +73,7 @@ export default function Experience() {
                     {exp.points.map((point) => (
                       <li
                         key={point}
-                        className="relative pl-6 text-[15px] text-mist/75 leading-relaxed"
+                        className="relative pl-6 text-body text-mist/75 leading-relaxed"
                       >
                         <span className="absolute top-[0.6em] left-0 size-2 rounded-full border-2 border-line-2" />
                         {point}

@@ -487,7 +487,7 @@ export default function Hero() {
     <section
       ref={root}
       id="top"
-      className="hero relative h-[100svh] min-h-[600px] w-full overflow-hidden"
+      className="hero relative h-svh min-h-150 w-full overflow-hidden"
     >
       {/* sky */}
       <div className="hero-sky absolute inset-0" />
@@ -512,10 +512,8 @@ export default function Hero() {
       {/* the name, tucked behind the skyline */}
       <div className="hero-title-block absolute inset-x-0 text-center">
         <div className="hero-title-wrap">
-          <p className="hero-eyebrow mb-3 font-mono text-[10px] text-mist/70 uppercase tracking-[0.35em] sm:mb-5 sm:text-xs">
-            <span className="font-kr text-peach tracking-[0.2em]">
-              서울하늘
-            </span>
+          <p className="hero-eyebrow mb-3 font-mono text-3xs text-mist/70 uppercase tracking-[0.35em] sm:mb-5 sm:text-xs">
+            <span className="font-kr text-peach tracking-label">서울하늘</span>
             <span className="mx-3 inline-block h-px w-6 bg-mist/30 align-middle sm:w-10" />
             <span className="hero-eyebrow-coords tabular-nums">
               00.0000°N 000.0000°E
@@ -544,9 +542,9 @@ export default function Hero() {
       {/* on the water */}
       <div className="hero-content absolute inset-x-0 bottom-0 z-10 px-5 pb-6 sm:px-10 sm:pb-10">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
-          <p className="hero-reveal min-h-[3.2em] max-w-md font-medium text-[15px] text-mist/90 leading-relaxed sm:min-h-[3.4em] sm:text-lg">
+          <p className="hero-reveal min-h-[3.2em] max-w-md font-medium text-body text-mist/90 leading-relaxed sm:min-h-[3.4em] sm:text-lg">
             <span className="hero-typed" />
-            <span className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[0.18em] animate-pulse bg-peach" />
+            <span className="ml-0.5 inline-block h-[1.05em] w-0.5 translate-y-[0.18em] animate-pulse bg-peach" />
             <span className="sr-only">{heroTaglines.join(" ")}</span>
           </p>
           <div className="flex items-center gap-3">

@@ -185,6 +185,12 @@ the colour, not a second badge.
 | Utility | Geist Mono Variable | `font-mono` | UPPERCASE, 11px, tracking 0.2–0.35em: eyebrows, codes, coordinates, counters. Tabular figures. |
 | Korean | Pretendard Variable | `font-kr` | Semibold/bold for `서울하늘`, `N호선`, section tags. Tracking ≤ 0.2em. |
 
+Sizes and tracking that Tailwind's scale lacks are theme tokens, so reach
+for these before an arbitrary value: `text-3xs` 10px, `text-2xs` 11px,
+`text-board` 13px, `text-body` 15px; `tracking-sign` 0.12em,
+`tracking-label` 0.2em, `tracking-caption` 0.25em, `tracking-eyebrow` 0.3em.
+The text sizes set no line height, unlike `text-xs` and up.
+
 ## Space, shape, depth
 
 - Section padding: `px-5 py-28` → `sm:px-10 sm:py-40`; content in

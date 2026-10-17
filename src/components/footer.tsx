@@ -59,7 +59,7 @@ export default function Footer() {
       <div className="relative mx-auto flex max-w-7xl flex-col gap-10 px-5 pt-24 sm:px-10 sm:pt-32">
         <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
           <div>
-            <p className="font-kr text-peach text-sm tracking-[0.3em]">
+            <p className="font-kr text-peach text-sm tracking-eyebrow">
               서울하늘
             </p>
             <p className="mt-4 max-w-sm font-serif text-3xl text-mist/85 italic leading-snug sm:text-4xl">
@@ -94,19 +94,19 @@ export default function Footer() {
       <div className="relative mt-10">
         <p
           aria-hidden="true"
-          className="ft-word pointer-events-none absolute inset-x-0 top-[4%] select-none text-center font-display font-extrabold text-[22vw] text-white/[0.06] leading-none tracking-[-0.05em]"
+          className="ft-word pointer-events-none absolute inset-x-0 top-[4%] select-none text-center font-display font-extrabold text-[22vw] text-white/6 leading-none tracking-tighter"
         >
           SeoulSKY
         </p>
         <CityLayer
           staticWindows
           viewBox={narrow ? NARROW_VIEWBOX : WIDE_VIEWBOX}
-          className="ft-city relative block aspect-[620/760] h-auto w-full sm:aspect-[1600/760] [&_.sk-labels]:hidden"
+          className="ft-city relative block aspect-620/760 h-auto w-full sm:aspect-1600/760 [&_.sk-labels]:hidden"
         />
       </div>
 
       <div className="absolute inset-x-0 bottom-0 z-10">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 pb-6 font-mono text-[11px] text-mist/50 uppercase tracking-[0.2em] sm:px-10">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 pb-6 font-mono text-2xs text-mist/50 uppercase tracking-label sm:px-10">
           <span>© {mounted ? new Date().getFullYear() : null} SeoulSKY</span>
           <SectionLink
             to="top"

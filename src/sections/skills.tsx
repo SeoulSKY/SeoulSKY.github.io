@@ -10,7 +10,7 @@ function SkillPill({ skill, hidden }: { skill: Skill; hidden?: boolean }) {
     <li
       aria-hidden={hidden || undefined}
       className={cn(
-        "group flex shrink-0 items-center gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.03] py-3 pr-5 pl-3 backdrop-blur-sm transition-colors duration-300 hover:border-peach/40 hover:bg-white/[0.07]",
+        "group flex shrink-0 items-center gap-3 rounded-2xl border border-white/8 bg-white/3 py-3 pr-5 pl-3 backdrop-blur-sm transition-colors duration-300 hover:border-peach/40 hover:bg-white/7",
         // the second copy only exists to loop the marquee
         hidden && "motion-reduce:hidden",
       )}
@@ -20,7 +20,7 @@ function SkillPill({ skill, hidden }: { skill: Skill; hidden?: boolean }) {
         alt=""
         width={40}
         height={40}
-        className="size-9 transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110 sm:size-10"
+        className="group-hover:-rotate-8 size-9 transition-transform duration-500 group-hover:scale-110 sm:size-10"
       />
       <span className="whitespace-nowrap font-medium text-mist/85 text-sm sm:text-base">
         {skill.name}
@@ -142,7 +142,7 @@ export default function Skills() {
       <div className="mq-rows mt-16 flex flex-col gap-5 sm:mt-24">
         {skillRows.map((row) => (
           <div key={row.label} className="mq-row">
-            <p className="mx-auto mb-3 max-w-7xl px-5 font-mono text-[11px] text-mist/45 uppercase tracking-[0.3em] sm:px-10">
+            <p className="mx-auto mb-3 max-w-7xl px-5 font-mono text-2xs text-mist/45 uppercase tracking-eyebrow sm:px-10">
               {row.label}
             </p>
             {/* reduced motion: no marquee, so the row wraps in the page column */}

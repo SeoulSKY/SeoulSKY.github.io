@@ -149,13 +149,13 @@ export default function MetroLine({ color, stops, next }: MetroLineProps) {
                 style={{ background: color }}
               />
               <span
-                className="relative size-6 rounded-full border-[3px] border-dashed bg-night-950"
+                className="relative size-6 rounded-full border-3 border-dashed bg-night-950"
                 style={{ borderColor: color }}
               />
             </span>
             {/* dashed extension, running on under the first station's centre */}
             <span
-              className="-mb-[18px] mt-2 w-[6px] flex-1 rounded-full opacity-55"
+              className="-mb-4.5 mt-2 w-1.5 flex-1 rounded-full opacity-55"
               style={{
                 background: `repeating-linear-gradient(180deg, ${color} 0 10px, transparent 10px 18px)`,
               }}
@@ -167,7 +167,7 @@ export default function MetroLine({ color, stops, next }: MetroLineProps) {
 
       <div className="relative ml-track">
         {/* the rail: first station centre → last station centre (set in JS) */}
-        <div className="-translate-x-1/2 absolute top-0 left-[14px] ml-rail h-0 w-[6px] rounded-full bg-white/[0.07]">
+        <div className="-translate-x-1/2 absolute top-0 left-3.5 ml-rail h-0 w-1.5 rounded-full bg-white/7">
           <div
             className="absolute inset-0 ml-fill origin-top rounded-full"
             style={{ background: color, boxShadow: `0 0 24px ${color}` }}
@@ -190,18 +190,18 @@ export default function MetroLine({ color, stops, next }: MetroLineProps) {
                   style={{ background: color }}
                 />
                 <span
-                  className="relative ml-dot grid size-6 place-items-center rounded-full border-[5px] bg-night-950"
+                  className="relative ml-dot grid size-6 place-items-center rounded-full border-5 bg-night-950"
                   style={{ borderColor: color }}
                 />
               </div>
-              <div className="ml-reveal pt-[5px]">
+              <div className="ml-reveal pt-1.25">
                 <span
-                  className="inline-flex items-center gap-2 rounded-full border px-2.5 py-1 font-mono text-[11px] tracking-wider"
+                  className="inline-flex items-center gap-2 rounded-full border px-2.5 py-1 font-mono text-2xs tracking-wider"
                   style={{ borderColor: `${color}66`, color }}
                 >
                   {s.code}
                 </span>
-                <p className="mt-3 font-mono text-mist/60 text-xs uppercase tracking-[0.2em]">
+                <p className="mt-3 font-mono text-mist/60 text-xs uppercase tracking-label">
                   {s.when}
                 </p>
               </div>

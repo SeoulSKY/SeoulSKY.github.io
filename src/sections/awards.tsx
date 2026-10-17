@@ -51,11 +51,11 @@ export default function Awards() {
                   <p className="font-bold font-display text-4xl leading-none tracking-tight sm:text-5xl">
                     {a.year}
                   </p>
-                  <p className="mt-1 font-mono text-xs uppercase tracking-[0.25em]">
+                  <p className="mt-1 font-mono text-xs uppercase tracking-caption">
                     {a.month}
                   </p>
                 </div>
-                <span className="font-mono text-[10px] tracking-widest">
+                <span className="font-mono text-3xs tracking-widest">
                   NO. 5{String(i + 1).padStart(2, "0")}
                 </span>
                 {/* notches */}
@@ -72,7 +72,7 @@ export default function Awards() {
                   </h3>
                   <AwardIcon className="mt-1 size-5 shrink-0 text-line-5 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-125" />
                 </div>
-                <p className="mt-4 text-[14px] text-mist/65 leading-relaxed">
+                <p className="mt-4 text-mist/65 text-sm leading-relaxed">
                   {a.description}
                 </p>
               </div>

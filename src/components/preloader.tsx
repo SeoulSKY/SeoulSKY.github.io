@@ -213,7 +213,7 @@ export default function Preloader() {
     return (
       <div
         aria-hidden="true"
-        className="fixed inset-0 z-[100] bg-night-950 motion-reduce:hidden"
+        className="fixed inset-0 z-100 bg-night-950 motion-reduce:hidden"
       />
     );
   }
@@ -660,7 +660,7 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
   return (
     // Not aria-hidden as a whole: the Skip button inside must stay reachable.
     // Everything else is decoration and hidden from assistive tech.
-    <div ref={root} className="fixed inset-0 z-[100] select-none">
+    <div ref={root} className="fixed inset-0 z-100 select-none">
       {/* ── inside the carriage: the doors (revealed at arrival) ── */}
       <div aria-hidden="true" className="invisible absolute inset-0 pl-doors">
         <div className="absolute inset-0 pl-carbody">
@@ -843,17 +843,17 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
           </div>
           <div className="relative min-w-0 flex-1 overflow-hidden py-3">
             <div className="pl-ticker-wrap">
-              <div className="flex w-max whitespace-nowrap pl-ticker font-mono text-[13px] text-amber tracking-[0.12em] [text-shadow:0_0_8px_rgb(255_179_87/0.8)] sm:text-sm">
+              <div className="flex w-max whitespace-nowrap pl-ticker font-mono text-amber text-board tracking-sign [text-shadow:0_0_8px_rgb(255_179_87/0.8)] sm:text-sm">
                 <span className="pr-8">{ticker}</span>
                 <span className="pr-8">{ticker}</span>
               </div>
             </div>
             {/* shown on arrival, replacing the scrolling announcements */}
             <div className="invisible absolute inset-0 flex items-center justify-center gap-2 whitespace-nowrap px-3 pl-arrive text-amber">
-              <span className="font-bold font-kr text-[13px] tracking-[0.12em] sm:text-sm">
+              <span className="font-bold font-kr text-board tracking-sign sm:text-sm">
                 서울하늘 도착
               </span>
-              <span className="hidden font-mono text-[11px] tracking-[0.14em] opacity-80 sm:inline sm:text-[12px]">
+              <span className="hidden font-mono text-2xs tracking-[0.14em] opacity-80 sm:inline sm:text-[12px]">
                 · ARRIVED AT SEOULSKY
               </span>
             </div>
@@ -868,10 +868,10 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
             />
           </div>
           <div className="flex shrink-0 flex-col justify-center border-white/10 border-l px-3 text-right sm:px-4">
-            <span className="font-mono text-[9px] text-mist/45 uppercase tracking-[0.25em]">
+            <span className="font-mono text-[9px] text-mist/45 uppercase tracking-caption">
               다음역 · Next
             </span>
-            <span className="pl-next font-medium text-[13px] text-mist">
+            <span className="pl-next font-medium text-board text-mist">
               {STATIONS[0].en} {STATIONS[0].kr}
             </span>
           </div>
@@ -879,7 +879,7 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
       </div>
 
       {/* ── HUD ───────────────────────────────────────────────── */}
-      <div className="absolute inset-x-5 bottom-5 flex items-end justify-between font-mono text-[11px] text-mist/50 uppercase tracking-[0.2em] sm:inset-x-10 sm:bottom-8">
+      <div className="absolute inset-x-5 bottom-5 flex items-end justify-between font-mono text-2xs text-mist/50 uppercase tracking-label sm:inset-x-10 sm:bottom-8">
         <span aria-hidden="true" className="hidden pl-hud sm:inline">
           Seoul Metropolitan Subway · 37.5665°N 126.9780°E
         </span>

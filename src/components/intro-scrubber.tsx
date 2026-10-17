@@ -100,7 +100,7 @@ export default function IntroScrubber() {
         type="button"
         onClick={() => setHidden(false)}
         aria-label="Show intro controls"
-        className="fixed right-4 bottom-4 z-[300] cursor-pointer rounded-full border border-white/15 bg-night-900/90 px-3 py-1.5 font-mono text-[11px] text-mist/80 uppercase tracking-wider backdrop-blur transition hover:text-mist"
+        className="fixed right-4 bottom-4 z-300 cursor-pointer rounded-full border border-white/15 bg-night-900/90 px-3 py-1.5 font-mono text-2xs text-mist/80 uppercase tracking-wider backdrop-blur transition hover:text-mist"
       >
         Intro
       </button>
@@ -109,7 +109,7 @@ export default function IntroScrubber() {
 
   return (
     <div
-      className="-translate-x-1/2 fixed bottom-3 left-1/2 z-[300] flex w-[min(760px,calc(100vw-24px))] items-center gap-3 rounded-2xl border border-white/15 bg-[#07081c]/92 p-3 text-mist shadow-[0_20px_60px_-10px_rgb(0_0_0/0.9)] backdrop-blur-xl"
+      className="-translate-x-1/2 fixed bottom-3 left-1/2 z-300 flex w-[min(760px,calc(100vw-24px))] items-center gap-3 rounded-2xl border border-white/15 bg-[#07081c]/92 p-3 text-mist shadow-[0_20px_60px_-10px_rgb(0_0_0/0.9)] backdrop-blur-xl"
       onPointerDown={(e) => e.stopPropagation()}
     >
       <button

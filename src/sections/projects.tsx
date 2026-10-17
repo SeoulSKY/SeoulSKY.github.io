@@ -47,7 +47,7 @@ function ProjectMedia({ project }: { project: Project }) {
   }, [still]);
 
   return (
-    <div className="pj-media relative isolate aspect-[16/10] overflow-hidden rounded-2xl bg-night-800 [clip-path:inset(0_round_1rem)]">
+    <div className="pj-media relative isolate aspect-16/10 overflow-hidden rounded-2xl bg-night-800 [clip-path:inset(0_round_1rem)]">
       <div className="pj-media-inner absolute inset-0">
         {project.video ? (
           <video
@@ -75,7 +75,7 @@ function ProjectMedia({ project }: { project: Project }) {
       <div className="-inset-px pointer-events-none absolute bg-gradient-to-t from-night-950/50 via-transparent to-transparent" />
       <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/10 ring-inset" />
       {project.stat && (
-        <span className="absolute bottom-4 left-4 rounded-full border border-white/15 bg-night-950/70 px-3 py-1 font-mono text-[11px] text-peach uppercase tracking-wider backdrop-blur">
+        <span className="absolute bottom-4 left-4 rounded-full border border-white/15 bg-night-950/70 px-3 py-1 font-mono text-2xs text-peach uppercase tracking-wider backdrop-blur">
           {project.stat}
         </span>
       )}
@@ -107,7 +107,7 @@ function Wheel({ className }: { className?: string }) {
   return (
     <svg
       viewBox="-17 -17 34 34"
-      className={cn("pj-wheel absolute bottom-0 size-[34px]", className)}
+      className={cn("pj-wheel absolute bottom-0 size-8.5", className)}
       aria-hidden="true"
     >
       <circle
@@ -147,15 +147,15 @@ function Bogie({ className }: { className?: string }) {
   return (
     <div
       aria-hidden="true"
-      className={cn("absolute top-full h-[46px] w-[150px]", className)}
+      className={cn("absolute top-full h-11.5 w-37.5", className)}
     >
       {/* bolster: ties the bogie up into the car body */}
       <span className="-translate-x-1/2 absolute top-0 left-1/2 h-3 w-12 rounded-b-sm border-white/10 border-x border-b bg-night-800" />
       {/* side frame with its spring pocket */}
-      <span className="absolute inset-x-[14px] top-[10px] h-[13px] rounded-[5px] border border-white/15 bg-night-700" />
-      <span className="-translate-x-1/2 absolute top-[8px] left-1/2 h-[17px] w-7 rounded-[4px] border border-white/15 bg-[repeating-linear-gradient(180deg,rgb(244_240_255/0.14)_0_1.5px,transparent_1.5px_4px)] bg-night-800" />
-      <Wheel className="left-[6px]" />
-      <Wheel className="right-[6px]" />
+      <span className="absolute inset-x-3.5 top-2.5 h-3.25 rounded-[5px] border border-white/15 bg-night-700" />
+      <span className="-translate-x-1/2 absolute top-2 left-1/2 h-4.25 w-7 rounded-[4px] border border-white/15 bg-[repeating-linear-gradient(180deg,rgb(244_240_255/0.14)_0_1.5px,transparent_1.5px_4px)] bg-night-800" />
+      <Wheel className="left-1.5" />
+      <Wheel className="right-1.5" />
     </div>
   );
 }
@@ -172,12 +172,12 @@ function ProjectPanel({ project, index }: { project: Project; index: number }) {
 
 function PanelBody({ project, index }: { project: Project; index: number }) {
   return (
-    <article className="pj-panel glass group relative grid w-full gap-6 overflow-hidden rounded-[2rem] p-4 sm:gap-8 sm:p-6 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-12 lg:p-8">
+    <article className="pj-panel glass group relative grid w-full gap-6 overflow-hidden rounded-4xl p-4 sm:gap-8 sm:p-6 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-12 lg:p-8">
       <ProjectMedia project={project} />
       <div className="pj-info px-2 sm:px-0 lg:pr-4">
-        <p className="flex items-center gap-3 font-mono text-mist/45 text-xs tracking-[0.3em]">
+        <p className="flex items-center gap-3 font-mono text-mist/45 text-xs tracking-eyebrow">
           <span
-            className="rounded-sm px-1.5 py-0.5 font-semibold text-[10px] text-white tracking-[0.2em]"
+            className="rounded-sm px-1.5 py-0.5 font-semibold text-3xs text-white tracking-label"
             style={{ background: LINE }}
           >
             CAR {String(index + 1).padStart(2, "0")}
@@ -190,7 +190,7 @@ function PanelBody({ project, index }: { project: Project; index: number }) {
         <p className="mt-3 font-serif text-2xl text-peach italic leading-snug">
           {project.subtitle}
         </p>
-        <p className="mt-5 max-w-lg text-[15px] text-mist/70 leading-relaxed">
+        <p className="mt-5 max-w-lg text-body text-mist/70 leading-relaxed">
           {project.description}
         </p>
         <ul className="mt-6 flex flex-wrap gap-2">
@@ -352,11 +352,11 @@ export default function Projects() {
       </div>
 
       <div className="pj-pin relative mt-16 lg:mt-0 lg:flex lg:h-screen lg:flex-col lg:justify-center lg:overflow-hidden lg:pt-16 lg:motion-reduce:overflow-x-auto">
-        <div className="pj-track relative flex flex-col items-center px-5 sm:px-10 lg:w-max lg:flex-row lg:items-stretch lg:pb-[46px] lg:pl-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))]">
+        <div className="pj-track relative flex flex-col items-center px-5 sm:px-10 lg:w-max lg:flex-row lg:items-stretch lg:pb-11.5 lg:pl-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))]">
           {/* the rail the train runs on (uniform, so it reads as still) */}
           <span
             aria-hidden="true"
-            className="-inset-x-[100vw] pointer-events-none absolute bottom-0 hidden h-[3px] rounded-full bg-[linear-gradient(180deg,rgb(244_240_255/0.38),rgb(244_240_255/0.12))] shadow-[0_6px_18px_rgb(168_155_219/0.18)] lg:block"
+            className="-inset-x-[100vw] pointer-events-none absolute bottom-0 hidden h-0.75 rounded-full bg-[linear-gradient(180deg,rgb(244_240_255/0.38),rgb(244_240_255/0.12))] shadow-[0_6px_18px_rgb(168_155_219/0.18)] lg:block"
           />
           {projects.map((p, i) => (
             <Fragment key={p.title}>
@@ -369,9 +369,9 @@ export default function Projects() {
             href={GITHUB_URL}
             target="_blank"
             rel="noreferrer"
-            className="pj-more group relative flex aspect-square w-full max-w-sm shrink-0 flex-col justify-between self-center overflow-hidden rounded-[2rem] border border-white/10 p-8 transition-colors hover:border-peach/50 lg:w-[26rem]"
+            className="pj-more group relative flex aspect-square w-full max-w-sm shrink-0 flex-col justify-between self-center overflow-hidden rounded-4xl border border-white/10 p-8 transition-colors hover:border-peach/50 lg:w-104"
           >
-            <span className="font-mono text-mist/45 text-xs tracking-[0.3em]">
+            <span className="font-mono text-mist/45 text-xs tracking-eyebrow">
               MORE
             </span>
             <span className="pj-info">
