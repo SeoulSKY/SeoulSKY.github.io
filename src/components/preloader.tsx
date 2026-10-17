@@ -203,10 +203,12 @@ function layout(portrait: boolean) {
 /**
  * The scene's layout depends on the viewport, so it renders only in the
  * browser. The prerendered page gets the scene's empty night backdrop, which
- * covers the page until the intro takes over.
+ * covers the page until the intro takes over. Once the intro is over the
+ * scene unmounts, which reverts its animations and listeners.
  */
 export default function Preloader() {
   const mounted = useMounted();
+  const [done, setDone] = useState(false);
   if (!mounted) {
     return (
       <div
@@ -215,12 +217,12 @@ export default function Preloader() {
       />
     );
   }
-  return <PreloaderScene />;
+  if (done) return null;
+  return <PreloaderScene onDone={() => setDone(true)} />;
 }
 
-function PreloaderScene() {
+function PreloaderScene({ onDone }: { onDone: () => void }) {
   const root = useRef<HTMLDivElement>(null);
-  const [done, setDone] = useState(false);
   const L = useMemo(
     () =>
       layout(
@@ -233,19 +235,23 @@ function PreloaderScene() {
   useGSAP(
     (_, contextSafe) => {
       const q = gsap.utils.selector(root);
+      if (prefersReducedMotion()) {
+        startIntro();
+        onDone();
+        return;
+      }
+
       document.body.classList.add("is-loading");
       ScrollSmoother.get()?.paused(true);
 
-      function finish() {
+      function release() {
         document.body.classList.remove("is-loading");
         ScrollSmoother.get()?.paused(false);
-        setDone(true);
       }
 
-      if (prefersReducedMotion()) {
-        startIntro();
-        finish();
-        return;
+      function finish() {
+        release();
+        onDone();
       }
 
       const fontsReady = Promise.race([
@@ -604,10 +610,7 @@ function PreloaderScene() {
       if (INTRO_DEBUG) {
         // keep the overlay mounted so the scrubber can rewind into it
         tl.set(root.current, { autoAlpha: 0 });
-        tl.add(() => {
-          document.body.classList.remove("is-loading");
-          ScrollSmoother.get()?.paused(false);
-        });
+        tl.add(release);
       }
       if (!INTRO_DEBUG) {
         // hold at the platform until the fonts are in
@@ -638,12 +641,12 @@ function PreloaderScene() {
         unregister();
         if (skip && btn) btn.removeEventListener("click", skip);
         window.removeEventListener("keydown", onKey);
+        // in case the scene goes away before the intro has finished
+        release();
       };
     },
     { scope: root },
   );
-
-  if (done) return null;
 
   const ticker = [...ANNOUNCEMENTS, ...ANNOUNCEMENTS].join("   ·   ");
 
