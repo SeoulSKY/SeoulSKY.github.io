@@ -76,6 +76,7 @@ function TowerLineArt({ className }: { className?: string }) {
 }
 
 const EMPTY = { name: "", email: "", message: "" };
+const SEND_FAILED = "Ahh, something went wrong. Please try again later.";
 
 export default function Contact() {
   const root = useRef<HTMLElement>(null);
@@ -148,23 +149,33 @@ export default function Contact() {
       return;
     }
 
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+    if (!templateId || !publicKey) {
+      console.error(
+        "The contact form needs NEXT_PUBLIC_EMAILJS_TEMPLATE_ID and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY (see .env.example).",
+      );
+      toast.error(SEND_FAILED);
+      return;
+    }
+
     setLoading(true);
 
     const promise = emailjs.send(
       "default_service",
-      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+      templateId,
       {
         fromName: form.name,
         fromEmail: form.email,
         message: form.message,
       },
-      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+      publicKey,
     );
 
     toast.promise(promise, {
       loading: "Sending...",
       success: "Thank you. I will get back to you as soon as possible.",
-      error: "Ahh, something went wrong. Please try again later.",
+      error: SEND_FAILED,
     });
 
     try {
