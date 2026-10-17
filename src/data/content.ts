@@ -16,7 +16,7 @@ export const navSections = [
 /** A section's id, which is also its anchor on the page. */
 export type SectionId = (typeof navSections)[number]["id"];
 
-export const KOREAN: Record<string, string> = {
+export const KOREAN: Record<SectionId, string> = {
   about: "소개",
   experience: "경력",
   skills: "기술",

@@ -1,18 +1,18 @@
-import { useRef } from "react";
-import { KOREAN } from "@/data/content";
+import { type ReactNode, useRef } from "react";
+import { KOREAN, type SectionId } from "@/data/content";
 import { gsap, SplitText, useGSAP, withMotion } from "@/lib/gsap";
 import { METRO_LINES, type MetroLineNumber } from "@/lib/metro";
 import { cn } from "@/lib/utils";
 
 interface SectionHeadingProps {
-  id: string;
+  id: SectionId;
   /** which Seoul Metro line this section rides */
   index: MetroLineNumber;
   title: string;
   /** optional italic serif tail, e.g. "experience" */
   accent?: string;
   className?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 export default function SectionHeading({
