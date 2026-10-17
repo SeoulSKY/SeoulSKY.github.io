@@ -8,11 +8,15 @@ import {
 import Starfield from "@/components/seoul/starfield";
 import { GITHUB_URL, navSections } from "@/data/content";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useMounted } from "@/hooks/use-mounted";
 import { gsap, scrollToSection, useGSAP } from "@/lib/gsap";
 
 export default function Footer() {
   const root = useRef<HTMLElement>(null);
   const narrow = useMediaQuery("(max-width: 639px)");
+  // the year comes from the visitor's clock, which the prerendered page
+  // cannot know, so it fills in after hydration
+  const mounted = useMounted();
 
   useGSAP(
     () => {
@@ -101,7 +105,7 @@ export default function Footer() {
 
       <div className="absolute inset-x-0 bottom-0 z-10">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 pb-6 font-mono text-[11px] text-mist/50 uppercase tracking-[0.2em] sm:px-10">
-          <span>© {new Date().getFullYear()} SeoulSKY</span>
+          <span>© {mounted ? new Date().getFullYear() : null} SeoulSKY</span>
           <button
             type="button"
             onClick={() => scrollToSection("top")}
