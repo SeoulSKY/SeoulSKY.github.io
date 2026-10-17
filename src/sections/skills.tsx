@@ -29,17 +29,24 @@ function SkillPill({ skill, hidden }: { skill: Skill; hidden?: boolean }) {
   );
 }
 
+interface Row {
+  loop: gsap.core.Tween;
+  /** speed factor from hovering the row: 1, or 0.15 while hovered */
+  hover: { f: number };
+}
+
 export default function Skills() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
-    (_, contextSafe) =>
+    () =>
       withMotion(() => {
         const q = gsap.utils.selector(root);
+        const removers: (() => void)[] = [];
 
-        const loops = q<HTMLElement>(".mq-track").map((track, i) => {
+        const rows: Row[] = q<HTMLElement>(".mq-track").map((track, i) => {
           const dir = i % 2 === 0 ? -1 : 1;
-          const tween = gsap.fromTo(
+          const loop = gsap.fromTo(
             track,
             { xPercent: dir < 0 ? 0 : -50 },
             {
@@ -47,49 +54,59 @@ export default function Skills() {
               duration: 38 + i * 6,
               ease: "none",
               repeat: -1,
+              paused: true,
             },
           );
+          const hover = { f: 1 };
+          // hovering eases a plain factor that tick() applies, so a hover
+          // tween still running after cleanup touches nothing on the page
           const row = track.parentElement;
-          const slow = contextSafe?.(() =>
-            gsap.to(tween, { timeScale: 0.15, duration: 0.6 }),
-          );
-          const resume = contextSafe?.(() =>
-            gsap.to(tween, { timeScale: 1, duration: 0.6 }),
-          );
-          if (row && slow && resume) {
+          if (row) {
+            function slow() {
+              gsap.to(hover, { f: 0.15, duration: 0.6, overwrite: true });
+            }
+            function resume() {
+              gsap.to(hover, { f: 1, duration: 0.6, overwrite: true });
+            }
             row.addEventListener("pointerenter", slow);
             row.addEventListener("pointerleave", resume);
+            removers.push(() => {
+              row.removeEventListener("pointerenter", slow);
+              row.removeEventListener("pointerleave", resume);
+            });
           }
-          return tween;
+          return { loop, hover };
         });
 
-        // scroll velocity gives the rows a push
+        // scroll velocity gives the rows a push that eases off: `target`
+        // follows the scroll speed and decays to 1, `push` chases it
+        let target = 1;
+        let push = 1;
+        function tick() {
+          const k = gsap.ticker.deltaRatio();
+          target = 1 + (target - 1) * 0.96 ** k;
+          push += (target - push) * Math.min(1, 0.25 * k);
+          for (const r of rows) r.loop.timeScale(r.hover.f * push);
+        }
         ScrollTrigger.create({
           trigger: root.current,
           start: "top bottom",
           end: "bottom top",
           onUpdate: (self) => {
-            const boost = gsap.utils.clamp(
+            target = gsap.utils.clamp(
               1,
               5,
               1 + Math.abs(self.getVelocity()) / 400,
             );
-            for (const t of loops) {
-              gsap.to(t, {
-                timeScale: boost,
-                duration: 0.2,
-                overwrite: true,
-                onComplete: () => {
-                  gsap.to(t, {
-                    timeScale: 1,
-                    duration: 1.2,
-                    ease: "power2.out",
-                  });
-                },
-              });
-            }
+          },
+          // the rows only move, and the ticker only runs, while on screen
+          onToggle: (self) => {
+            for (const r of rows) r.loop.paused(!self.isActive);
+            if (self.isActive) gsap.ticker.add(tick);
+            else gsap.ticker.remove(tick);
           },
         });
+        removers.push(() => gsap.ticker.remove(tick));
 
         gsap.from(q(".mq-row"), {
           autoAlpha: 0,
@@ -99,6 +116,10 @@ export default function Skills() {
           ease: "rise",
           scrollTrigger: { trigger: q(".mq-rows")[0], start: "top 85%" },
         });
+
+        return () => {
+          for (const remove of removers) remove();
+        };
       }),
     { scope: root },
   );
