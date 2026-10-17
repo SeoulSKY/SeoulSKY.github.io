@@ -53,6 +53,10 @@ npm run dev
 | `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`  | Public Key for [EmailJS](https://www.emailjs.com)  |
 | `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` | Template ID for [EmailJS](https://www.emailjs.com) |
 
+Both are required. They are declared and validated in `src/env.ts` with
+[`@t3-oss/env-nextjs`](https://env.t3.gg), so `npm run build` stops with
+the name of any variable that is missing or blank.
+
 ## Deploy
 
 The site is hosted on [Vercel](https://vercel.com), which builds and deploys

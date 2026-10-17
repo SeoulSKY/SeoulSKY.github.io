@@ -19,7 +19,11 @@ Before calling a change done: `npx biome check --write src` and
 desktop width (1440×900) **and** a phone width (390×844).
 
 Env vars (see `.env.example`): `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`,
-`NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` for the contact form.
+`NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` for the contact form. Both are required:
+`src/env.ts` declares and validates them with `@t3-oss/env-nextjs` and
+Valibot (not zod, which would add 15 KB+ to the client bundle), and the
+build fails if one is missing. Read env vars through `env`
+from `@/env`, never `process.env`; a new variable gets a schema there first.
 
 ## Stack
 
@@ -51,6 +55,7 @@ src/
   app/layout.tsx          <html>, metadata, font + CSS imports
   app/page.tsx            page shell: SmoothScroll, Preloader, Navbar, sections
   globals.css             design tokens, hero CSS, utilities (.glass, .grain…)
+  env.ts                  typed, validated env vars (@t3-oss/env-nextjs)
   data/content.ts         ALL copy: nav, Korean tags, about, experience,
                           skills, projects, awards
   lib/gsap.ts             plugins, custom eases, scrollToSection()

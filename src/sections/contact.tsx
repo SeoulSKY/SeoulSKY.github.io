@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { GITHUB_URL } from "@/data/content";
+import { env } from "@/env";
 import { gsap, useGSAP, withMotion } from "@/lib/gsap";
 
 /** N Seoul Tower as line art; it draws itself as the section enters. */
@@ -137,29 +138,19 @@ export default function Contact() {
     // the submit button stays disabled until every field is filled in, and
     // the browser checks the email's format, so the form is valid here
 
-    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-    if (!templateId || !publicKey) {
-      console.error(
-        "The contact form needs NEXT_PUBLIC_EMAILJS_TEMPLATE_ID and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY (see .env.example).",
-      );
-      toast.error(SEND_FAILED);
-      return;
-    }
-
     setLoading(true);
 
     // EmailJS is only needed once someone sends, so it loads then
     const promise = import("@emailjs/browser").then(({ default: emailjs }) =>
       emailjs.send(
         "default_service",
-        templateId,
+        env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
         {
           fromName: form.name,
           fromEmail: form.email,
           message: form.message,
         },
-        publicKey,
+        env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
       ),
     );
 
