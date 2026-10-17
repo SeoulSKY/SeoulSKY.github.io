@@ -14,6 +14,7 @@
  */
 
 import { mulberry32 } from "@/lib/random";
+import { evenlySpaced } from "@/lib/utils";
 
 const LINE2 = "#00a84d";
 
@@ -182,8 +183,7 @@ function Bench({ id }: { id: string }) {
         const seatW = SEAT_W - 4;
         const fabric = priority ? `url(#${id}-priority)` : `url(#${id}-fabric)`;
         return (
-          // biome-ignore lint/suspicious/noArrayIndexKey: fixed set of seats
-          <g key={i}>
+          <g key={x0}>
             <rect
               x={x0 + 3}
               y="598"
@@ -528,26 +528,24 @@ function Poster({
           <>
             <rect x={x} y={y} width={w} height={h} fill="#0f3d2b" />
             <g opacity="0.5">
-              {Array.from({ length: 5 }, (_, i) => (
+              {evenlySpaced(5, x + 8, 8).map((lx) => (
                 <line
-                  // biome-ignore lint/suspicious/noArrayIndexKey: static grid
-                  key={i}
-                  x1={x + 8 + i * 8}
+                  key={lx}
+                  x1={lx}
                   y1={y}
-                  x2={x + 8 + i * 8}
+                  x2={lx}
                   y2={y + h}
                   stroke="#1f6b4a"
                   strokeWidth="1"
                 />
               ))}
-              {Array.from({ length: 4 }, (_, i) => (
+              {evenlySpaced(4, y + 6, 8).map((ly) => (
                 <line
-                  // biome-ignore lint/suspicious/noArrayIndexKey: static grid
-                  key={i}
+                  key={ly}
                   x1={x}
-                  y1={y + 6 + i * 8}
+                  y1={ly}
                   x2={x + 40}
-                  y2={y + 6 + i * 8}
+                  y2={ly}
                   stroke="#1f6b4a"
                   strokeWidth="1"
                 />
@@ -1135,11 +1133,10 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
             opacity="0.8"
             filter={`url(#${id}-glow)`}
           />
-          {Array.from({ length: 14 }, (_, i) => (
+          {evenlySpaced(14, 730, 10).map((vx) => (
             <rect
-              // biome-ignore lint/suspicious/noArrayIndexKey: static vents
-              key={i}
-              x={730 + i * 10}
+              key={vx}
+              x={vx}
               y="20"
               width="5"
               height="20"

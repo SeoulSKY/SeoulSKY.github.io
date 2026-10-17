@@ -709,10 +709,9 @@ function PreloaderScene() {
                 한강 HAN RIVER
               </text>
             </g>
-            {L.crossings.map((c, i) => (
+            {L.crossings.map((c) => (
               <path
-                // biome-ignore lint/suspicious/noArrayIndexKey: static map
-                key={i}
+                key={c.color}
                 className="pl-cross"
                 d={c.d}
                 fill="none"

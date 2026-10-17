@@ -1,5 +1,6 @@
 import { useId, useMemo } from "react";
 import { mulberry32 } from "@/lib/random";
+import { evenlySpaced } from "@/lib/utils";
 
 /**
  * Seoul at dusk, drawn as SVG.
@@ -394,12 +395,11 @@ export function CityLayer({ className, viewBox }: LayerProps) {
             d={`M1306,${WATERLINE} L1310,262 L1330,244 L1354,250 L1356,${WATERLINE} Z`}
             fill={`url(#${uid}-gold)`}
           />
-          {Array.from({ length: 14 }, (_, i) => (
+          {evenlySpaced(14, 272, 17).map((fy) => (
             <rect
-              // biome-ignore lint/suspicious/noArrayIndexKey: static decoration
-              key={i}
+              key={fy}
               x="1311"
-              y={272 + i * 17}
+              y={fy}
               width="44"
               height="1"
               fill="#3a2340"
@@ -587,12 +587,11 @@ export function CityLayer({ className, viewBox }: LayerProps) {
           {/* lower storey */}
           <g className="sk-palace-part">
             <rect x="712" y="446" width="196" height="46" fill="#0b0c26" />
-            {Array.from({ length: 7 }, (_, i) => (
+            {evenlySpaced(7, 720, 26.5).map((lx) => (
               <rect
-                // biome-ignore lint/suspicious/noArrayIndexKey: static decoration
-                key={i}
+                key={lx}
                 className="sk-lantern"
-                x={720 + i * 26.5}
+                x={lx}
                 y="452"
                 width="20"
                 height="36"
@@ -616,12 +615,11 @@ export function CityLayer({ className, viewBox }: LayerProps) {
           {/* upper storey */}
           <g className="sk-palace-part">
             <rect x="742" y="396" width="136" height="22" fill="#0b0c26" />
-            {Array.from({ length: 5 }, (_, i) => (
+            {evenlySpaced(5, 748, 26).map((lx) => (
               <rect
-                // biome-ignore lint/suspicious/noArrayIndexKey: static decoration
-                key={i}
+                key={lx}
                 className="sk-lantern"
-                x={748 + i * 26}
+                x={lx}
                 y="400"
                 width="20"
                 height="14"
@@ -656,11 +654,10 @@ export function CityLayer({ className, viewBox }: LayerProps) {
 
         {/* lamps along the riverside */}
         <g className="sk-riverlights">
-          {Array.from({ length: 40 }, (_, i) => (
+          {evenlySpaced(40, 20, 40).map((cx) => (
             <circle
-              // biome-ignore lint/suspicious/noArrayIndexKey: static decoration
-              key={i}
-              cx={20 + i * 40}
+              key={cx}
+              cx={cx}
               cy={WATERLINE - 1.5}
               r="1.3"
               fill="#ffd39a"
