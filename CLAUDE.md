@@ -26,6 +26,10 @@ Env vars (see `.env.example`): `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`,
 - Next.js 16 (App Router) + React 19 + TypeScript 5.9, path alias `@/` →
   `src/`. Hosted on Vercel, which deploys every push; the EmailJS env vars
   are set in the Vercel project.
+- Next.js 16 changed APIs you may remember from older versions (`priority` on
+  `next/image` is now `preload`, for one). Before writing Next.js code, read
+  the matching guide in `node_modules/next/dist/docs/`, which ships with the
+  installed version, and heed its deprecation notices.
 - Tailwind CSS v4 via `@tailwindcss/postcss`. No `tailwind.config`; all tokens
   live in `src/globals.css` (`:root` + `@theme inline`).
 - shadcn/ui (new-york) components in `src/components/ui`, themed by the tokens.
