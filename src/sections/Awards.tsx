@@ -1,60 +1,84 @@
-import Section from "@/components/Section";
-import { Timeline } from "@/components/ui/timeline";
-
-interface Award {
-  title: string;
-  description: string;
-  date: string;
-}
-
-const awards: Award[] = [
-  {
-    title: "Academic Excellence Scholarship",
-    description:
-      "The College of Arts and Science awards the Academic Excellence Scholarship to students who maintain the highest overall academic averages in their respective programs. I was honoured to receive the scholarship in January 2024, recognizing my academic accomplishments during the 2022-2023 academic year in the Bachelor of Science Honours Software Engineering.",
-    date: "Jan 2024",
-  },
-  {
-    title: "Undergraduate Summer Research Award",
-    description:
-      "The Undergraduate Summer Research Awards (USRA) competition is an opportunity for talented and motivated undergraduate students to gain leading-edge research and software development experience by working during the summer on a research project under the supervision of a Computer Science faculty member.",
-
-    date: "Aug 2021",
-  },
-  {
-    title: "Dean's Honour List 2020-21",
-    description:
-      "The Dean’s Honour List recognizes undergraduate students whose grades rank in the top 5% of those studying with a full course load in the College of Arts and Science.",
-
-    date: "Sep 2020",
-  },
-  {
-    title: "Academic Excellence Entrance Scholarship",
-    description:
-      "Recognizing academic accomplishment with an admission average of 90+%.",
-    date: "Jan 2019",
-  },
-];
+import { Award as AwardIcon } from "lucide-react";
+import { useRef } from "react";
+import SectionHeading from "@/components/SectionHeading";
+import { awards } from "@/data/content";
+import { gsap, useGSAP } from "@/lib/gsap";
 
 export default function Awards() {
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const q = gsap.utils.selector(root);
+      gsap.from(q(".ticket"), {
+        y: 120,
+        rotate: (i: number) => (i % 2 ? 6 : -6),
+        autoAlpha: 0,
+        duration: 1.4,
+        stagger: 0.12,
+        ease: "rise",
+        scrollTrigger: { trigger: q(".tickets")[0], start: "top 85%" },
+      });
+    },
+    { scope: root },
+  );
+
   return (
-    // biome-ignore lint/correctness/useUniqueElementIds: Used for navigation
-    <Section id="awards" title="Awards">
-      <div className="mt-20 flex flex-col">
-        <div className="relative w-full overflow-clip">
-          <Timeline
-            data={awards.map((exp) => ({
-              title: exp.date,
-              content: (
-                <div className="flex flex-col gap-8">
-                  <h3 className="font-bold text-3xl text-white">{exp.title}</h3>
-                  <p className="leading-8">{exp.description}</p>
+    <section
+      ref={root}
+      id="awards"
+      className="relative px-5 py-28 sm:px-10 sm:py-40"
+    >
+      <div className="mx-auto max-w-7xl">
+        <SectionHeading
+          id="awards"
+          index={5}
+          title="Honours"
+          accent="& awards"
+        />
+
+        <ol className="tickets mt-16 grid gap-6 sm:mt-24 lg:grid-cols-2">
+          {awards.map((a, i) => (
+            <li
+              key={a.title}
+              className="ticket group hover:-translate-y-1.5 relative flex overflow-hidden rounded-3xl transition-transform duration-500"
+            >
+              {/* stub */}
+              <div className="relative flex w-28 shrink-0 flex-col items-center justify-between bg-line-5 px-3 py-6 text-night-950 sm:w-36">
+                <span className="font-bold font-kr text-xs">5호선</span>
+                <div className="text-center">
+                  <p className="font-bold font-display text-4xl leading-none tracking-tight sm:text-5xl">
+                    {a.date.split(" ")[1]}
+                  </p>
+                  <p className="mt-1 font-mono text-xs uppercase tracking-[0.25em]">
+                    {a.date.split(" ")[0]}
+                  </p>
                 </div>
-              ),
-            }))}
-          />
-        </div>
+                <span className="font-mono text-[10px] tracking-widest">
+                  NO. 50{i + 1}
+                </span>
+                {/* notches */}
+                <span className="-top-3 -right-3 absolute size-6 rounded-full bg-night-950" />
+                <span className="-right-3 -bottom-3 absolute size-6 rounded-full bg-night-950" />
+              </div>
+              {/* perforation */}
+              <div className="w-px bg-[repeating-linear-gradient(180deg,rgb(255_255_255/0.35)_0_6px,transparent_6px_12px)]" />
+              {/* body */}
+              <div className="glass relative flex-1 rounded-r-3xl border-l-0 p-6 sm:p-8">
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="font-display font-semibold text-xl tracking-tight sm:text-2xl">
+                    {a.title}
+                  </h3>
+                  <AwardIcon className="mt-1 size-5 shrink-0 text-line-5 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-125" />
+                </div>
+                <p className="mt-4 text-[14px] text-mist/65 leading-relaxed">
+                  {a.description}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
-    </Section>
+    </section>
   );
 }

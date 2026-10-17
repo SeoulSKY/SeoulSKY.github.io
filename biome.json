@@ -6,7 +6,13 @@
     "useIgnoreFile": false
   },
   "files": {
-    "ignoreUnknown": false
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!**/*.css",
+      "!dist",
+      "!node_modules"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -18,6 +24,9 @@
       "recommended": true,
       "nursery": {
         "useSortedClasses": "error"
+      },
+      "correctness": {
+        "useUniqueElementIds": "off"
       }
     }
   },

@@ -1,72 +1,59 @@
-import type { JSX } from "react";
-import Galaxy from "@/components/Galaxy";
+import CursorGlow from "@/components/CursorGlow";
+import Footer from "@/components/Footer";
+import IntroScrubber from "@/components/IntroScrubber";
+import Navbar from "@/components/Navbar";
+import Preloader from "@/components/Preloader";
+import SmoothScroll from "@/components/SmoothScroll";
+import Starfield from "@/components/seoul/Starfield";
 import { Toaster } from "@/components/ui/sonner";
-import Navbar from "./components/Navbar";
-import TargetCursor from "./components/TargetCursor";
-import { ThemeProvider } from "./components/theme-provider";
-import Awards from "./sections/Awards";
-import Contact from "./sections/Contact";
-import Experiences from "./sections/Experiences";
-import Hero from "./sections/Hero";
-import Introduction from "./sections/Introduction";
-import Projects from "./sections/Projects";
-import Skills from "./sections/Skills";
-
-interface Section {
-  name: string;
-  Element: () => JSX.Element;
-}
-
-const sections: Section[] = [
-  {
-    name: "Introduction",
-    Element: Introduction,
-  },
-  {
-    name: "Experiences",
-    Element: Experiences,
-  },
-  {
-    name: "Skills",
-    Element: Skills,
-  },
-  {
-    name: "Projects",
-    Element: Projects,
-  },
-  {
-    name: "Awards",
-    Element: Awards,
-  },
-  {
-    name: "Contact",
-    Element: Contact,
-  },
-];
+import { INTRO_DEBUG } from "@/lib/intro";
+import About from "@/sections/About";
+import Awards from "@/sections/Awards";
+import Contact from "@/sections/Contact";
+import Experience from "@/sections/Experience";
+import Hero from "@/sections/Hero";
+import Projects from "@/sections/Projects";
+import Skills from "@/sections/Skills";
 
 export default function App() {
   return (
-    <main className="relative z-0 h-full w-screen bg-black">
-      <ThemeProvider defaultTheme="dark">
-        <TargetCursor spinDuration={2} hideDefaultCursor={true} />
+    <>
+      <SmoothScroll />
+      <Preloader />
+      {/* TEMPORARY: review controls for the opening sequence */}
+      {INTRO_DEBUG && <IntroScrubber />}
 
-        <div className="-z-50 fixed inset-0">
-          <Galaxy mouseRepulsion={false} />
+      {/* the night sky behind everything below the hero */}
+      <div
+        aria-hidden="true"
+        className="-z-10 pointer-events-none fixed inset-0"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_120%,#1d1650_0%,#0b0d26_45%,#06071a_100%)]" />
+        <Starfield
+          className="absolute inset-0 opacity-70"
+          density={0.9}
+          seed={5}
+        />
+      </div>
+      <CursorGlow />
+      <Navbar />
+
+      <div id="smooth-wrapper">
+        <div id="smooth-content">
+          <main>
+            <Hero />
+            <About />
+            <Experience />
+            <Skills />
+            <Projects />
+            <Awards />
+            <Contact />
+          </main>
+          <Footer />
         </div>
+      </div>
 
-        <Navbar sections={sections.map((section) => section.name)} />
-
-        <div className="px-6 sm:px-24">
-          <Hero />
-        </div>
-
-        <div className="my-24 flex flex-col gap-20 px-6 sm:px-24">
-          {sections.map((section) => (
-            <section.Element key={section.name} />
-          ))}
-        </div>
-        <Toaster theme="dark" richColors />
-      </ThemeProvider>
-    </main>
+      <Toaster position="bottom-center" richColors />
+    </>
   );
 }

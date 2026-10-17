@@ -1,429 +1,135 @@
 import emailjs from "@emailjs/browser";
-import { LoaderCircle } from "lucide-react";
-import { motion } from "motion/react";
+import { ArrowUpRight, LoaderCircle, Send } from "lucide-react";
 import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
 import { toast } from "sonner";
-import { World } from "@/components/ui/globe";
+import { GithubIcon } from "@/components/icons";
+import SectionHeading from "@/components/SectionHeading";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import Section from "../components/Section";
-import { slideIn, staggerContainer } from "../utils/motion";
+import { GITHUB_URL } from "@/data/content";
+import { gsap, useGSAP } from "@/lib/gsap";
 
-const globeConfig = {
-  pointSize: 4,
-  globeColor: "#062056",
-  showAtmosphere: true,
-  atmosphereColor: "#FFFFFF",
-  atmosphereAltitude: 0.1,
-  emissive: "#062056",
-  emissiveIntensity: 0.1,
-  shininess: 0.9,
-  polygonColor: "rgba(255,255,255,0.7)",
-  ambientLight: "#38bdf8",
-  directionalLeftLight: "#ffffff",
-  directionalTopLight: "#ffffff",
-  pointLight: "#ffffff",
-  arcTime: 1000,
-  arcLength: 0.9,
-  rings: 1,
-  maxRings: 3,
-  initialPosition: { lat: 22.3193, lng: 114.1694 },
-  autoRotate: true,
-  autoRotateSpeed: 0.5,
-};
-const colors = ["#06b6d4", "#3b82f6", "#6366f1"];
-const sampleArcs = [
-  {
-    order: 1,
-    startLat: -19.885592,
-    startLng: -43.951191,
-    endLat: -22.9068,
-    endLng: -43.1729,
-    arcAlt: 0.1,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 1,
-    startLat: 28.6139,
-    startLng: 77.209,
-    endLat: 3.139,
-    endLng: 101.6869,
-    arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 1,
-    startLat: -19.885592,
-    startLng: -43.951191,
-    endLat: -1.303396,
-    endLng: 36.852443,
-    arcAlt: 0.5,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 2,
-    startLat: 1.3521,
-    startLng: 103.8198,
-    endLat: 35.6762,
-    endLng: 139.6503,
-    arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 2,
-    startLat: 51.5072,
-    startLng: -0.1276,
-    endLat: 3.139,
-    endLng: 101.6869,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 2,
-    startLat: -15.785493,
-    startLng: -47.909029,
-    endLat: 36.162809,
-    endLng: -115.119411,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 3,
-    startLat: -33.8688,
-    startLng: 151.2093,
-    endLat: 22.3193,
-    endLng: 114.1694,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 3,
-    startLat: 21.3099,
-    startLng: -157.8581,
-    endLat: 40.7128,
-    endLng: -74.006,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 3,
-    startLat: -6.2088,
-    startLng: 106.8456,
-    endLat: 51.5072,
-    endLng: -0.1276,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 4,
-    startLat: 11.986597,
-    startLng: 8.571831,
-    endLat: -15.595412,
-    endLng: -56.05918,
-    arcAlt: 0.5,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 4,
-    startLat: -34.6037,
-    startLng: -58.3816,
-    endLat: 22.3193,
-    endLng: 114.1694,
-    arcAlt: 0.7,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 4,
-    startLat: 51.5072,
-    startLng: -0.1276,
-    endLat: 48.8566,
-    endLng: -2.3522,
-    arcAlt: 0.1,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 5,
-    startLat: 14.5995,
-    startLng: 120.9842,
-    endLat: 51.5072,
-    endLng: -0.1276,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 5,
-    startLat: 1.3521,
-    startLng: 103.8198,
-    endLat: -33.8688,
-    endLng: 151.2093,
-    arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 5,
-    startLat: 34.0522,
-    startLng: -118.2437,
-    endLat: 48.8566,
-    endLng: -2.3522,
-    arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 6,
-    startLat: -15.432563,
-    startLng: 28.315853,
-    endLat: 1.094136,
-    endLng: -63.34546,
-    arcAlt: 0.7,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 6,
-    startLat: 37.5665,
-    startLng: 126.978,
-    endLat: 35.6762,
-    endLng: 139.6503,
-    arcAlt: 0.1,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 6,
-    startLat: 22.3193,
-    startLng: 114.1694,
-    endLat: 51.5072,
-    endLng: -0.1276,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 7,
-    startLat: -19.885592,
-    startLng: -43.951191,
-    endLat: -15.595412,
-    endLng: -56.05918,
-    arcAlt: 0.1,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 7,
-    startLat: 48.8566,
-    startLng: -2.3522,
-    endLat: 52.52,
-    endLng: 13.405,
-    arcAlt: 0.1,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 7,
-    startLat: 52.52,
-    startLng: 13.405,
-    endLat: 34.0522,
-    endLng: -118.2437,
-    arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 8,
-    startLat: -8.833221,
-    startLng: 13.264837,
-    endLat: -33.936138,
-    endLng: 18.436529,
-    arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 8,
-    startLat: 49.2827,
-    startLng: -123.1207,
-    endLat: 52.3676,
-    endLng: 4.9041,
-    arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 8,
-    startLat: 1.3521,
-    startLng: 103.8198,
-    endLat: 40.7128,
-    endLng: -74.006,
-    arcAlt: 0.5,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 9,
-    startLat: 51.5072,
-    startLng: -0.1276,
-    endLat: 34.0522,
-    endLng: -118.2437,
-    arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 9,
-    startLat: 22.3193,
-    startLng: 114.1694,
-    endLat: -22.9068,
-    endLng: -43.1729,
-    arcAlt: 0.7,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 9,
-    startLat: 1.3521,
-    startLng: 103.8198,
-    endLat: -34.6037,
-    endLng: -58.3816,
-    arcAlt: 0.5,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 10,
-    startLat: -22.9068,
-    startLng: -43.1729,
-    endLat: 28.6139,
-    endLng: 77.209,
-    arcAlt: 0.7,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 10,
-    startLat: 34.0522,
-    startLng: -118.2437,
-    endLat: 31.2304,
-    endLng: 121.4737,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 10,
-    startLat: -6.2088,
-    startLng: 106.8456,
-    endLat: 52.3676,
-    endLng: 4.9041,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 11,
-    startLat: 41.9028,
-    startLng: 12.4964,
-    endLat: 34.0522,
-    endLng: -118.2437,
-    arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 11,
-    startLat: -6.2088,
-    startLng: 106.8456,
-    endLat: 31.2304,
-    endLng: 121.4737,
-    arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 11,
-    startLat: 22.3193,
-    startLng: 114.1694,
-    endLat: 1.3521,
-    endLng: 103.8198,
-    arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 12,
-    startLat: 34.0522,
-    startLng: -118.2437,
-    endLat: 37.7749,
-    endLng: -122.4194,
-    arcAlt: 0.1,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 12,
-    startLat: 35.6762,
-    startLng: 139.6503,
-    endLat: 22.3193,
-    endLng: 114.1694,
-    arcAlt: 0.2,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 12,
-    startLat: 22.3193,
-    startLng: 114.1694,
-    endLat: 34.0522,
-    endLng: -118.2437,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 13,
-    startLat: 52.52,
-    startLng: 13.405,
-    endLat: 22.3193,
-    endLng: 114.1694,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 13,
-    startLat: 11.986597,
-    startLng: 8.571831,
-    endLat: 35.6762,
-    endLng: 139.6503,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 13,
-    startLat: -22.9068,
-    startLng: -43.1729,
-    endLat: -34.6037,
-    endLng: -58.3816,
-    arcAlt: 0.1,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-  {
-    order: 14,
-    startLat: -33.936138,
-    startLng: 18.436529,
-    endLat: 21.395643,
-    endLng: 39.883798,
-    arcAlt: 0.3,
-    color: colors[Math.floor(Math.random() * (colors.length - 1))],
-  },
-];
-
-function BottomGradient() {
+/** N Seoul Tower as line art; it draws itself as the section enters. */
+function TowerLineArt({ className }: { className?: string }) {
   return (
-    <>
-      <span className="-bottom-px absolute inset-x-0 block h-px w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
-      <span className="-bottom-px absolute inset-x-10 mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
-    </>
+    <svg
+      viewBox="0 0 200 520"
+      className={className}
+      fill="none"
+      aria-hidden="true"
+    >
+      <g
+        stroke="#ffc3a1"
+        strokeWidth="1.2"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      >
+        {/* Namsan */}
+        <path
+          className="tw-line"
+          d="M0,515 C40,470 70,440 100,436 C130,440 160,470 200,515"
+        />
+        {/* base */}
+        <path className="tw-line" d="M76,436 L76,420 L124,420 L124,436" />
+        <path className="tw-line" d="M84,420 L84,404 L116,404 L116,420" />
+        {/* shaft */}
+        <path className="tw-line" d="M92,404 L95,214 M108,404 L105,214" />
+        <path className="tw-line" d="M94,330 L106,330 M93.5,270 L106.5,270" />
+        {/* collar + pod */}
+        <path className="tw-line" d="M86,214 L114,214 L114,204 L86,204 Z" />
+        <path
+          className="tw-line"
+          d="M72,204 C72,176 78,168 100,168 C122,168 128,176 128,204 Z"
+        />
+        <path className="tw-line" d="M74,186 L126,186 M75,194 L125,194" />
+        <path className="tw-line" d="M80,168 L80,158 L120,158 L120,168" />
+        {/* antenna */}
+        <path className="tw-line" d="M95,158 L96,52 L104,52 L105,158" />
+        <path
+          className="tw-line"
+          d="M95.5,128 L104.5,128 M95.8,104 L104.2,104 M96,80 L104,80"
+        />
+        <path className="tw-line" d="M100,52 L100,18" />
+      </g>
+      <circle className="tw-beacon" cx="100" cy="16" r="3.5" fill="#ff8a6b" />
+      <circle
+        className="tw-halo"
+        cx="100"
+        cy="16"
+        r="14"
+        fill="#ff8a6b"
+        opacity="0.25"
+      />
+      <rect
+        className="tw-band"
+        x="76"
+        y="188"
+        width="48"
+        height="4"
+        rx="1"
+        fill="#ffd39a"
+        opacity="0"
+      />
+    </svg>
   );
 }
 
-export default function Contact() {
-  const formRef = useRef(null);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+const EMPTY = { name: "", email: "", message: "" };
 
+export default function Contact() {
+  const root = useRef<HTMLElement>(null);
+  const [form, setForm] = useState(EMPTY);
   const [loading, setLoading] = useState(false);
 
-  function handleChange<T extends HTMLInputElement | HTMLTextAreaElement>(
-    e: ChangeEvent<T>,
+  useGSAP(
+    () => {
+      const q = gsap.utils.selector(root);
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: q(".ct-art")[0], start: "top 80%" },
+      });
+      tl.from(q(".tw-line"), {
+        drawSVG: "0%",
+        duration: 1.6,
+        stagger: 0.08,
+        ease: "power2.inOut",
+      })
+        .to(q(".tw-band"), { opacity: 1, duration: 0.6 }, "-=0.4")
+        .from(
+          q(".tw-beacon, .tw-halo"),
+          {
+            scale: 0,
+            transformOrigin: "50% 50%",
+            duration: 0.6,
+            ease: "back.out(3)",
+          },
+          "<",
+        );
+      gsap.to(q(".tw-halo"), {
+        scale: 2.2,
+        opacity: 0,
+        transformOrigin: "50% 50%",
+        duration: 1.8,
+        repeat: -1,
+        ease: "power1.out",
+      });
+      gsap.from(q(".ct-form"), {
+        y: 80,
+        autoAlpha: 0,
+        duration: 1.3,
+        ease: "rise",
+        scrollTrigger: { trigger: q(".ct-form")[0], start: "top 85%" },
+      });
+    },
+    { scope: root },
+  );
+
+  function handleChange(
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     const { name, value } = e.target;
-
-    setForm({
-      ...form,
-      [name]: value,
-    });
+    setForm((f) => ({ ...f, [name]: value }));
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -432,10 +138,12 @@ export default function Contact() {
     if (form.name.trim() === "") {
       toast.error("Please enter your name.");
       return;
-    } else if (form.email.trim() === "") {
+    }
+    if (form.email.trim() === "") {
       toast.error("Please enter your email.");
       return;
-    } else if (form.message.trim() === "") {
+    }
+    if (form.message.trim() === "") {
       toast.error("Please enter your message.");
       return;
     }
@@ -461,94 +169,116 @@ export default function Contact() {
 
     try {
       await promise;
-
-      setForm({
-        name: "",
-        email: "",
-        message: "",
-      });
-    } catch (e) {
-      console.error(e);
+      setForm(EMPTY);
+    } catch (err) {
+      console.error(err);
     } finally {
       setLoading(false);
     }
   }
 
+  const incomplete =
+    form.name.trim() === "" ||
+    form.email.trim() === "" ||
+    form.message.trim() === "";
+
   return (
-    // biome-ignore lint/correctness/useUniqueElementIds: Used for navigation
-    <Section id="contact" title="Contact">
-      <motion.div
-        {...staggerContainer()}
-        className="flex flex-col-reverse gap-10 overflow-hidden xl:mt-12 xl:flex-row"
-      >
-        <motion.div
-          {...slideIn("left", "tween", 1, undefined, true)}
-          className="flex-[0.75] rounded-2xl border border-muted-background p-8 backdrop-blur"
-        >
-          <form
-            ref={formRef}
-            onSubmit={handleSubmit}
-            className="mt-4 flex flex-col gap-8 duration-300"
+    <section
+      ref={root}
+      id="contact"
+      className="relative overflow-hidden px-5 py-28 sm:px-10 sm:py-40"
+    >
+      {/* warm glow behind the tower */}
+      <div className="-bottom-40 -left-40 pointer-events-none absolute size-[42rem] rounded-full bg-dusk/10 blur-[120px]" />
+
+      <div className="relative mx-auto grid max-w-7xl gap-16 lg:grid-cols-12 lg:gap-10">
+        <div className="relative lg:col-span-6">
+          {/* N Seoul Tower stands in the free space beside the headline,
+              its hill level with the bottom of the form; it adds no height */}
+          <TowerLineArt className="ct-art -right-2 pointer-events-none absolute bottom-0 hidden h-[460px] w-auto opacity-80 [mask-image:linear-gradient(90deg,transparent,#000_30%,#000_70%,transparent)] xl:block" />
+          <SectionHeading
+            id="contact"
+            index={6}
+            title="Let’s build"
+            accent="something together."
           >
-            <Label className="flex flex-col gap-2">
-              <span>Your Name</span>
-              <Input
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                placeholder="What's your name?"
-                className="cursor-target"
-              />
-            </Label>
-            <Label className="flex flex-col gap-2">
-              <span>Your Email</span>
-              <Input
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="What's your email address?"
-                className="cursor-target"
-              />
-            </Label>
-            <Label className="flex flex-col gap-2">
-              <span>Your Message</span>
+            <p className="max-w-md text-lg text-mist/65 leading-relaxed">
+              Have an idea, a role or a question? Send a message and I’ll get
+              back to you as soon as possible.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Button asChild variant="outline" size="lg">
+                <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+                  <GithubIcon />
+                  github.com/SeoulSKY
+                  <ArrowUpRight />
+                </a>
+              </Button>
+            </div>
+          </SectionHeading>
+        </div>
+
+        <div className="lg:col-span-6 lg:pt-10">
+          <form
+            onSubmit={handleSubmit}
+            className="ct-form glass relative flex flex-col gap-6 overflow-hidden rounded-[2rem] p-6 sm:p-10"
+          >
+            <div className="-top-24 -right-24 pointer-events-none absolute size-56 rounded-full bg-peach/10 blur-3xl" />
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="flex flex-col gap-2.5">
+                <Label htmlFor="ct-name">Your name</Label>
+                <Input
+                  id="ct-name"
+                  name="name"
+                  autoComplete="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="What’s your name?"
+                />
+              </div>
+              <div className="flex flex-col gap-2.5">
+                <Label htmlFor="ct-email">Your email</Label>
+                <Input
+                  id="ct-email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="What’s your email address?"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2.5">
+              <Label htmlFor="ct-message">Your message</Label>
               <Textarea
-                rows={7}
+                id="ct-message"
                 name="message"
+                rows={7}
                 value={form.message}
                 onChange={handleChange}
                 placeholder="What do you want to say?"
-                className="cursor-target"
+                className="min-h-44"
               />
-            </Label>
-
-            <button
-              className="group/btn relative flex h-10 w-full cursor-pointer cursor-target items-center justify-center rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
+            </div>
+            <Button
               type="submit"
-              disabled={
-                form.name.trim() === "" ||
-                form.email.trim() === "" ||
-                form.message.trim() === "" ||
-                loading
-              }
+              size="lg"
+              disabled={incomplete || loading}
+              className="mt-2 w-full sm:w-auto sm:self-end"
             >
               {loading ? (
                 <LoaderCircle className="animate-spin" />
               ) : (
-                "Send \u2192"
+                <>
+                  Send message
+                  <Send />
+                </>
               )}
-              <BottomGradient />
-            </button>
+            </Button>
           </form>
-        </motion.div>
-
-        <motion.div
-          {...slideIn("right", "tween", 1, undefined, true)}
-          className="h-[350px] md:h-[550px] xl:h-auto xl:flex-1"
-        >
-          <World globeConfig={globeConfig} data={sampleArcs} />
-        </motion.div>
-      </motion.div>
-    </Section>
+        </div>
+      </div>
+    </section>
   );
 }

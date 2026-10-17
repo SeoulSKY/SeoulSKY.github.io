@@ -1,88 +1,184 @@
-import { motion, useScroll } from "motion/react";
-import { useState } from "react";
-import close from "@/assets/close.svg";
+import { Menu } from "lucide-react";
+import { useRef, useState } from "react";
 import logo from "@/assets/logo.png";
-import menu from "@/assets/menu.svg";
+import { GithubIcon } from "@/components/icons";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { GITHUB_URL, KOREAN, navSections } from "@/data/content";
+import {
+  gsap,
+  prefersReducedMotion,
+  ScrollTrigger,
+  scrollToSection,
+  useGSAP,
+} from "@/lib/gsap";
+import { onIntro } from "@/lib/intro";
 import { cn } from "@/lib/utils";
 
-function ScrollBar() {
-  const { scrollYProgress } = useScroll();
+export default function Navbar() {
+  const root = useRef<HTMLElement>(null);
+  const [active, setActive] = useState<string>("");
+  const [open, setOpen] = useState(false);
 
-  return (
-    <motion.div
-      className="h-2 w-full rounded bg-white"
-      style={{ scaleX: scrollYProgress, transformOrigin: 0 }}
-    />
+  useGSAP(
+    () => {
+      const reduce = prefersReducedMotion();
+      if (!reduce) gsap.set(root.current, { yPercent: -120, autoAlpha: 0 });
+      const off = onIntro(() =>
+        gsap.to(root.current, {
+          yPercent: 0,
+          autoAlpha: 1,
+          duration: 1.2,
+          delay: 1.6,
+          ease: "rise",
+        }),
+      );
+
+      // scroll progress
+      gsap.to(".nav-progress", {
+        scaleX: 1,
+        ease: "none",
+        scrollTrigger: { start: 0, end: "max", scrub: 0.3 },
+      });
+
+      // a frosted pill once we've left the hero
+      ScrollTrigger.create({
+        start: () => window.innerHeight * 0.6,
+        end: "max",
+        toggleClass: { targets: root.current, className: "is-scrolled" },
+      });
+
+      // active section
+      const triggers = navSections.map(({ id }) =>
+        ScrollTrigger.create({
+          trigger: document.getElementById(id),
+          start: "top 55%",
+          end: "bottom 55%",
+          // measure after the sections' own pins (Projects adds scroll length)
+          refreshPriority: -1,
+          onToggle: (self) => self.isActive && setActive(id),
+          onLeaveBack: () => id === "about" && setActive(""),
+        }),
+      );
+      return () => {
+        off();
+        for (const t of triggers) t.kill();
+      };
+    },
+    { scope: root },
   );
-}
 
-interface NavbarProps {
-  sections: string[];
-}
-
-export default function Navbar({ sections }: NavbarProps) {
-  const [toggle, setToggle] = useState(false);
+  const go = (id: string) => {
+    setOpen(false);
+    scrollToSection(id);
+  };
 
   return (
-    <div className="fixed top-0 z-20 flex w-full flex-col items-start">
-      <nav className="flex w-full pt-3 backdrop-blur">
-        <div className="mx-auto flex w-full items-center justify-between px-6 pb-3 sm:px-24">
-          <button
-            type="button"
-            className="group flex cursor-pointer cursor-target items-center gap-2 duration-300 hover:scale-110"
-            onClick={() => {
-              window.scrollTo(0, 0);
-            }}
-          >
-            <img src={logo} alt="logo" className="h-9 w-9 object-contain" />
-            <p className="flex font-bold text-[18px] text-muted-foreground group-hover:text-white">
-              SeoulSKY
-            </p>
-          </button>
+    <header
+      ref={root}
+      className="group/nav fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4"
+    >
+      <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-transparent px-3 py-2 transition-[background,border-color,box-shadow,backdrop-filter] duration-500 group-[.is-scrolled]/nav:border-white/10 group-[.is-scrolled]/nav:bg-night-900/60 group-[.is-scrolled]/nav:shadow-[0_10px_40px_-20px_rgb(0_0_0/0.8)] group-[.is-scrolled]/nav:backdrop-blur-xl sm:px-4">
+        <button
+          type="button"
+          onClick={() => go("top")}
+          className="group flex cursor-pointer items-center gap-2.5"
+          aria-label="Back to top"
+        >
+          <img
+            src={logo}
+            alt=""
+            className="size-8 rounded-full ring-1 ring-white/20 transition-transform duration-500 group-hover:rotate-[-12deg] group-hover:scale-110"
+          />
+          <span className="font-bold font-display text-[17px] tracking-tight">
+            SeoulSKY
+          </span>
+        </button>
 
-          <ul className="hidden list-none flex-row gap-10 lg:flex">
-            {sections.map((name) => (
-              <li
-                key={name}
-                className="cursor-target font-medium text-[18px] text-muted-foreground duration-300 hover:scale-110 hover:text-white"
+        <ul className="hidden items-center gap-1 lg:flex">
+          {navSections.map(({ id, label }) => (
+            <li key={id}>
+              <button
+                type="button"
+                onClick={() => go(id)}
+                className={cn(
+                  "group relative flex cursor-pointer flex-col items-center rounded-full px-4 py-1.5 text-sm transition-colors",
+                  active === id ? "text-mist" : "text-mist/60 hover:text-mist",
+                )}
               >
-                <a href={`#${name.toLowerCase()}`}>{name}</a>
-              </li>
-            ))}
-          </ul>
+                <span
+                  className={cn(
+                    "absolute inset-0 rounded-full bg-white/[0.07] transition-all duration-500",
+                    active === id
+                      ? "scale-100 opacity-100"
+                      : "scale-75 opacity-0",
+                  )}
+                />
+                <span className="relative">{label}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
 
-          <div className="flex flex-1 items-center justify-end lg:hidden">
-            <button type="button" onClick={() => setToggle(!toggle)}>
-              <img
-                src={toggle ? close : menu}
-                alt="menu"
-                className="h-[28px] w-[28px] object-contain"
-              />
-            </button>
+        <div className="flex items-center gap-2">
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub profile"
+            className="grid size-9 place-items-center rounded-full border border-white/10 bg-white/[0.03] text-mist/80 transition hover:border-white/25 hover:text-mist"
+          >
+            <GithubIcon className="size-4" />
+          </a>
 
-            <div
-              className={cn(
-                "absolute top-20 right-0 z-10 mx-4 my-2 min-w-[140px] rounded-xl p-6",
-                toggle ? "flex" : "hidden",
-              )}
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger
+              className="grid size-9 cursor-pointer place-items-center rounded-full border border-white/10 bg-white/[0.03] lg:hidden"
+              aria-label="Open menu"
             >
-              <ul className="flex flex-1 list-none flex-col items-start justify-end gap-4">
-                {sections.map((name) => (
-                  <li
-                    key={name}
-                    className="cursor-pointer font-medium text-[16px] text-white"
-                  >
-                    <a
-                      href={`#${name.toLowerCase()}`}
-                    >{`${name[0].toUpperCase()}${name.slice(1)}`}</a>
+              <Menu className="size-4" />
+            </SheetTrigger>
+            <SheetContent
+              side="right"
+              className="w-full border-white/10 bg-night-950/95 p-8 backdrop-blur-xl sm:max-w-sm"
+            >
+              <SheetTitle className="font-kr text-peach text-sm tracking-[0.3em]">
+                서울하늘
+              </SheetTitle>
+              <SheetDescription className="sr-only">
+                Site navigation
+              </SheetDescription>
+              <ul className="mt-10 flex flex-col gap-2">
+                {navSections.map(({ id, label }, i) => (
+                  <li key={id}>
+                    <button
+                      type="button"
+                      onClick={() => go(id)}
+                      className="group flex w-full cursor-pointer items-baseline gap-4 border-white/5 border-b py-4 text-left"
+                    >
+                      <span className="font-mono text-mist/40 text-xs">
+                        0{i + 1}
+                      </span>
+                      <span className="font-display font-semibold text-3xl transition-colors group-hover:text-peach">
+                        {label}
+                      </span>
+                      <span className="ml-auto font-kr text-mist/40 text-sm">
+                        {KOREAN[id]}
+                      </span>
+                    </button>
                   </li>
                 ))}
               </ul>
-            </div>
-          </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </nav>
-      <ScrollBar />
-    </div>
+      <div className="nav-progress pointer-events-none fixed inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-gradient-to-r from-lavender via-dusk to-peach" />
+    </header>
   );
 }

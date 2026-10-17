@@ -1,44 +1,61 @@
 <div align="center">
-    <a href="https://www.seoulsky.dev">
-      <img alt="hero" src="https://github.com/user-attachments/assets/79ab15d1-5a2b-4784-a4a2-de7f5010e3cf">
-    </a>
-    <h1>SeoulSKY</h1>
+  <h1>SeoulSKY · 서울하늘</h1>
+  <p>Personal portfolio — Seoul at dusk, travelled by subway.</p>
 </div>
 
-<div align="center">
-    <img src="https://img.shields.io/badge/Node.js-v23.11-84ba64" alt="nodejs">
-</div>
+## Stack
 
-## How to Setup Development Environment
+- [Vite](https://vite.dev) + [React 19](https://react.dev) + TypeScript
+- [Tailwind CSS v4](https://tailwindcss.com) with [shadcn/ui](https://ui.shadcn.com) components (`src/components/ui`)
+- [GSAP](https://gsap.com) — ScrollTrigger, ScrollSmoother, SplitText, DrawSVG, ScrambleText, Text
+- [EmailJS](https://www.emailjs.com) for the contact form
 
-- Install [Node.js](https://nodejs.org/en/download/package-manager)
-- Install required node packages
+## Structure
+
+```
+src/
+  components/
+    seoul/Skyline.tsx    # the SVG city: Bukhansan, Namsan + N Seoul Tower,
+                         # Lotte World Tower, 63 Building, Gyeongbokgung, Han river
+    seoul/Carriage.tsx   # SVG interior of a Seoul Metro carriage (the doors)
+    seoul/Starfield.tsx  # twinkling canvas sky
+    Preloader.tsx        # "Last train to SeoulSKY": Line 2 map → carriage
+                         # doors open → triggers the hero entrance
+    MetroLine.tsx        # Seoul-Metro-style timeline (Experience)
+    SectionHeading.tsx   # metro-line badge (1호선…) + split-text section titles
+    IntroScrubber.tsx    # temporary review bar for the intro (dev / #debug)
+    ui/                  # shadcn components
+  sections/              # Hero, About, Experience, Skills, Projects, Awards, Contact
+  data/content.ts        # all copy, projects, experience, awards, skills
+  lib/gsap.ts            # plugin registration + custom eases
+```
+
+All copy lives in `src/data/content.ts`.
+
+Each section rides a Seoul Metro line in its official colour — About 1호선,
+Experience 2호선, Skills 3호선, Projects 4호선, Awards 5호선, Contact 6호선 —
+and new sections take Lines 7–9. The full design system (colours, type,
+motion, illustration rules) is in [`CLAUDE.md`](CLAUDE.md).
+
+## Development
 
 ```bash
 npm install
+cp .env.example .env   # fill in the EmailJS values
+npm run dev
 ```
 
-- Create a `.env` file, copy and paste all contents from the `.env.example` file, and fill in the values
+| Name                       | Description                                        |
+| -------------------------- | -------------------------------------------------- |
+| `VITE_EMAILJS_PUBLIC_KEY`  | Public Key for [EmailJS](https://www.emailjs.com)  |
+| `VITE_EMAILJS_TEMPLATE_ID` | Template ID for [EmailJS](https://www.emailjs.com) |
 
-### Description of Environment Variables
-
-| Name                     | Description                                        |
-| ------------------------ | -------------------------------------------------- |
-| VITE_EMAILJS_PUBLIC_KEY  | Public Key for [EmailJS](https://www.emailjs.com)  |
-| VITE_EMAILJS_TEMPLATE_ID | Template ID for [EmailJS](https://www.emailjs.com) |
-
-## How to Run
-
-Run the following command
+## Deploy to GitHub Pages
 
 ```bash
-npm start
-```
-
-## How to Deploy to GitHub Pages
-
-Run the following command to build and deploy
-
-```bash
+npm run build
 npm run deploy
 ```
+
+The site respects `prefers-reduced-motion`: the subway intro is skipped and the
+city is shown fully lit without the entrance timeline.
