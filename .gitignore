@@ -86,3 +86,9 @@ dist
 
 junit.xml
 sbom.xml
+
+# Next.js
+next-env.d.ts
+
+# Vercel
+.vercel

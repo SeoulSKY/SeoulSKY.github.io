@@ -6,7 +6,15 @@
     "useIgnoreFile": false
   },
   "files": {
-    "ignoreUnknown": false
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!**/*.css",
+      "!.next",
+      "!out",
+      "!node_modules",
+      "!next-env.d.ts"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -18,6 +26,9 @@
       "recommended": true,
       "nursery": {
         "useSortedClasses": "error"
+      },
+      "correctness": {
+        "useUniqueElementIds": "off"
       }
     }
   },
