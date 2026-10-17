@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useRef } from "react";
 import SectionHeading from "@/components/section-heading";
 import { type Skill, skillRows } from "@/data/content";
@@ -9,10 +10,11 @@ function SkillPill({ skill, hidden }: { skill: Skill; hidden?: boolean }) {
       aria-hidden={hidden || undefined}
       className="group flex shrink-0 items-center gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.03] py-3 pr-5 pl-3 backdrop-blur-sm transition-colors duration-300 hover:border-peach/40 hover:bg-white/[0.07]"
     >
-      <img
+      <Image
         src={skill.icon}
         alt=""
-        loading="lazy"
+        width={40}
+        height={40}
         className="size-9 transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110 sm:size-10"
       />
       <span className="whitespace-nowrap font-medium text-mist/85 text-sm sm:text-base">

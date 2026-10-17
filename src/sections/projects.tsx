@@ -1,4 +1,5 @@
 import { ArrowUpRight, Play } from "lucide-react";
+import Image, { getImageProps } from "next/image";
 import { Fragment, useEffect, useRef } from "react";
 import { GithubIcon } from "@/components/icons";
 import SectionHeading, { METRO_LINES } from "@/components/section-heading";
@@ -7,6 +8,15 @@ import { Button } from "@/components/ui/button";
 import { GITHUB_URL, type Project, projects } from "@/data/content";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
+
+/** Project media is about half the viewport wide on desktop, full width below. */
+const MEDIA_SIZES = "(min-width: 1024px) 50vw, 100vw";
+
+/** A video poster cannot be an <Image>, so it takes the optimized URL instead. */
+function posterUrl(src: string): string {
+  return getImageProps({ src, alt: "", fill: true, sizes: MEDIA_SIZES }).props
+    .src;
+}
 
 function ProjectMedia({ project }: { project: Project }) {
   const video = useRef<HTMLVideoElement>(null);
@@ -37,7 +47,7 @@ function ProjectMedia({ project }: { project: Project }) {
             ref={video}
             className="h-full w-full object-cover"
             src={project.video}
-            poster={project.image}
+            poster={posterUrl(project.image)}
             muted
             loop
             playsInline
@@ -45,11 +55,12 @@ function ProjectMedia({ project }: { project: Project }) {
             aria-label={`${project.title} preview`}
           />
         ) : (
-          <img
+          <Image
             src={project.image}
             alt={`${project.title} preview`}
-            loading="lazy"
-            className="h-full w-full object-cover"
+            fill
+            sizes={MEDIA_SIZES}
+            className="object-cover"
           />
         )}
       </div>

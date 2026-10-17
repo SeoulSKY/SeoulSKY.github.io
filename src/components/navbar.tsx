@@ -1,4 +1,5 @@
 import { Menu } from "lucide-react";
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { GithubIcon } from "@/components/icons";
 import {
@@ -89,9 +90,11 @@ export default function Navbar() {
           className="group flex cursor-pointer items-center gap-2.5"
           aria-label="Back to top"
         >
-          <img
+          <Image
             src="/logo.png"
             alt=""
+            width={32}
+            height={32}
             className="size-8 rounded-full ring-1 ring-white/20 transition-transform duration-500 group-hover:rotate-[-12deg] group-hover:scale-110"
           />
           <span className="font-bold font-display text-[17px] tracking-tight">
