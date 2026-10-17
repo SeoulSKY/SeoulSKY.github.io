@@ -4,6 +4,7 @@ import "@fontsource-variable/bricolage-grotesque";
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "@/globals.css";
 
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 
@@ -38,7 +39,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
