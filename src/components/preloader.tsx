@@ -221,6 +221,11 @@ export default function Preloader() {
   return <PreloaderScene onDone={() => setDone(true)} />;
 }
 
+/** The page behind the intro: kept out of the tab order while it plays. */
+function setPageInert(inert: boolean) {
+  document.getElementById("smooth-wrapper")?.toggleAttribute("inert", inert);
+}
+
 function PreloaderScene({ onDone }: { onDone: () => void }) {
   const root = useRef<HTMLDivElement>(null);
   const L = useMemo(
@@ -242,10 +247,12 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
       }
 
       document.body.classList.add("is-loading");
+      setPageInert(true);
       ScrollSmoother.get()?.paused(true);
 
       function release() {
         document.body.classList.remove("is-loading");
+        setPageInert(false);
         ScrollSmoother.get()?.paused(false);
       }
 
@@ -651,20 +658,18 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
   const ticker = [...ANNOUNCEMENTS, ...ANNOUNCEMENTS].join("   ·   ");
 
   return (
-    <div
-      ref={root}
-      className="fixed inset-0 z-[100] select-none"
-      aria-hidden="true"
-    >
+    // Not aria-hidden as a whole: the Skip button inside must stay reachable.
+    // Everything else is decoration and hidden from assistive tech.
+    <div ref={root} className="fixed inset-0 z-[100] select-none">
       {/* ── inside the carriage: the doors (revealed at arrival) ── */}
-      <div className="invisible absolute inset-0 pl-doors">
+      <div aria-hidden="true" className="invisible absolute inset-0 pl-doors">
         <div className="absolute inset-0 pl-carbody">
           <Carriage portrait={L.portrait} />
         </div>
       </div>
 
       {/* ── the metro map ─────────────────────────────────────── */}
-      <div className="absolute inset-0 bg-night-950 pl-svg">
+      <div aria-hidden="true" className="absolute inset-0 bg-night-950 pl-svg">
         <div
           className="absolute inset-0 pl-grid opacity-60"
           style={{
@@ -820,7 +825,10 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
       </div>
 
       {/* ── LED destination board ─────────────────────────────── */}
-      <div className="absolute inset-x-3 top-3 sm:inset-x-0 sm:top-6 sm:flex sm:justify-center">
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-3 top-3 sm:inset-x-0 sm:top-6 sm:flex sm:justify-center"
+      >
         <div className="flex items-stretch overflow-hidden rounded-2xl border border-white/10 bg-[#07081c]/90 pl-board shadow-[0_20px_60px_-20px_rgb(0_0_0/0.9)] backdrop-blur sm:w-[min(760px,90vw)]">
           <div className="flex shrink-0 items-center gap-2 border-white/10 border-r px-3 sm:px-4">
             <span
@@ -872,18 +880,21 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
 
       {/* ── HUD ───────────────────────────────────────────────── */}
       <div className="absolute inset-x-5 bottom-5 flex items-end justify-between font-mono text-[11px] text-mist/50 uppercase tracking-[0.2em] sm:inset-x-10 sm:bottom-8">
-        <span className="hidden pl-hud sm:inline">
+        <span aria-hidden="true" className="hidden pl-hud sm:inline">
           Seoul Metropolitan Subway · 37.5665°N 126.9780°E
         </span>
-        <span className="pl-hud sm:hidden">37.5665°N 126.9780°E</span>
+        <span aria-hidden="true" className="pl-hud sm:hidden">
+          37.5665°N 126.9780°E
+        </span>
         <span className="flex items-center gap-4">
           <button
             type="button"
+            aria-label="Skip intro"
             className="cursor-pointer rounded-full border border-white/15 px-3 py-1.5 pl-hud pl-skip text-mist/60 transition-colors hover:border-white/40 hover:text-mist"
           >
             Skip ↵
           </button>
-          <span className="pl-hud text-mist">
+          <span aria-hidden="true" className="pl-hud text-mist">
             <span className="pl-pct tabular-nums">000</span>%
           </span>
         </span>
