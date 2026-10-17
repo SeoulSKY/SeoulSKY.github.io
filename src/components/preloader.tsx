@@ -266,8 +266,8 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
         new Promise((r) => setTimeout(r, 2500)),
       ]);
 
-      const route = q(".pl-route")[0] as unknown as SVGPathElement;
-      const trail = q(".pl-trail")[0] as unknown as SVGPathElement;
+      const route = q<SVGPathElement>(".pl-route")[0];
+      const trail = q<SVGPathElement>(".pl-trail")[0];
       const cars = q<SVGGElement>(".pl-car");
       const pct = q(".pl-pct")[0];
       const next = q(".pl-next")[0];
