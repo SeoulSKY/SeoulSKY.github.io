@@ -69,13 +69,13 @@ Copy changes go in `src/data/content.ts`, not in section components.
 
 ---
 
-# Design system — SeoulSKY
+# SeoulSKY design system
 
 Seoul at dusk: the deep night above the Han river, a peach horizon behind
 Namsan, amber tower lights, the dancheong reds of Gyeongbokgung, and the
 Seoul Metro as the way you travel through the page. **Dark only, by design:**
 every surface is a piece of night sky, and colour arrives the way light does
-in a city at dusk — from the horizon, from lit windows, and from line colours.
+in a city at dusk, from the horizon, from lit windows and from line colours.
 
 ## Content
 
@@ -172,7 +172,7 @@ GSAP everywhere; every animation tells the dusk/subway story.
 
 - **Eases:** `seoul` = cubic-bezier(.76,0,.24,1) for curtains, wipes, rules;
   `rise` = cubic-bezier(.16,1,.3,1) for things entering. Use these by name.
-- **Intro — "Last train to SeoulSKY"** (`preloader.tsx`): the metro map draws
+- **Intro** ("Last train to SeoulSKY", `preloader.tsx`): the metro map draws
   itself in light; a Line 2 train runs 211 Seongsu → 212 Konkuk Univ. →
   213 Guui → 214 Gangbyeon → 215 Jamsillaru → **216 SeoulSKY 서울하늘**
   (the terminus is always just "SeoulSKY", no real station or landmark name);
@@ -199,8 +199,8 @@ GSAP everywhere; every animation tells the dusk/subway story.
   (preloader/carriage), `sh-*` (section heading). Don't rename them casually.
 - Detail that looks random (windows, stars) uses `mulberry32(seed)` so it is
   identical on every render.
-- Prefix SVG ids with `useId()` (or an `id` prop) — the same component renders
-  more than once.
+- Prefix SVG ids with `useId()` (or an `id` prop), since the same component
+  renders more than once.
 - The carriage is modelled on a modern Seoul EMU: white jambs, dimpled
   stainless door leaves with rounded windows, equal-width bench seats with the
   pink priority seat by the partition, triangle straps hanging from a
@@ -220,14 +220,14 @@ GSAP everywhere; every animation tells the dusk/subway story.
 
 ## Components
 
-- `Button` — pill. `default` = peach with glow, `outline` = glass, plus
+- `Button` is a pill. `default` = peach with glow, `outline` = glass, plus
   `secondary`, `ghost`, `link`, `destructive`; sizes `sm`, `default`, `lg`,
   `icon`.
-- `Input` / `Textarea` — `input` border, peach focus ring. `Label`, `Badge`
+- `Input` / `Textarea`: `input` border, peach focus ring. `Label`, `Badge`
   (outline = mono tag), `Sheet` (mobile nav on `night-950`), `Sonner` toasts.
-- `SectionHeading` — `index` (metro line), `id` (Korean tag), `title`,
-  optional `accent` (serif tail) and children (intro paragraph).
-- `MetroLine` — `color`, `stops` (`{ key, when, code, content }`), `next`.
+- `SectionHeading` takes `index` (metro line), `id` (Korean tag), `title`,
+  an optional `accent` (serif tail) and children (intro paragraph).
+- `MetroLine` takes `color`, `stops` (`{ key, when, code, content }`), `next`.
   It never repeats the line badge (the section heading owns it). The top is
   `next`: a hollow dashed station on a dashed segment, drawn like an
   extension under construction on a Seoul Metro map ("다음 역 · Next stop /
@@ -237,7 +237,7 @@ GSAP everywhere; every animation tells the dusk/subway story.
   stations light at `center 60%`, so the train is on a station exactly as it
   lights. Station column is 28px so the rail shares its centre (14px) with
   the section heading's line badge.
-- Project *carriages* (`projects.tsx`) — each project is one car: a glass
+- Project *carriages* (`projects.tsx`): each project is one car, a glass
   card holding its own media + text and a `CAR 0N / 06` plate in `line-4`.
   Cars are joined by ribbed `Gangway` bellows (horizontal on desktop,
   vertical on phones) instead of empty gaps, so media and description can't
@@ -245,9 +245,9 @@ GSAP everywhere; every animation tells the dusk/subway story.
   (side frame, spring pocket, two spoked wheels) over one shared rail; the
   wheels turn with the horizontal scroll (rotation = distance / `WHEEL_R`).
   All cars stretch to one height so the running gear lines up. No coloured
-  stripes or glowing underlines on cards — that reads as generic AI styling;
-  use something physically specific to the metaphor instead.
-- Award *tickets* — `line-5` stub with the line name, year, month and
+  stripes or glowing underlines on cards. That reads as generic AI styling,
+  so use something physically specific to the metaphor instead.
+- Award *tickets* have a `line-5` stub with the line name, year, month and
   `NO. 50x`, perforated edge, glass body.
 
 ---

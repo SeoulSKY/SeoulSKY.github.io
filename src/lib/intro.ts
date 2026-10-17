@@ -1,6 +1,6 @@
 /**
  * Tiny pub/sub that lets the preloader tell the rest of the page
- * "the curtain is lifting — start your entrance".
+ * "the curtain is lifting, start your entrance".
  */
 type Listener = () => void;
 

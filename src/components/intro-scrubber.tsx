@@ -131,7 +131,7 @@ export default function IntroScrubber() {
       setCopied(true);
       setTimeout(() => setCopied(false), 1200);
     } catch {
-      /* clipboard unavailable — the time is on screen anyway */
+      /* clipboard unavailable; the time is on screen anyway */
     }
   };
 

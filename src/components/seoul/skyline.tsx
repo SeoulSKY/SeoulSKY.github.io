@@ -6,10 +6,10 @@ import { mulberry32 } from "@/lib/random";
  *
  * Both layers share one coordinate space (1600 × 760, waterline at y = 520)
  * so they can be stacked with the giant hero title sandwiched in between:
- *   <MountainLayer/>  — Bukhansan ridges, the Han river surface, horizon glow
- *   <CityLayer/>      — Namsan + N Seoul Tower, the skyline, Lotte World Tower,
- *                       the 63 Building, Geunjeongjeon of Gyeongbokgung and
- *                       a rippling reflection of all of it in the river.
+ *   <MountainLayer/>  Bukhansan ridges, the Han river surface, horizon glow
+ *   <CityLayer/>      Namsan + N Seoul Tower, the skyline, Lotte World Tower,
+ *                     the 63 Building, Geunjeongjeon of Gyeongbokgung and
+ *                     a rippling reflection of all of it in the river.
  *
  * Class names prefixed `sk-` are animation hooks for GSAP.
  */
@@ -388,7 +388,7 @@ export function CityLayer({ className, viewBox }: LayerProps) {
           ))}
         </g>
 
-        {/* 63 Building — the golden tower by the Han */}
+        {/* 63 Building, the golden tower by the Han */}
         <g className="sk-63" data-origin={`1331 ${WATERLINE}`}>
           <path
             d={`M1306,${WATERLINE} L1310,262 L1330,244 L1354,250 L1356,${WATERLINE} Z`}
@@ -408,7 +408,7 @@ export function CityLayer({ className, viewBox }: LayerProps) {
           ))}
         </g>
 
-        {/* Lotte World Tower — home of the SEOUL SKY observatory */}
+        {/* Lotte World Tower, home of the SEOUL SKY observatory */}
         <g className="sk-lotte" data-origin={`1090 ${WATERLINE}`}>
           <path
             className="sk-lotte-body"
@@ -535,7 +535,7 @@ export function CityLayer({ className, viewBox }: LayerProps) {
           ))}
         </g>
 
-        {/* Gyeongbokgung — Geunjeongjeon throne hall */}
+        {/* Gyeongbokgung's Geunjeongjeon throne hall */}
         <g className="sk-palace">
           {/* pine trees */}
           <g className="sk-palace-part" fill="#070818">

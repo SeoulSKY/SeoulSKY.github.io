@@ -17,7 +17,7 @@ export default function Experience() {
           accent="experience"
         >
           <p className="max-w-xl text-lg text-mist/65 leading-relaxed">
-            Every stop on the line so far — from research in an HCI lab to
+            Every stop on the line so far, from research in an HCI lab to
             leading a desktop product end to end.
           </p>
         </SectionHeading>

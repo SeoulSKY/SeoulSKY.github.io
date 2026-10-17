@@ -137,7 +137,7 @@ const CROSSING: { color: string; pts: Pt[]; width?: number }[] = [
   },
 ];
 
-/* the Han river — Line 2 crosses it between Gangbyeon and Jamsillaru */
+/* the Han river, which Line 2 crosses between Gangbyeon and Jamsillaru */
 const HAN: Pt[] = [
   [990, -60],
   [1010, 160],
@@ -866,7 +866,7 @@ function StationMark({
   const r = portrait ? (terminus ? 11 : 7) : terminus ? 16 : 10;
   const sw = portrait ? (terminus ? 4 : 3) : terminus ? 6 : 4;
 
-  // label placement — kept clear of the track (which is 11 units wide)
+  // place labels clear of the track (it is 11 units wide)
   const below = !portrait && s.below;
   const flip = !portrait && s.flip;
   const chipW = portrait ? 26 : 40;

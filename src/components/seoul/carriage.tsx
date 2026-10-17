@@ -1,6 +1,6 @@
 /**
- * Inside a Seoul Metro carriage, facing a pair of doors — modelled on a
- * modern Seoul EMU: a recessed vestibule with white jambs, embossed
+ * Inside a Seoul Metro carriage, facing a pair of doors. It is modelled on
+ * a modern Seoul EMU: a recessed vestibule with white jambs, embossed
  * stainless door leaves with rounded windows, curved stanchions,
  * seat-end wing partitions, patterned bench seats, triangle hand straps,
  * the LCD route display above the doors and the blue vinyl floor.
@@ -583,7 +583,7 @@ function SideWall({ side, id }: { side: "l" | "r"; id: string }) {
   const unmirror = side === "r" ? "matrix(-1 0 0 1 466 0)" : undefined;
   return (
     <g transform={side === "r" ? "matrix(-1 0 0 1 1600 0)" : undefined}>
-      {/* ad posters in the ceiling cove — the portfolio advertising itself */}
+      {/* ad posters in the ceiling cove (the portfolio advertising itself) */}
       {[
         [40, 186],
         [246, 180],
@@ -1165,7 +1165,7 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
           height="440"
           fill={`url(#${id}-floor)`}
         />
-        {/* sheen on the floor only — it must never spill into the doorway */}
+        {/* sheen on the floor only; it must never spill into the doorway */}
         <ellipse
           cx="800"
           cy="900"
@@ -1334,8 +1334,8 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
         <Pole side="r" id={id} />
       </g>
 
-      {/* mood: keep the cabin in the night palette — with a hole for the
-          doorway, so nothing tints the city once the doors are open */}
+      {/* mood: keep the cabin in the night palette, with a hole for the
+          doorway so nothing tints the city once the doors are open */}
       <path
         fillRule="evenodd"
         d={`M-300,-320 H1900 V1320 H-300 Z M${DOOR.x0},${DOOR.y0} V${DOOR.y1} H${DOOR.x1} V${DOOR.y0} Z`}

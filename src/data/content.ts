@@ -33,12 +33,12 @@ export const KOREAN: Record<string, string> = {
 };
 
 export const heroTaglines = [
-  "Software Engineer creating innovative solutions for the healthcare industry.",
+  "Software Engineer building products for the healthcare industry.",
   "Graduate in Software Engineering Honours with a Minor in Applied Mathematics.",
 ];
 
 export const introduction =
-  "I am a software engineer experienced in Python, Rust and TypeScript with expertise in frameworks such as React.js, Next.js and Tauri. I enjoy building scalable, intuitive solutions that address practical challenges. With a collaborative mindset and a knack for learning quickly, I can help bring your ideas to fruition. Let’s team up to make your vision a reality!";
+  "I’m a software engineer who works mostly in Python, Rust and TypeScript, with React.js, Next.js and Tauri on the front end. I like building software that scales and is easy to use, aimed at problems people actually have. I learn fast and work well on a team. If you have something you want built, let’s talk.";
 
 export type ServiceKey = "backend" | "frontend" | "devops" | "app";
 
@@ -51,7 +51,7 @@ export const services: { key: ServiceKey; title: string; blurb: string }[] = [
   {
     key: "frontend",
     title: "Front End Engineer",
-    blurb: "React, Next.js and interfaces that feel effortless.",
+    blurb: "React, Next.js and interfaces that are easy to use.",
   },
   {
     key: "devops",
@@ -83,24 +83,24 @@ export const experiences: Experience[] = [
   {
     title: "Software Engineer",
     company: "NutraMate",
-    date: "Jan 2025 — Present",
+    date: "Jan 2025 – Present",
     points: [
-      "Led development of the company’s desktop application using Tauri and React.js, taking ownership of architectural decisions, front-end design and implementation, backend integration, testing, and deployment to deliver a high-quality end-user experience.",
-      "Developed high-performance Rust backend module for CPU-intensive processing and low-level operations, including scanner integration through FFI and direct Windows API interaction.",
-      "Drove key architectural and system design decisions, improving scalability, reliability, and performance across services operating under high load.",
-      "Led development of core microservices for user management and usage analytics, and contributed across the backend by implementing new REST API endpoints, integrating an LLM into the existing AI pipeline to enhance prescription entity extraction, and strengthening service reliability through automated test suites.",
-      "Built and maintained CI pipelines automating regression testing and static analysis, while enforcing engineering best practices through linters, formatters, type checkers, and pre-commit workflows.",
+      "Led development of the company’s desktop application in Tauri and React.js, owning the architecture, front-end design and implementation, backend integration, testing, and deployment.",
+      "Wrote a Rust backend module for CPU-intensive processing and low-level work, including scanner integration over FFI and direct calls to the Windows API.",
+      "Made architecture and system design decisions that improved the scalability, reliability, and performance of services under high load.",
+      "Led development of the user management and usage analytics microservices. Elsewhere in the backend, added REST API endpoints, integrated an LLM into the existing AI pipeline to improve prescription entity extraction, and wrote automated test suites to make services more reliable.",
+      "Built and maintained CI pipelines for regression testing and static analysis, and enforced code standards with linters, formatters, type checkers, and pre-commit hooks.",
     ],
   },
   {
     title: "Research Assistant",
     company: "Interaction Lab",
-    date: "May 2021 — Aug 2021",
+    date: "May 2021 – Aug 2021",
     points: [
       "Worked as a research assistant at the Human-Computer Interaction Laboratory, University of Saskatchewan.",
-      "Engaged with the supervisor to elicit detailed project requirements, ensuring a clear understanding of their needs and objectives.",
-      "Developed advanced software solutions utilizing official REST APIs from Twitter and Steam for data collection and analysis.",
-      "Developed a website using an internal Python-based framework to conduct a survey for their research.",
+      "Met with my supervisor to work out detailed project requirements.",
+      "Built tools that collected and analyzed data through the official Twitter and Steam REST APIs.",
+      "Built a survey website for the lab’s research using an internal Python framework.",
     ],
   },
 ];
@@ -123,7 +123,7 @@ export const projects: Project[] = [
     subtitle:
       "Python library for receiving real-time YouTube notifications via PubSubHubbub",
     description:
-      "ytnoti is a Python library that provides real-time notifications for YouTube video uploads and edits via PubSubHubbub Protocol—no API polling needed. With 16,000+ downloads and 99% code coverage, it’s a lightweight, reliable, and easy-to-integrate solution for developers.",
+      "ytnoti is a Python library that sends real-time notifications when YouTube videos are uploaded or edited. It uses the PubSubHubbub protocol, so there is no API polling. It has 16,000+ downloads and 99% code coverage.",
     tags: ["Python", "FastAPI", "GitHub Actions"],
     image: ytnoti,
     sourceCodeLink: "https://github.com/SeoulSKY/ytnoti",
@@ -131,9 +131,9 @@ export const projects: Project[] = [
   },
   {
     title: "SoruSora",
-    subtitle: "Officially Verified AI-Powered Discord Bot",
+    subtitle: "Officially Verified AI Discord Bot",
     description:
-      "SoruSora is an advanced, AI-driven Discord bot designed to enhance communication and collaboration within online communities. It enables natural, lifelike AI conversations and supports real-time translation across 45 languages. Now officially verified by Discord, SoruSora is trusted and actively used across 100+ servers worldwide.",
+      "SoruSora is a Discord bot that holds AI conversations and translates messages in real time across 45 languages. Discord has verified it, and it runs on 100+ servers.",
     tags: ["Python", "MongoDB", "Docker"],
     image: sorusoraPoster,
     video: sorusoraVideo,
@@ -143,9 +143,9 @@ export const projects: Project[] = [
   },
   {
     title: "Desdemona",
-    subtitle: "Powerful Othello AI",
+    subtitle: "Othello AI Opponent",
     description:
-      "Engage in a game of Othello against a powerful AI opponent, Desdemona, and explore the intriguing environment surrounding you, and discover what lies inside various buildings.",
+      "Play Othello against Desdemona, a strong AI opponent, then explore the 3D world around the board and look inside its buildings.",
     tags: ["Rust", "Unity3D", "Node.js"],
     image: desdemonaPoster,
     video: desdemonaVideo,
@@ -154,9 +154,9 @@ export const projects: Project[] = [
   },
   {
     title: "Memory Mate",
-    subtitle: "AI-Powered Dementia Treatment Platform",
+    subtitle: "AI Companion for People with Dementia",
     description:
-      "Connect with our empathetic AI companion tailored for those with dementia, offering friendly conversations and engaging personalized brain games to enhance cognitive abilities.",
+      "An AI companion for people with dementia. It holds friendly conversations and offers personalized brain games that exercise memory and thinking.",
     tags: ["React Native", "TypeScript", "Gemini AI"],
     image: memorymatePoster,
     video: memorymateVideo,
@@ -164,9 +164,9 @@ export const projects: Project[] = [
   },
   {
     title: "GoChat",
-    subtitle: "Real-Time Chat Web Platform",
+    subtitle: "Real-Time Chat Web App",
     description:
-      "Experience a real-time chat web platform powered by WebSocket, Go, React, and MongoDB. Engage in instant communication and uncover the technical prowess behind this project.",
+      "A real-time chat web app built with WebSocket, Go, React, and MongoDB.",
     tags: ["Go", "React.js", "TailwindCSS"],
     image: gochat,
     sourceCodeLink: "https://github.com/SeoulSKY/go-chat",
@@ -174,9 +174,9 @@ export const projects: Project[] = [
   },
   {
     title: "Chess AI",
-    subtitle: "Highly Customizable Chess AI",
+    subtitle: "Customizable Chess AI",
     description:
-      "Experience the ultimate in strategic gaming with our customizable chess AI. Play on the web with dynamic difficulty adjustments and personalized settings, perfect for beginners and grandmasters alike. Enhance your skills and enjoy endless strategic fun.",
+      "A chess AI you can play in the browser, with adjustable difficulty and custom settings, so it suits beginners and strong players alike.",
     tags: ["Java", "React.js", "CSS"],
     image: chessaiPoster,
     video: chessaiVideo,

@@ -1,13 +1,13 @@
 <div align="center">
-  <h1>SeoulSKY · 서울하늘</h1>
-  <p>Personal portfolio — Seoul at dusk, travelled by subway.</p>
+  <h1>SeoulSKY</h1>
+  <p>Personal portfolio: Seoul at dusk, travelled by subway.</p>
 </div>
 
 ## Stack
 
 - [Vite](https://vite.dev) + [React 19](https://react.dev) + TypeScript
 - [Tailwind CSS v4](https://tailwindcss.com) with [shadcn/ui](https://ui.shadcn.com) components (`src/components/ui`)
-- [GSAP](https://gsap.com) — ScrollTrigger, ScrollSmoother, SplitText, DrawSVG, ScrambleText, Text
+- [GSAP](https://gsap.com) for animation (ScrollTrigger, ScrollSmoother, SplitText, DrawSVG, ScrambleText, Text)
 - [EmailJS](https://www.emailjs.com) for the contact form
 
 ## Structure
@@ -32,8 +32,8 @@ src/
 
 All copy lives in `src/data/content.ts`.
 
-Each section rides a Seoul Metro line in its official colour — About 1호선,
-Experience 2호선, Skills 3호선, Projects 4호선, Awards 5호선, Contact 6호선 —
+Each section rides a Seoul Metro line in its official colour (About 1호선,
+Experience 2호선, Skills 3호선, Projects 4호선, Awards 5호선, Contact 6호선),
 and new sections take Lines 7–9. The full design system (colours, type,
 motion, illustration rules) is in [`CLAUDE.md`](CLAUDE.md).
 

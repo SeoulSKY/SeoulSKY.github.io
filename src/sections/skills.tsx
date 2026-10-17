@@ -101,8 +101,8 @@ export default function Skills() {
       <div className="mx-auto max-w-7xl px-5 sm:px-10">
         <SectionHeading id="skills" index={3} title="The" accent="toolbox">
           <p className="max-w-xl text-lg text-mist/65 leading-relaxed">
-            Languages, frameworks and infrastructure I reach for — hover a row
-            to slow the traffic down.
+            Languages, frameworks and infrastructure I reach for. Hover a row to
+            slow the traffic down.
           </p>
         </SectionHeading>
       </div>

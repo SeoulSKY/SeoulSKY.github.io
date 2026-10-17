@@ -81,7 +81,7 @@ function Gangway() {
   );
 }
 
-/** Wheel radius in px — the wheels turn by distance travelled / radius. */
+/** Wheel radius in px. The wheels turn by distance travelled / radius. */
 const WHEEL_R = 16;
 
 function Wheel({ className }: { className?: string }) {
@@ -323,10 +323,8 @@ export default function Projects() {
           accent="projects"
         >
           <p className="max-w-xl text-lg text-mist/65 leading-relaxed">
-            Discover my personal journey in software development, marked by a
-            wide array of projects and a commitment to delivering high-quality
-            solutions. Gain insight into how I approach and resolve different
-            challenges within the field.
+            A few things I’ve built: a Python library, a Discord bot, games and
+            web apps.
           </p>
         </SectionHeading>
       </div>

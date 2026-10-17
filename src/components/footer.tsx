@@ -57,7 +57,7 @@ export default function Footer() {
               서울하늘
             </p>
             <p className="mt-4 max-w-sm font-serif text-3xl text-mist/85 italic leading-snug sm:text-4xl">
-              Thanks for visiting — see you under the same sky.
+              Thanks for visiting. See you under the same sky.
             </p>
           </div>
           <nav

@@ -128,7 +128,7 @@ export default function About() {
           id="about"
           index={1}
           title="Scalable, intuitive"
-          accent="solutions."
+          accent="software."
         />
 
         <div className="mt-16 grid gap-16 lg:mt-24 lg:grid-cols-12">
