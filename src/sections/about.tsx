@@ -30,8 +30,16 @@ function formatStat(n: number): string {
 /** Tilts each card toward the pointer. Returns a function that undoes it. */
 function addTilt(cards: HTMLElement[]) {
   const removers = cards.map((card) => {
-    const rx = gsap.quickTo(card, "rotateX", { duration: 0.6, ease: "power3" });
-    const ry = gsap.quickTo(card, "rotateY", { duration: 0.6, ease: "power3" });
+    // quickTo needs GSAP's own property names: given the CSS-style alias
+    // "rotateX" it cannot find the property and never moves the card
+    const rx = gsap.quickTo(card, "rotationX", {
+      duration: 0.6,
+      ease: "power3",
+    });
+    const ry = gsap.quickTo(card, "rotationY", {
+      duration: 0.6,
+      ease: "power3",
+    });
     function move(e: PointerEvent) {
       const r = card.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width;
