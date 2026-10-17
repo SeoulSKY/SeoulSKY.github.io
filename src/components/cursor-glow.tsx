@@ -5,15 +5,23 @@ import { gsap, isFinePointer, prefersReducedMotion, useGSAP } from "@/lib/gsap";
 export default function CursorGlow() {
   const ref = useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
+  useGSAP((_, contextSafe) => {
     if (!isFinePointer() || prefersReducedMotion() || !ref.current) return;
     const el = ref.current;
     const x = gsap.quickTo(el, "x", { duration: 0.9, ease: "power3" });
     const y = gsap.quickTo(el, "y", { duration: 0.9, ease: "power3" });
+    // fade in on the first move, rather than a new tween on every move
+    const show = contextSafe?.(() =>
+      gsap.to(el, { autoAlpha: 1, duration: 0.6 }),
+    );
+    let shown = false;
     function move(e: PointerEvent) {
       x(e.clientX);
       y(e.clientY);
-      gsap.to(el, { autoAlpha: 1, duration: 0.6, overwrite: "auto" });
+      if (!shown) {
+        shown = true;
+        show?.();
+      }
     }
     window.addEventListener("pointermove", move);
     return () => window.removeEventListener("pointermove", move);
