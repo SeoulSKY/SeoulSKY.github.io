@@ -33,6 +33,17 @@ export function prefersReducedMotion() {
   );
 }
 
+/**
+ * Runs `setup` only while the visitor allows motion, and undoes it if they
+ * turn reduced motion on later. `setup` may return its own cleanup. Returns
+ * the revert, for a useGSAP cleanup.
+ */
+export function withMotion(setup: () => unknown) {
+  const mm = gsap.matchMedia();
+  mm.add("(prefers-reduced-motion: no-preference)", setup);
+  return () => mm.revert();
+}
+
 export function isFinePointer() {
   return (
     typeof window !== "undefined" &&

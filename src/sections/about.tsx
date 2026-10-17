@@ -8,7 +8,13 @@ import {
 import { useRef } from "react";
 import SectionHeading from "@/components/section-heading";
 import { introduction, type ServiceKey, services, stats } from "@/data/content";
-import { gsap, isFinePointer, SplitText, useGSAP } from "@/lib/gsap";
+import {
+  gsap,
+  isFinePointer,
+  SplitText,
+  useGSAP,
+  withMotion,
+} from "@/lib/gsap";
 
 const ICONS: Record<ServiceKey, LucideIcon> = {
   backend: Server,
@@ -21,98 +27,111 @@ function formatStat(n: number): string {
   return Math.round(n).toLocaleString("en-US");
 }
 
+/** Tilts each card toward the pointer. Returns a function that undoes it. */
+function addTilt(cards: HTMLElement[]) {
+  const removers = cards.map((card) => {
+    const rx = gsap.quickTo(card, "rotateX", { duration: 0.6, ease: "power3" });
+    const ry = gsap.quickTo(card, "rotateY", { duration: 0.6, ease: "power3" });
+    function move(e: PointerEvent) {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width;
+      const py = (e.clientY - r.top) / r.height;
+      card.style.setProperty("--mx", `${px * 100}%`);
+      card.style.setProperty("--my", `${py * 100}%`);
+      rx((0.5 - py) * 12);
+      ry((px - 0.5) * 12);
+    }
+    function leave() {
+      rx(0);
+      ry(0);
+    }
+    card.addEventListener("pointermove", move);
+    card.addEventListener("pointerleave", leave);
+    return () => {
+      card.removeEventListener("pointermove", move);
+      card.removeEventListener("pointerleave", leave);
+    };
+  });
+  return () => {
+    for (const remove of removers) remove();
+  };
+}
+
 export default function About() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
-    (_, contextSafe) => {
-      const q = gsap.utils.selector(root);
+    () =>
+      withMotion(() => {
+        const q = gsap.utils.selector(root);
 
-      // words light up as you read
-      const split = SplitText.create(q(".about-copy")[0], { type: "words" });
-      gsap.fromTo(
-        split.words,
-        { opacity: 0.14 },
-        {
-          opacity: 1,
-          stagger: 0.1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: q(".about-copy")[0],
-            start: "top 80%",
-            end: "bottom 45%",
-            scrub: true,
+        // words light up as you read
+        const split = SplitText.create(q(".about-copy")[0], { type: "words" });
+        gsap.fromTo(
+          split.words,
+          { opacity: 0.14 },
+          {
+            opacity: 1,
+            stagger: 0.1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: q(".about-copy")[0],
+              start: "top 80%",
+              end: "bottom 45%",
+              scrub: true,
+            },
           },
-        },
-      );
+        );
 
-      // counters: the markup holds the real figure for crawlers; here it
-      // counts up from zero instead
-      for (const el of q<HTMLElement>(".stat-num")) {
-        const target = Number(el.dataset.value);
-        const obj = { v: 0 };
-        el.textContent = "0";
-        gsap.to(obj, {
-          v: target,
-          duration: 2.2,
-          ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 90%" },
-          onUpdate: () => {
-            el.textContent = formatStat(obj.v);
-          },
-        });
-      }
-      gsap.from(q(".stat"), {
-        y: 40,
-        autoAlpha: 0,
-        duration: 1.1,
-        stagger: 0.1,
-        ease: "rise",
-        scrollTrigger: { trigger: q(".stats")[0], start: "top 88%" },
-      });
-
-      // service cards
-      gsap.from(q(".svc"), {
-        y: 80,
-        autoAlpha: 0,
-        rotateX: -20,
-        duration: 1.3,
-        stagger: 0.12,
-        ease: "rise",
-        scrollTrigger: { trigger: q(".svc-grid")[0], start: "top 85%" },
-      });
-
-      if (isFinePointer()) {
-        for (const card of q<HTMLElement>(".svc")) {
-          const rx = gsap.quickTo(card, "rotateX", {
-            duration: 0.6,
-            ease: "power3",
+        // counters: the markup holds the real figure for crawlers and
+        // reduced motion; here it counts up from zero instead
+        const counters = q<HTMLElement>(".stat-num");
+        for (const el of counters) {
+          const target = Number(el.dataset.value);
+          const obj = { v: 0 };
+          el.textContent = "0";
+          gsap.to(obj, {
+            v: target,
+            duration: 2.2,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 90%" },
+            onUpdate: () => {
+              el.textContent = formatStat(obj.v);
+            },
           });
-          const ry = gsap.quickTo(card, "rotateY", {
-            duration: 0.6,
-            ease: "power3",
-          });
-          const move = contextSafe?.((e: PointerEvent) => {
-            const r = card.getBoundingClientRect();
-            const px = (e.clientX - r.left) / r.width;
-            const py = (e.clientY - r.top) / r.height;
-            card.style.setProperty("--mx", `${px * 100}%`);
-            card.style.setProperty("--my", `${py * 100}%`);
-            rx((0.5 - py) * 12);
-            ry((px - 0.5) * 12);
-          });
-          const leave = contextSafe?.(() => {
-            rx(0);
-            ry(0);
-          });
-          if (move && leave) {
-            card.addEventListener("pointermove", move);
-            card.addEventListener("pointerleave", leave);
-          }
         }
-      }
-      return () => split.revert();
-    },
+        gsap.from(q(".stat"), {
+          y: 40,
+          autoAlpha: 0,
+          duration: 1.1,
+          stagger: 0.1,
+          ease: "rise",
+          scrollTrigger: { trigger: q(".stats")[0], start: "top 88%" },
+        });
+
+        // service cards
+        gsap.from(q(".svc"), {
+          y: 80,
+          autoAlpha: 0,
+          rotateX: -20,
+          duration: 1.3,
+          stagger: 0.12,
+          ease: "rise",
+          scrollTrigger: { trigger: q(".svc-grid")[0], start: "top 85%" },
+        });
+
+        const removeTilt = isFinePointer()
+          ? addTilt(q<HTMLElement>(".svc"))
+          : null;
+
+        return () => {
+          removeTilt?.();
+          split.revert();
+          for (const el of counters) {
+            el.textContent = formatStat(Number(el.dataset.value));
+          }
+        };
+      }),
     { scope: root },
   );
 

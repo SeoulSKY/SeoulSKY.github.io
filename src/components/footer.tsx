@@ -9,7 +9,7 @@ import Starfield from "@/components/seoul/starfield";
 import { GITHUB_URL, navSections } from "@/data/content";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useMounted } from "@/hooks/use-mounted";
-import { gsap, scrollToSection, useGSAP } from "@/lib/gsap";
+import { gsap, scrollToSection, useGSAP, withMotion } from "@/lib/gsap";
 
 export default function Footer() {
   const root = useRef<HTMLElement>(null);
@@ -19,30 +19,31 @@ export default function Footer() {
   const mounted = useMounted();
 
   useGSAP(
-    () => {
-      const q = gsap.utils.selector(root);
-      gsap.from(q(".ft-city"), {
-        yPercent: 35,
-        ease: "none",
-        scrollTrigger: {
-          trigger: root.current,
-          start: "top bottom",
-          end: "bottom bottom",
-          scrub: true,
-        },
-      });
-      gsap.from(q(".ft-word"), {
-        yPercent: 60,
-        autoAlpha: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: root.current,
-          start: "top 90%",
-          end: "bottom bottom",
-          scrub: true,
-        },
-      });
-    },
+    () =>
+      withMotion(() => {
+        const q = gsap.utils.selector(root);
+        gsap.from(q(".ft-city"), {
+          yPercent: 35,
+          ease: "none",
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top bottom",
+            end: "bottom bottom",
+            scrub: true,
+          },
+        });
+        gsap.from(q(".ft-word"), {
+          yPercent: 60,
+          autoAlpha: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top 90%",
+            end: "bottom bottom",
+            scrub: true,
+          },
+        });
+      }),
     { scope: root },
   );
 

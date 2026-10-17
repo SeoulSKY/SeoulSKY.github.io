@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { KOREAN } from "@/data/content";
-import { gsap, SplitText, useGSAP } from "@/lib/gsap";
+import { gsap, SplitText, useGSAP, withMotion } from "@/lib/gsap";
 import { METRO_LINES, type MetroLineNumber } from "@/lib/metro";
 import { cn } from "@/lib/utils";
 
@@ -27,33 +27,34 @@ export default function SectionHeading({
   const line = METRO_LINES[index];
 
   useGSAP(
-    () => {
-      const q = gsap.utils.selector(root);
-      const split = SplitText.create(q(".sh-title")[0], {
-        type: "lines,words",
-        mask: "lines",
-        linesClass: "sh-line",
-      });
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: root.current, start: "top 82%" },
-        defaults: { ease: "rise" },
-      });
-      tl.from(q(".sh-rule"), { scaleX: 0, duration: 1.4, ease: "seoul" }, 0)
-        .from(
-          q(".sh-meta"),
-          { autoAlpha: 0, y: 14, duration: 0.8, stagger: 0.08 },
-          0.1,
-        )
-        .from(
-          split.words,
-          { yPercent: 110, duration: 1.2, stagger: 0.06 },
-          0.15,
-        );
-      const body = q(".sh-body");
-      if (body.length)
-        tl.from(body, { autoAlpha: 0, y: 24, duration: 1 }, 0.45);
-      return () => split.revert();
-    },
+    () =>
+      withMotion(() => {
+        const q = gsap.utils.selector(root);
+        const split = SplitText.create(q(".sh-title")[0], {
+          type: "lines,words",
+          mask: "lines",
+          linesClass: "sh-line",
+        });
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: root.current, start: "top 82%" },
+          defaults: { ease: "rise" },
+        });
+        tl.from(q(".sh-rule"), { scaleX: 0, duration: 1.4, ease: "seoul" }, 0)
+          .from(
+            q(".sh-meta"),
+            { autoAlpha: 0, y: 14, duration: 0.8, stagger: 0.08 },
+            0.1,
+          )
+          .from(
+            split.words,
+            { yPercent: 110, duration: 1.2, stagger: 0.06 },
+            0.15,
+          );
+        const body = q(".sh-body");
+        if (body.length)
+          tl.from(body, { autoAlpha: 0, y: 24, duration: 1 }, 0.45);
+        return () => split.revert();
+      }),
     { scope: root },
   );
 

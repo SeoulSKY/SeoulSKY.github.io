@@ -2,24 +2,25 @@ import { Award as AwardIcon } from "lucide-react";
 import { useRef } from "react";
 import SectionHeading from "@/components/section-heading";
 import { awards } from "@/data/content";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, withMotion } from "@/lib/gsap";
 
 export default function Awards() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
-    () => {
-      const q = gsap.utils.selector(root);
-      gsap.from(q(".ticket"), {
-        y: 120,
-        rotate: (i: number) => (i % 2 ? 6 : -6),
-        autoAlpha: 0,
-        duration: 1.4,
-        stagger: 0.12,
-        ease: "rise",
-        scrollTrigger: { trigger: q(".tickets")[0], start: "top 85%" },
-      });
-    },
+    () =>
+      withMotion(() => {
+        const q = gsap.utils.selector(root);
+        gsap.from(q(".ticket"), {
+          y: 120,
+          rotate: (i: number) => (i % 2 ? 6 : -6),
+          autoAlpha: 0,
+          duration: 1.4,
+          stagger: 0.12,
+          ease: "rise",
+          scrollTrigger: { trigger: q(".tickets")[0], start: "top 85%" },
+        });
+      }),
     { scope: root },
   );
 

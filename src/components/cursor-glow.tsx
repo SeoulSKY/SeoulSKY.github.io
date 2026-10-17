@@ -1,12 +1,12 @@
 import { useRef } from "react";
-import { gsap, isFinePointer, useGSAP } from "@/lib/gsap";
+import { gsap, isFinePointer, prefersReducedMotion, useGSAP } from "@/lib/gsap";
 
 /** A soft lantern-like glow that trails the pointer on desktop. */
 export default function CursorGlow() {
   const ref = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!isFinePointer() || !ref.current) return;
+    if (!isFinePointer() || prefersReducedMotion() || !ref.current) return;
     const el = ref.current;
     const x = gsap.quickTo(el, "x", { duration: 0.9, ease: "power3" });
     const y = gsap.quickTo(el, "y", { duration: 0.9, ease: "power3" });

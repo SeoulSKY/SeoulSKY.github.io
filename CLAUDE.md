@@ -214,7 +214,9 @@ GSAP everywhere; every animation tells the dusk/subway story.
   of carriages passing by.
 - **Ambient:** beacons blink, water ripples, lanterns flicker, straps sway.
 - **Reduced motion:** `prefersReducedMotion()` skips the preloader and
-  ScrollSmoother and shows the finished, fully lit scene.
+  ScrollSmoother and shows the finished, fully lit scene. Wrap a section's
+  scroll animations in `withMotion()` (from `@/lib/gsap`), which runs them
+  only while motion is allowed and reverts them if that changes.
 
 ## Illustration (SVG)
 

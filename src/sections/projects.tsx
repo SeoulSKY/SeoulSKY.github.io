@@ -6,6 +6,7 @@ import SectionHeading from "@/components/section-heading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GITHUB_URL, type Project, projects } from "@/data/content";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { METRO_LINES } from "@/lib/metro";
 import { cn } from "@/lib/utils";
@@ -21,11 +22,13 @@ function posterUrl(src: string): string {
 
 function ProjectMedia({ project }: { project: Project }) {
   const video = useRef<HTMLVideoElement>(null);
+  // reduced motion: no autoplay; the poster shows and controls let you play
+  const still = useMediaQuery("(prefers-reduced-motion: reduce)");
 
   // only play while on screen
   useEffect(() => {
     const el = video.current;
-    if (!el) return;
+    if (!el || still) return;
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -37,8 +40,11 @@ function ProjectMedia({ project }: { project: Project }) {
       { threshold: 0.25 },
     );
     io.observe(el);
-    return () => io.disconnect();
-  }, []);
+    return () => {
+      io.disconnect();
+      el.pause();
+    };
+  }, [still]);
 
   return (
     <div className="pj-media relative isolate aspect-[16/10] overflow-hidden rounded-2xl bg-night-800 [clip-path:inset(0_round_1rem)]">
@@ -53,6 +59,7 @@ function ProjectMedia({ project }: { project: Project }) {
             loop
             playsInline
             preload="none"
+            controls={still}
             aria-label={`${project.title} preview`}
           />
         ) : (
@@ -304,17 +311,20 @@ export default function Projects() {
         },
       );
 
-      mm.add("(max-width: 1023px)", () => {
-        for (const panel of q<HTMLElement>(".pj-panel")) {
-          gsap.from(panel, {
-            y: 80,
-            autoAlpha: 0,
-            duration: 1.2,
-            ease: "rise",
-            scrollTrigger: { trigger: panel, start: "top 88%" },
-          });
-        }
-      });
+      mm.add(
+        "(max-width: 1023px) and (prefers-reduced-motion: no-preference)",
+        () => {
+          for (const panel of q<HTMLElement>(".pj-panel")) {
+            gsap.from(panel, {
+              y: 80,
+              autoAlpha: 0,
+              duration: 1.2,
+              ease: "rise",
+              scrollTrigger: { trigger: panel, start: "top 88%" },
+            });
+          }
+        },
+      );
 
       return () => mm.revert();
     },
@@ -341,7 +351,7 @@ export default function Projects() {
         </SectionHeading>
       </div>
 
-      <div className="pj-pin relative mt-16 lg:mt-0 lg:flex lg:h-screen lg:flex-col lg:justify-center lg:overflow-hidden lg:pt-16">
+      <div className="pj-pin relative mt-16 lg:mt-0 lg:flex lg:h-screen lg:flex-col lg:justify-center lg:overflow-hidden lg:pt-16 lg:motion-reduce:overflow-x-auto">
         <div className="pj-track relative flex flex-col items-center px-5 sm:px-10 lg:w-max lg:flex-row lg:items-stretch lg:pb-[46px] lg:pl-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))]">
           {/* the rail the train runs on (uniform, so it reads as still) */}
           <span

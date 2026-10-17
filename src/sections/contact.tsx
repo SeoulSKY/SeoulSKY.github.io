@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { GITHUB_URL } from "@/data/content";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, withMotion } from "@/lib/gsap";
 
 /** N Seoul Tower as line art; it draws itself as the section enters. */
 function TowerLineArt({ className }: { className?: string }) {
@@ -70,7 +70,6 @@ function TowerLineArt({ className }: { className?: string }) {
         height="4"
         rx="1"
         fill="#ffd39a"
-        opacity="0"
       />
     </svg>
   );
@@ -84,44 +83,45 @@ export default function Contact() {
   const [loading, setLoading] = useState(false);
 
   useGSAP(
-    () => {
-      const q = gsap.utils.selector(root);
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: q(".ct-art")[0], start: "top 80%" },
-      });
-      tl.from(q(".tw-line"), {
-        drawSVG: "0%",
-        duration: 1.6,
-        stagger: 0.08,
-        ease: "power2.inOut",
-      })
-        .to(q(".tw-band"), { opacity: 1, duration: 0.6 }, "-=0.4")
-        .from(
-          q(".tw-beacon, .tw-halo"),
-          {
-            scale: 0,
-            transformOrigin: "50% 50%",
-            duration: 0.6,
-            ease: "back.out(3)",
-          },
-          "<",
-        );
-      gsap.to(q(".tw-halo"), {
-        scale: 2.2,
-        opacity: 0,
-        transformOrigin: "50% 50%",
-        duration: 1.8,
-        repeat: -1,
-        ease: "power1.out",
-      });
-      gsap.from(q(".ct-form"), {
-        y: 80,
-        autoAlpha: 0,
-        duration: 1.3,
-        ease: "rise",
-        scrollTrigger: { trigger: q(".ct-form")[0], start: "top 85%" },
-      });
-    },
+    () =>
+      withMotion(() => {
+        const q = gsap.utils.selector(root);
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: q(".ct-art")[0], start: "top 80%" },
+        });
+        tl.from(q(".tw-line"), {
+          drawSVG: "0%",
+          duration: 1.6,
+          stagger: 0.08,
+          ease: "power2.inOut",
+        })
+          .from(q(".tw-band"), { opacity: 0, duration: 0.6 }, "-=0.4")
+          .from(
+            q(".tw-beacon, .tw-halo"),
+            {
+              scale: 0,
+              transformOrigin: "50% 50%",
+              duration: 0.6,
+              ease: "back.out(3)",
+            },
+            "<",
+          );
+        gsap.to(q(".tw-halo"), {
+          scale: 2.2,
+          opacity: 0,
+          transformOrigin: "50% 50%",
+          duration: 1.8,
+          repeat: -1,
+          ease: "power1.out",
+        });
+        gsap.from(q(".ct-form"), {
+          y: 80,
+          autoAlpha: 0,
+          duration: 1.3,
+          ease: "rise",
+          scrollTrigger: { trigger: q(".ct-form")[0], start: "top 85%" },
+        });
+      }),
     { scope: root },
   );
 

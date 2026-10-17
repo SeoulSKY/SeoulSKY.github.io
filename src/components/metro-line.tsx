@@ -1,5 +1,5 @@
 import { type ReactNode, useRef } from "react";
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAP, withMotion } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
 
 export interface Stop {
@@ -60,64 +60,76 @@ export default function MetroLine({ color, stops, next }: MetroLineProps) {
       });
       ro.observe(track);
 
-      // Fill and train both ride the 60% line, so the train is always
-      // exactly where the scroll is, and reaches each station as it lights.
-      const ride = {
-        trigger: rail,
-        start: "top 60%",
-        end: "bottom 60%",
-        scrub: 0.4,
-      };
-      gsap.fromTo(
-        q(".ml-fill"),
-        { scaleY: 0 },
-        { scaleY: 1, ease: "none", scrollTrigger: ride },
-      );
-      gsap.fromTo(
-        q(".ml-train"),
-        { top: "0%" },
-        { top: "100%", ease: "none", scrollTrigger: { ...ride } },
-      );
-      gsap.from(q(".ml-next .ml-reveal"), {
-        y: 40,
-        autoAlpha: 0,
-        duration: 1.2,
-        ease: "rise",
-        scrollTrigger: { trigger: q(".ml-next")[0], start: "top 85%" },
+      // With reduced motion, show the finished ride: the train at the end
+      // of the line and every station lit.
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(q(".ml-train"), { top: "100%" });
+        gsap.set(q(".ml-dot"), { backgroundColor: color });
+        gsap.set(q(".ml-ping"), { autoAlpha: 0 });
       });
-      for (const stop of q<HTMLElement>(".ml-stop")) {
-        const dot = stop.querySelector<HTMLElement>(".ml-dot");
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: dot,
-            start: "center 60%",
-            toggleActions: "play none none reverse",
-          },
-        });
-        tl.to(dot, {
-          scale: 1.25,
-          backgroundColor: color,
-          duration: 0.4,
-          ease: "back.out(3)",
-        })
-          .to(dot, { scale: 1, duration: 0.3 })
-          .fromTo(
-            stop.querySelector(".ml-ping"),
-            { scale: 0.6, autoAlpha: 0.8 },
-            { scale: 2.6, autoAlpha: 0, duration: 1 },
-            0,
-          );
-        gsap.from(stop.querySelectorAll(".ml-reveal"), {
-          y: 60,
+      const revertMotion = withMotion(() => {
+        // Fill and train both ride the 60% line, so the train is always
+        // exactly where the scroll is, and reaches each station as it lights.
+        const ride = {
+          trigger: rail,
+          start: "top 60%",
+          end: "bottom 60%",
+          scrub: 0.4,
+        };
+        gsap.fromTo(
+          q(".ml-fill"),
+          { scaleY: 0 },
+          { scaleY: 1, ease: "none", scrollTrigger: ride },
+        );
+        gsap.fromTo(
+          q(".ml-train"),
+          { top: "0%" },
+          { top: "100%", ease: "none", scrollTrigger: { ...ride } },
+        );
+        gsap.from(q(".ml-next .ml-reveal"), {
+          y: 40,
           autoAlpha: 0,
           duration: 1.2,
-          stagger: 0.1,
           ease: "rise",
-          scrollTrigger: { trigger: stop, start: "top 85%" },
+          scrollTrigger: { trigger: q(".ml-next")[0], start: "top 85%" },
         });
-      }
+        for (const stop of q<HTMLElement>(".ml-stop")) {
+          const dot = stop.querySelector<HTMLElement>(".ml-dot");
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: dot,
+              start: "center 60%",
+              toggleActions: "play none none reverse",
+            },
+          });
+          tl.to(dot, {
+            scale: 1.25,
+            backgroundColor: color,
+            duration: 0.4,
+            ease: "back.out(3)",
+          })
+            .to(dot, { scale: 1, duration: 0.3 })
+            .fromTo(
+              stop.querySelector(".ml-ping"),
+              { scale: 0.6, autoAlpha: 0.8 },
+              { scale: 2.6, autoAlpha: 0, duration: 1 },
+              0,
+            );
+          gsap.from(stop.querySelectorAll(".ml-reveal"), {
+            y: 60,
+            autoAlpha: 0,
+            duration: 1.2,
+            stagger: 0.1,
+            ease: "rise",
+            scrollTrigger: { trigger: stop, start: "top 85%" },
+          });
+        }
+      });
 
       return () => {
+        revertMotion();
+        mm.revert();
         ScrollTrigger.removeEventListener("refreshInit", layout);
         ro.disconnect();
         clearTimeout(pending);
