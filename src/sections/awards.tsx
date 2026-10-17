@@ -49,10 +49,10 @@ export default function Awards() {
                 <span className="font-bold font-kr text-xs">5호선</span>
                 <div className="text-center">
                   <p className="font-bold font-display text-4xl leading-none tracking-tight sm:text-5xl">
-                    {a.date.split(" ")[1]}
+                    {a.year}
                   </p>
                   <p className="mt-1 font-mono text-xs uppercase tracking-[0.25em]">
-                    {a.date.split(" ")[0]}
+                    {a.month}
                   </p>
                 </div>
                 <span className="font-mono text-[10px] tracking-widest">

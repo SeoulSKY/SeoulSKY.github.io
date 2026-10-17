@@ -213,7 +213,8 @@ export const projects: Project[] = [
 export interface Award {
   title: string;
   description: string;
-  date: string;
+  month: string;
+  year: number;
 }
 
 export const awards: Award[] = [
@@ -221,25 +222,29 @@ export const awards: Award[] = [
     title: "Academic Excellence Scholarship",
     description:
       "The College of Arts and Science awards the Academic Excellence Scholarship to students who maintain the highest overall academic averages in their respective programs. I was honoured to receive the scholarship in January 2024, recognizing my academic accomplishments during the 2022-2023 academic year in the Bachelor of Science Honours Software Engineering.",
-    date: "Jan 2024",
+    month: "Jan",
+    year: 2024,
   },
   {
     title: "Undergraduate Summer Research Award",
     description:
       "The Undergraduate Summer Research Awards (USRA) competition is an opportunity for talented and motivated undergraduate students to gain leading-edge research and software development experience by working during the summer on a research project under the supervision of a Computer Science faculty member.",
-    date: "Aug 2021",
+    month: "Aug",
+    year: 2021,
   },
   {
     title: "Dean's Honour List 2020-21",
     description:
       "The Dean’s Honour List recognizes undergraduate students whose grades rank in the top 5% of those studying with a full course load in the College of Arts and Science.",
-    date: "Sep 2020",
+    month: "Sep",
+    year: 2020,
   },
   {
     title: "Academic Excellence Entrance Scholarship",
     description:
       "Recognizing academic accomplishment with an admission average of 90+%.",
-    date: "Jan 2019",
+    month: "Jan",
+    year: 2019,
   },
 ];
 
