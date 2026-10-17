@@ -56,7 +56,7 @@ export default function Experience() {
               </div>
             }
             stops={experiences.map((exp, i) => ({
-              key: exp.company,
+              key: `${exp.company}-${exp.date}`,
               when: exp.date,
               code: `2${String(i + 1).padStart(2, "0")} · ${exp.company}`,
               content: (
