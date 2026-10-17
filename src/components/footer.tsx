@@ -99,6 +99,7 @@ export default function Footer() {
           SeoulSKY
         </p>
         <CityLayer
+          staticWindows
           viewBox={narrow ? NARROW_VIEWBOX : WIDE_VIEWBOX}
           className="ft-city relative block aspect-[620/760] h-auto w-full sm:aspect-[1600/760] [&_.sk-labels]:hidden"
         />

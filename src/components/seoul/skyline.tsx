@@ -27,6 +27,14 @@ interface LayerProps {
   viewBox?: string;
 }
 
+interface CityLayerProps extends LayerProps {
+  /**
+   * Draw the windows as one path per colour instead of one shape each: far
+   * fewer DOM nodes, for a city whose windows never switch on and off.
+   */
+  staticWindows?: boolean;
+}
+
 /* ── helpers ───────────────────────────────────────────── */
 
 function smoothPath(points: [number, number][], closeTo = WATERLINE) {
@@ -218,7 +226,15 @@ function makeBuildings(
   return out;
 }
 
-function BuildingShape({ b, fill }: { b: Building; fill: string }) {
+function BuildingShape({
+  b,
+  fill,
+  windows,
+}: {
+  b: Building;
+  fill: string;
+  windows: boolean;
+}) {
   const y = WATERLINE - b.h;
   const { x, w } = b;
   return (
@@ -243,19 +259,34 @@ function BuildingShape({ b, fill }: { b: Building; fill: string }) {
       ) : (
         <rect x={x} y={y} width={w} height={b.h} fill={fill} />
       )}
-      {b.windows.map((win) => (
-        <rect
-          key={`${win.x}-${win.y}`}
-          className="sk-win"
-          x={win.x}
-          y={win.y}
-          width={3}
-          height={4}
-          fill={win.c}
-        />
-      ))}
+      {windows &&
+        b.windows.map((win) => (
+          <rect
+            key={`${win.x}-${win.y}`}
+            className="sk-win"
+            x={win.x}
+            y={win.y}
+            width={3}
+            height={4}
+            fill={win.c}
+          />
+        ))}
     </g>
   );
+}
+
+/** A row's windows as one path per colour (see `staticWindows`). */
+function WindowPaths({ buildings }: { buildings: Building[] }) {
+  const byColour = new Map<string, string>();
+  for (const b of buildings) {
+    for (const win of b.windows) {
+      const d = byColour.get(win.c) ?? "";
+      byColour.set(win.c, `${d}M${win.x},${win.y}h3v4h-3z`);
+    }
+  }
+  return [...byColour].map(([colour, d]) => (
+    <path key={colour} d={d} fill={colour} />
+  ));
 }
 
 // Height envelope: low near the palace, rising toward Gangnam on the right.
@@ -275,7 +306,11 @@ function frontHeights(x: number) {
   );
 }
 
-export function CityLayer({ className, viewBox }: LayerProps) {
+export function CityLayer({
+  className,
+  viewBox,
+  staticWindows = false,
+}: CityLayerProps) {
   const uid = useId().replace(/:/g, "");
   const back = useMemo(() => makeBuildings(42, backHeights, 26, 54, 0.16), []);
   const front = useMemo(
@@ -391,8 +426,14 @@ export function CityLayer({ className, viewBox }: LayerProps) {
         {/* back row of the city */}
         <g className="sk-city-back">
           {back.map((b) => (
-            <BuildingShape key={`b${b.x}`} b={b} fill="#1b1a4a" />
+            <BuildingShape
+              key={`b${b.x}`}
+              b={b}
+              fill="#1b1a4a"
+              windows={!staticWindows}
+            />
           ))}
+          {staticWindows && <WindowPaths buildings={back} />}
         </g>
 
         {/* 63 Building, the golden tower by the Han */}
@@ -537,8 +578,14 @@ export function CityLayer({ className, viewBox }: LayerProps) {
         {/* front row of the city */}
         <g className="sk-city-front">
           {front.map((b) => (
-            <BuildingShape key={`f${b.x}`} b={b} fill="#0d0e2b" />
+            <BuildingShape
+              key={`f${b.x}`}
+              b={b}
+              fill="#0d0e2b"
+              windows={!staticWindows}
+            />
           ))}
+          {staticWindows && <WindowPaths buildings={front} />}
         </g>
 
         {/* Gyeongbokgung's Geunjeongjeon throne hall */}
