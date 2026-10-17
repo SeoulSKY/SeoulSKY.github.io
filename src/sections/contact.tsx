@@ -1,4 +1,3 @@
-import emailjs from "@emailjs/browser";
 import { ArrowUpRight, LoaderCircle, Send } from "lucide-react";
 import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -161,15 +160,18 @@ export default function Contact() {
 
     setLoading(true);
 
-    const promise = emailjs.send(
-      "default_service",
-      templateId,
-      {
-        fromName: form.name,
-        fromEmail: form.email,
-        message: form.message,
-      },
-      publicKey,
+    // EmailJS is only needed once someone sends, so it loads then
+    const promise = import("@emailjs/browser").then(({ default: emailjs }) =>
+      emailjs.send(
+        "default_service",
+        templateId,
+        {
+          fromName: form.name,
+          fromEmail: form.email,
+          message: form.message,
+        },
+        publicKey,
+      ),
     );
 
     toast.promise(promise, {
