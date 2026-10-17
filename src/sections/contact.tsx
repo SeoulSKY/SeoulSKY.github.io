@@ -134,19 +134,8 @@ export default function Contact() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    if (form.name.trim() === "") {
-      toast.error("Please enter your name.");
-      return;
-    }
-    if (form.email.trim() === "") {
-      toast.error("Please enter your email.");
-      return;
-    }
-    if (form.message.trim() === "") {
-      toast.error("Please enter your message.");
-      return;
-    }
+    // the submit button stays disabled until every field is filled in, and
+    // the browser checks the email's format, so the form is valid here
 
     const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
     const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
@@ -244,6 +233,7 @@ export default function Contact() {
                   id="ct-name"
                   name="name"
                   autoComplete="name"
+                  required
                   value={form.name}
                   onChange={handleChange}
                   placeholder="What’s your name?"
@@ -256,6 +246,7 @@ export default function Contact() {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  required
                   value={form.email}
                   onChange={handleChange}
                   placeholder="What’s your email address?"
@@ -268,6 +259,7 @@ export default function Contact() {
                 id="ct-message"
                 name="message"
                 rows={7}
+                required
                 value={form.message}
                 onChange={handleChange}
                 placeholder="What do you want to say?"
