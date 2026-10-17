@@ -13,6 +13,7 @@
  *   .pl-door-sign      LCD text groups
  */
 
+import { useId } from "react";
 import { METRO_LINES } from "@/lib/metro";
 import { mulberry32 } from "@/lib/random";
 import { evenlySpaced } from "@/lib/utils";
@@ -836,7 +837,7 @@ function DoorLeaf({ side, id }: { side: "l" | "r"; id: string }) {
 }
 
 export default function Carriage({ portrait }: { portrait: boolean }) {
-  const id = "cab";
+  const id = `cab${useId().replace(/:/g, "")}`;
   return (
     <svg
       viewBox={
