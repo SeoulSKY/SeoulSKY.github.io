@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { prefersReducedMotion } from "@/lib/gsap";
+import { onIntro } from "@/lib/intro";
 import { mulberry32 } from "@/lib/random";
 import { cn } from "@/lib/utils";
 
@@ -19,12 +20,18 @@ interface Star {
   base: number;
   speed: number;
   phase: number;
-  hue: string;
 }
 
 const HUES = ["255,255,255", "255,228,210", "214,206,255", "255,214,190"];
+const FILLS = HUES.map((hue) => `rgb(${hue})`);
 
-/** A lightweight twinkling star canvas that pauses when off-screen. */
+/** Twinkling is slow, so 30 frames a second looks the same as 60. */
+const FRAME_MS = 1000 / 30;
+
+/**
+ * A lightweight twinkling star canvas. It twinkles once the intro has
+ * played (the preloader covers it until then) and pauses when off-screen.
+ */
 export default function Starfield({
   className,
   density = 1.4,
@@ -42,11 +49,14 @@ export default function Starfield({
     const canvas = found;
     const ctx = context;
 
-    let stars: Star[] = [];
+    // stars grouped by hue, so each group sets its fill once per frame
+    let groups: Star[][] = [];
     let w = 0;
     let h = 0;
     let raf = 0;
+    let last = Number.NEGATIVE_INFINITY;
     let visible = true;
+    let started = false;
     const still = prefersReducedMotion();
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
@@ -58,48 +68,67 @@ export default function Starfield({
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const rand = mulberry32(seed);
       const count = Math.round(((w * h) / 10000) * density);
-      stars = Array.from({ length: count }, () => {
+      groups = HUES.map(() => []);
+      for (let i = 0; i < count; i++) {
         // bias toward the top of the sky
         const y = rand() ** 1.6 * h * fadeTo;
-        return {
+        const star: Star = {
           x: rand() * w,
           y,
           r: rand() < 0.08 ? 1.1 + rand() * 0.8 : 0.35 + rand() * 0.7,
           base: (0.35 + rand() * 0.65) * (1 - (y / (h * fadeTo)) * 0.8),
           speed: 0.4 + rand() * 1.6,
           phase: rand() * Math.PI * 2,
-          hue: HUES[Math.floor(rand() * HUES.length)],
         };
-      });
+        groups[Math.floor(rand() * HUES.length)].push(star);
+      }
     }
 
     function draw(t: number) {
       ctx.clearRect(0, 0, w, h);
-      for (const s of stars) {
-        const tw = still
-          ? 1
-          : 0.6 + 0.4 * Math.sin(t * 0.001 * s.speed + s.phase);
-        const a = s.base * tw;
-        ctx.fillStyle = `rgba(${s.hue},${a.toFixed(3)})`;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fill();
-        if (s.r > 1.1) {
-          ctx.fillStyle = `rgba(${s.hue},${(a * 0.15).toFixed(3)})`;
+      groups.forEach((stars, i) => {
+        ctx.fillStyle = FILLS[i];
+        for (const s of stars) {
+          const tw = still
+            ? 1
+            : 0.6 + 0.4 * Math.sin(t * 0.001 * s.speed + s.phase);
+          const a = s.base * tw;
+          ctx.globalAlpha = a;
           ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r * 3.5, 0, Math.PI * 2);
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
           ctx.fill();
+          if (s.r > 1.1) {
+            ctx.globalAlpha = a * 0.15;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r * 3.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
         }
-      }
+      });
+      ctx.globalAlpha = 1;
     }
 
     function loop(t: number) {
-      draw(t);
-      if (!still && visible) raf = requestAnimationFrame(loop);
+      if (t - last >= FRAME_MS - 1) {
+        last = t;
+        draw(t);
+      }
+      if (visible) raf = requestAnimationFrame(loop);
+    }
+
+    // (re)starts the loop; cancelling first means two loops never run
+    function play() {
+      if (still || !started || !visible) return;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(loop);
     }
 
     build();
-    raf = requestAnimationFrame(loop);
+    draw(performance.now());
+    const off = onIntro(() => {
+      started = true;
+      play();
+    });
 
     const ro = new ResizeObserver(() => {
       build();
@@ -108,13 +137,13 @@ export default function Starfield({
     ro.observe(canvas);
 
     const io = new IntersectionObserver(([entry]) => {
-      const was = visible;
       visible = entry.isIntersecting;
-      if (visible && !was && !still) raf = requestAnimationFrame(loop);
+      play();
     });
     io.observe(canvas);
 
     return () => {
+      off();
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
