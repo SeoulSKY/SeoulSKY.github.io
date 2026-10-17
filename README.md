@@ -15,15 +15,15 @@
 ```
 src/
   components/
-    seoul/Skyline.tsx    # the SVG city: Bukhansan, Namsan + N Seoul Tower,
+    seoul/skyline.tsx    # the SVG city: Bukhansan, Namsan + N Seoul Tower,
                          # Lotte World Tower, 63 Building, Gyeongbokgung, Han river
-    seoul/Carriage.tsx   # SVG interior of a Seoul Metro carriage (the doors)
-    seoul/Starfield.tsx  # twinkling canvas sky
-    Preloader.tsx        # "Last train to SeoulSKY": Line 2 map → carriage
+    seoul/carriage.tsx   # SVG interior of a Seoul Metro carriage (the doors)
+    seoul/starfield.tsx  # twinkling canvas sky
+    preloader.tsx        # "Last train to SeoulSKY": Line 2 map → carriage
                          # doors open → triggers the hero entrance
-    MetroLine.tsx        # Seoul-Metro-style timeline (Experience)
-    SectionHeading.tsx   # metro-line badge (1호선…) + split-text section titles
-    IntroScrubber.tsx    # temporary review bar for the intro (dev / #debug)
+    metro-line.tsx       # Seoul-Metro-style timeline (Experience)
+    section-heading.tsx  # metro-line badge (1호선…) + split-text section titles
+    intro-scrubber.tsx   # temporary review bar for the intro (dev / #debug)
     ui/                  # shadcn components
   sections/              # Hero, About, Experience, Skills, Projects, Awards, Contact
   data/content.ts        # all copy, projects, experience, awards, skills

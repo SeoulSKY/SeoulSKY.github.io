@@ -26,7 +26,7 @@ Env vars (see `.env.example`): `VITE_EMAILJS_PUBLIC_KEY`,
 
 - Vite 8 + React 19 + TypeScript 5.9, path alias `@/` → `src/`.
 - Tailwind CSS v4 via `@tailwindcss/vite`. No `tailwind.config`; all tokens
-  live in `src/index.css` (`:root` + `@theme inline`).
+  live in `src/globals.css` (`:root` + `@theme inline`).
 - shadcn/ui (new-york) components in `src/components/ui`, themed by the tokens.
   Add new ones by hand in the same style if the CLI is unavailable.
 - GSAP 3.15 with every plugin registered once in `src/lib/gsap.ts`
@@ -42,23 +42,23 @@ Env vars (see `.env.example`): `VITE_EMAILJS_PUBLIC_KEY`,
 
 ```
 src/
-  App.tsx                 page shell: SmoothScroll, Preloader, Navbar, sections
+  app.tsx                 page shell: SmoothScroll, Preloader, Navbar, sections
   main.tsx                font + CSS imports, registers GSAP
-  index.css               design tokens, hero CSS, utilities (.glass, .grain…)
+  globals.css             design tokens, hero CSS, utilities (.glass, .grain…)
   data/content.ts         ALL copy: nav, Korean tags, about, experience,
                           skills, projects, awards
   lib/gsap.ts             plugins, custom eases, scrollToSection()
   lib/intro.ts            intro pub/sub + timeline registry (+ INTRO_DEBUG)
   lib/random.ts           mulberry32 seeded RNG (deterministic SVG detail)
   components/
-    Preloader.tsx         "Last train to SeoulSKY" subway intro
-    seoul/Carriage.tsx    SVG interior of a Seoul Metro carriage (the doors)
-    seoul/Skyline.tsx     SVG city: Bukhansan, Namsan + N Seoul Tower,
+    preloader.tsx         "Last train to SeoulSKY" subway intro
+    seoul/carriage.tsx    SVG interior of a Seoul Metro carriage (the doors)
+    seoul/skyline.tsx     SVG city: Bukhansan, Namsan + N Seoul Tower,
                           Lotte World Tower, 63 Building, Gyeongbokgung, Han
-    seoul/Starfield.tsx   canvas starfield
-    SectionHeading.tsx    metro-line badge · rule · Korean tag, split title
-    MetroLine.tsx         vertical Seoul-Metro timeline (Experience)
-    IntroScrubber.tsx     TEMPORARY review transport bar for the intro
+    seoul/starfield.tsx   canvas starfield
+    section-heading.tsx   metro-line badge · rule · Korean tag, split title
+    metro-line.tsx        vertical Seoul-Metro timeline (Experience)
+    intro-scrubber.tsx    TEMPORARY review transport bar for the intro
     ui/                   shadcn: button, input, textarea, label, badge,
                           sheet, sonner
   sections/               Hero, About, Experience, Skills, Projects,
@@ -140,7 +140,7 @@ rule, timeline track, rings, ticket stubs, code chips) uses that one colour.
 | 9 | `line-9` | `#bdb092` | `#06071a` | next new section |
 
 The `index` prop of `SectionHeading` is the line number; `METRO_LINES` in
-`SectionHeading.tsx` holds colour + ink. A new section takes the next free
+`section-heading.tsx` holds colour + ink. A new section takes the next free
 line, and any line-coloured details inside it must use the same line.
 Show the line's name once per section (in the heading); inner elements use
 the colour, not a second badge.
@@ -172,15 +172,15 @@ GSAP everywhere; every animation tells the dusk/subway story.
 
 - **Eases:** `seoul` = cubic-bezier(.76,0,.24,1) for curtains, wipes, rules;
   `rise` = cubic-bezier(.16,1,.3,1) for things entering. Use these by name.
-- **Intro — "Last train to SeoulSKY"** (`Preloader.tsx`): the metro map draws
+- **Intro — "Last train to SeoulSKY"** (`preloader.tsx`): the metro map draws
   itself in light; a Line 2 train runs 211 Seongsu → 212 Konkuk Univ. →
   213 Guui → 214 Gangbyeon → 215 Jamsillaru → **216 SeoulSKY 서울하늘**
   (the terminus is always just "SeoulSKY", no real station or landmark name);
   the LED board announces and arrives (amber glow, no flashing); the camera
-  dives into the carriage (`Carriage.tsx`), the doors slide open, and the
+  dives into the carriage (`carriage.tsx`), the doors slide open, and the
   carriage scales past the camera into the hero. When the map gets new
   sections, extend it with **real** Line 2 stations in order.
-- **Hero entrance** (`Hero.tsx`, starts on `onIntro`): mountains rise, the
+- **Hero entrance** (`hero.tsx`, starts on `onIntro`): mountains rise, the
   name lifts letter by letter in 3D, buildings grow from the waterline, Lotte
   World Tower traces from the crown, windows switch on at random. Loops run
   once.
@@ -237,7 +237,7 @@ GSAP everywhere; every animation tells the dusk/subway story.
   stations light at `center 60%`, so the train is on a station exactly as it
   lights. Station column is 28px so the rail shares its centre (14px) with
   the section heading's line badge.
-- Project *carriages* (`Projects.tsx`) — each project is one car: a glass
+- Project *carriages* (`projects.tsx`) — each project is one car: a glass
   card holding its own media + text and a `CAR 0N / 06` plate in `line-4`.
   Cars are joined by ribbed `Gangway` bellows (horizontal on desktop,
   vertical on phones) instead of empty gaps, so media and description can't
@@ -265,7 +265,7 @@ GSAP everywhere; every animation tells the dusk/subway story.
   should animate after the doors open subscribes with `onIntro()`.
   Timelines register with `registerTimeline()` so the scrubber can find them.
 - **Temporary scrubber:** `IntroScrubber` renders when `INTRO_DEBUG` is true
-  (dev server, or `#debug` / `?debug` in the URL). Remove it from `App.tsx`
+  (dev server, or `#debug` / `?debug` in the URL). Remove it from `app.tsx`
   once the intro is signed off; with it on, the preloader overlay stays
   mounted for scrubbing.
 - **Clip what overlaps:** anything inside a rounded window or doorway gets a

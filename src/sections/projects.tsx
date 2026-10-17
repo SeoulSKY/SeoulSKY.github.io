@@ -1,7 +1,7 @@
 import { ArrowUpRight, Play } from "lucide-react";
 import { Fragment, useEffect, useRef } from "react";
 import { GithubIcon } from "@/components/icons";
-import SectionHeading, { METRO_LINES } from "@/components/SectionHeading";
+import SectionHeading, { METRO_LINES } from "@/components/section-heading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GITHUB_URL, type Project, projects } from "@/data/content";

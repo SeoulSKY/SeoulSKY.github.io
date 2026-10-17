@@ -1,6 +1,6 @@
 import { Award as AwardIcon } from "lucide-react";
 import { useRef } from "react";
-import SectionHeading from "@/components/SectionHeading";
+import SectionHeading from "@/components/section-heading";
 import { awards } from "@/data/content";
 import { gsap, useGSAP } from "@/lib/gsap";
 

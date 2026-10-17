@@ -3,7 +3,7 @@ import { ArrowUpRight, LoaderCircle, Send } from "lucide-react";
 import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
 import { toast } from "sonner";
 import { GithubIcon } from "@/components/icons";
-import SectionHeading from "@/components/SectionHeading";
+import SectionHeading from "@/components/section-heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

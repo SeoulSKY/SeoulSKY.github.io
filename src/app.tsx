@@ -1,19 +1,19 @@
-import CursorGlow from "@/components/CursorGlow";
-import Footer from "@/components/Footer";
-import IntroScrubber from "@/components/IntroScrubber";
-import Navbar from "@/components/Navbar";
-import Preloader from "@/components/Preloader";
-import SmoothScroll from "@/components/SmoothScroll";
-import Starfield from "@/components/seoul/Starfield";
+import CursorGlow from "@/components/cursor-glow";
+import Footer from "@/components/footer";
+import IntroScrubber from "@/components/intro-scrubber";
+import Navbar from "@/components/navbar";
+import Preloader from "@/components/preloader";
+import Starfield from "@/components/seoul/starfield";
+import SmoothScroll from "@/components/smooth-scroll";
 import { Toaster } from "@/components/ui/sonner";
 import { INTRO_DEBUG } from "@/lib/intro";
-import About from "@/sections/About";
-import Awards from "@/sections/Awards";
-import Contact from "@/sections/Contact";
-import Experience from "@/sections/Experience";
-import Hero from "@/sections/Hero";
-import Projects from "@/sections/Projects";
-import Skills from "@/sections/Skills";
+import About from "@/sections/about";
+import Awards from "@/sections/awards";
+import Contact from "@/sections/contact";
+import Experience from "@/sections/experience";
+import Hero from "@/sections/hero";
+import Projects from "@/sections/projects";
+import Skills from "@/sections/skills";
 
 export default function App() {
   return (

@@ -4,10 +4,10 @@ import {
   CityLayer,
   NARROW_VIEWBOX,
   WIDE_VIEWBOX,
-} from "@/components/seoul/Skyline";
-import Starfield from "@/components/seoul/Starfield";
+} from "@/components/seoul/skyline";
+import Starfield from "@/components/seoul/starfield";
 import { GITHUB_URL, navSections } from "@/data/content";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { gsap, scrollToSection, useGSAP } from "@/lib/gsap";
 
 export default function Footer() {

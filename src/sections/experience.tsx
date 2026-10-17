@@ -1,6 +1,6 @@
 import { ArrowDownRight } from "lucide-react";
-import MetroLine from "@/components/MetroLine";
-import SectionHeading, { METRO_LINES } from "@/components/SectionHeading";
+import MetroLine from "@/components/metro-line";
+import SectionHeading, { METRO_LINES } from "@/components/section-heading";
 import { experiences, nextStop } from "@/data/content";
 import { scrollToSection } from "@/lib/gsap";
 

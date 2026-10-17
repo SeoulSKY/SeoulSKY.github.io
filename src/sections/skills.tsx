@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import SectionHeading from "@/components/SectionHeading";
+import SectionHeading from "@/components/section-heading";
 import { type Skill, skillRows } from "@/data/content";
 import { gsap, prefersReducedMotion, ScrollTrigger, useGSAP } from "@/lib/gsap";
 

@@ -6,7 +6,7 @@ import {
   Workflow,
 } from "lucide-react";
 import { useRef } from "react";
-import SectionHeading from "@/components/SectionHeading";
+import SectionHeading from "@/components/section-heading";
 import { introduction, type ServiceKey, services } from "@/data/content";
 import { gsap, isFinePointer, SplitText, useGSAP } from "@/lib/gsap";
 

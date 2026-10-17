@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import Carriage, { DOOR_TRAVEL } from "@/components/seoul/Carriage";
+import Carriage, { DOOR_TRAVEL } from "@/components/seoul/carriage";
 import {
   gsap,
   prefersReducedMotion,
