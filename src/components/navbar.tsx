@@ -24,15 +24,19 @@ export default function Navbar() {
     () => {
       const reduce = prefersReducedMotion();
       if (!reduce) gsap.set(root.current, { yPercent: -120, autoAlpha: 0 });
-      const off = onIntro(() =>
-        gsap.to(root.current, {
-          yPercent: 0,
-          autoAlpha: 1,
-          duration: 1.2,
-          delay: 1.6,
-          ease: "rise",
-        }),
-      );
+      // Build the entrance here, not in the onIntro callback: the preloader's
+      // timeline fires that callback inside its own GSAP context, so a tween
+      // made there would be reverted (back to hidden) when the preloader
+      // unmounts.
+      const enter = gsap.to(root.current, {
+        yPercent: 0,
+        autoAlpha: 1,
+        duration: 1.2,
+        delay: 1.6,
+        ease: "rise",
+        paused: true,
+      });
+      const off = onIntro(() => enter.restart(true));
 
       // scroll progress
       gsap.to(".nav-progress", {
