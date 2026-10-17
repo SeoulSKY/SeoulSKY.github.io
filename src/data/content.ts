@@ -22,6 +22,18 @@ export const KOREAN: Record<string, string> = {
   contact: "연락",
 };
 
+/** Figures quoted in more than one place, so they change together. */
+const FIGURES = {
+  ytnotiDownloads: 16000,
+  ytnotiCoverage: 99,
+  sorusoraServers: 100,
+  sorusoraLanguages: 45,
+};
+
+function thousands(n: number): string {
+  return n.toLocaleString("en-US");
+}
+
 export const heroTaglines = [
   "Software Engineer building products for the healthcare industry.",
   "Graduate in Software Engineering Honours with a Minor in Applied Mathematics.",
@@ -29,6 +41,32 @@ export const heroTaglines = [
 
 export const introduction =
   "I’m a software engineer who works mostly in Python, Rust and TypeScript, with React.js, Next.js and Tauri on the front end. I like building software that scales and is easy to use, aimed at problems people actually have. I learn fast and work well on a team. If you have something you want built, let’s talk.";
+
+export interface Stat {
+  value: number;
+  suffix: string;
+  label: string;
+}
+
+/** The counters beside the About introduction. */
+export const stats: Stat[] = [
+  { value: FIGURES.ytnotiDownloads, suffix: "+", label: "ytnoti downloads" },
+  {
+    value: FIGURES.sorusoraServers,
+    suffix: "+",
+    label: "Discord servers on SoruSora",
+  },
+  {
+    value: FIGURES.sorusoraLanguages,
+    suffix: "",
+    label: "languages translated live",
+  },
+  {
+    value: FIGURES.ytnotiCoverage,
+    suffix: "%",
+    label: "test coverage on ytnoti",
+  },
+];
 
 export type ServiceKey = "backend" | "frontend" | "devops" | "app";
 
@@ -112,24 +150,22 @@ export const projects: Project[] = [
     title: "ytnoti",
     subtitle:
       "Python library for receiving real-time YouTube notifications via PubSubHubbub",
-    description:
-      "ytnoti is a Python library that sends real-time notifications when YouTube videos are uploaded or edited. It uses the PubSubHubbub protocol, so there is no API polling. It has 16,000+ downloads and 99% code coverage.",
+    description: `ytnoti is a Python library that sends real-time notifications when YouTube videos are uploaded or edited. It uses the PubSubHubbub protocol, so there is no API polling. It has ${thousands(FIGURES.ytnotiDownloads)}+ downloads and ${FIGURES.ytnotiCoverage}% code coverage.`,
     tags: ["Python", "FastAPI", "GitHub Actions"],
     image: "/projects/ytnoti.jpg",
     sourceCodeLink: "https://github.com/SeoulSKY/ytnoti",
-    stat: "16,000+ downloads",
+    stat: `${thousands(FIGURES.ytnotiDownloads)}+ downloads`,
   },
   {
     title: "SoruSora",
     subtitle: "Officially Verified AI Discord Bot",
-    description:
-      "SoruSora is a Discord bot that holds AI conversations and translates messages in real time across 45 languages. Discord has verified it, and it runs on 100+ servers.",
+    description: `SoruSora is a Discord bot that holds AI conversations and translates messages in real time across ${FIGURES.sorusoraLanguages} languages. Discord has verified it, and it runs on ${FIGURES.sorusoraServers}+ servers.`,
     tags: ["Python", "MongoDB", "Docker"],
     image: "/projects/sorusora.jpg",
     video: "/projects/sorusora.mp4",
     sourceCodeLink: "https://github.com/SeoulSKY/SoruSora",
     playLink: "https://sorusora.seoulsky.dev",
-    stat: "100+ servers",
+    stat: `${FIGURES.sorusoraServers}+ servers`,
   },
   {
     title: "Desdemona",

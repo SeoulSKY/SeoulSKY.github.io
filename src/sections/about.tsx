@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { useRef } from "react";
 import SectionHeading from "@/components/section-heading";
-import { introduction, type ServiceKey, services } from "@/data/content";
+import { introduction, type ServiceKey, services, stats } from "@/data/content";
 import { gsap, isFinePointer, SplitText, useGSAP } from "@/lib/gsap";
 
 const ICONS: Record<ServiceKey, LucideIcon> = {
@@ -17,12 +17,9 @@ const ICONS: Record<ServiceKey, LucideIcon> = {
   app: AppWindow,
 };
 
-const stats = [
-  { value: 16000, suffix: "+", label: "ytnoti downloads" },
-  { value: 100, suffix: "+", label: "Discord servers on SoruSora" },
-  { value: 45, suffix: "", label: "languages translated live" },
-  { value: 99, suffix: "%", label: "test coverage on ytnoti" },
-];
+function formatStat(n: number): string {
+  return Math.round(n).toLocaleString("en-US");
+}
 
 export default function About() {
   const root = useRef<HTMLElement>(null);
@@ -49,17 +46,19 @@ export default function About() {
         },
       );
 
-      // counters
+      // counters: the markup holds the real figure for crawlers; here it
+      // counts up from zero instead
       for (const el of q<HTMLElement>(".stat-num")) {
         const target = Number(el.dataset.value);
         const obj = { v: 0 };
+        el.textContent = "0";
         gsap.to(obj, {
           v: target,
           duration: 2.2,
           ease: "power3.out",
           scrollTrigger: { trigger: el, start: "top 90%" },
           onUpdate: () => {
-            el.textContent = Math.round(obj.v).toLocaleString("en-US");
+            el.textContent = formatStat(obj.v);
           },
         });
       }
@@ -142,7 +141,7 @@ export default function About() {
                 <dt className="sr-only">{s.label}</dt>
                 <dd className="font-display font-semibold text-4xl tracking-tight sm:text-5xl">
                   <span className="stat-num tabular-nums" data-value={s.value}>
-                    0
+                    {formatStat(s.value)}
                   </span>
                   <span className="text-peach">{s.suffix}</span>
                 </dd>
