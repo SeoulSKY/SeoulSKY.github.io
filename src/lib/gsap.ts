@@ -21,7 +21,8 @@ gsap.registerPlugin(
   CustomEase,
 );
 
-// A soft, expensive-feeling ease used across the site.
+// The site's two eases: `seoul` for curtains, wipes and rules, `rise` for
+// things entering.
 CustomEase.create("seoul", "0.76, 0, 0.24, 1");
 CustomEase.create("rise", "0.16, 1, 0.3, 1");
 

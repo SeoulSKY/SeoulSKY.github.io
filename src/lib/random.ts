@@ -1,4 +1,7 @@
-/** Small deterministic PRNG so the skyline looks the same on every visit. */
+/**
+ * Small deterministic PRNG for the skyline, carriage and stars, so they look
+ * the same on every visit and the prerendered skyline matches the browser's.
+ */
 export function mulberry32(seed: number) {
   let a = seed;
   return () => {

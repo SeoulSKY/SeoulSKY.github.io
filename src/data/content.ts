@@ -1,5 +1,6 @@
 /**
- * All site copy lives here, ported from the previous version of seoulsky.dev.
+ * The site's content: navigation, profile, experience, projects, awards and
+ * skills. Section intros and headings live in the section components.
  */
 export const GITHUB_URL = "https://github.com/SeoulSKY";
 

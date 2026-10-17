@@ -21,7 +21,7 @@ interface SectionHeadingProps {
   /** which Seoul Metro line this section rides (1–9) */
   index: number;
   title: string;
-  /** optional italic serif tail, e.g. "in motion" */
+  /** optional italic serif tail, e.g. "experience" */
   accent?: string;
   className?: string;
   children?: React.ReactNode;

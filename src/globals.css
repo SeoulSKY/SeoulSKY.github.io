@@ -25,7 +25,7 @@
   --jade: #3fae8f;
   --mist: #f4f0ff;
 
-  /* Seoul Metro line colours (used for the timelines) */
+  /* Seoul Metro line colours: each section's wayfinding colour */
   --line-1: #0052a4;
   --line-2: #00a84d;
   --line-3: #ef7c1c;
@@ -130,7 +130,7 @@
     background: var(--dusk);
     color: var(--night-950);
   }
-  /* page is hidden until the intro timeline takes over */
+  /* the page cannot scroll while the intro plays */
   body.is-loading {
     overflow: hidden;
   }
