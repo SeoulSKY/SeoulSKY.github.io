@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 /* ──────────────────────────────────────────────────────────────
    SeoulSKY "Seoul at dusk" palette
    Night sky over the Han river, a peach horizon behind Namsan,
@@ -176,12 +174,6 @@
       #000 90%,
       transparent
     );
-  }
-  .line-mask {
-    overflow: hidden;
-    display: block;
-    padding-bottom: 0.08em;
-    margin-bottom: -0.08em;
   }
 }
 

@@ -1,6 +1,5 @@
 import { type ReactNode, useRef } from "react";
 import { gsap, ScrollTrigger, useGSAP, withMotion } from "@/lib/gsap";
-import { cn } from "@/lib/utils";
 
 export interface Stop {
   key: string;
@@ -139,11 +138,7 @@ export default function MetroLine({ color, stops, next }: MetroLineProps) {
   );
 
   return (
-    <div
-      ref={root}
-      className="relative"
-      style={{ "--line": color } as React.CSSProperties}
-    >
+    <div ref={root} className="relative">
       {/* the extension under construction: the next stop */}
       {next && (
         <div className="ml-next grid grid-cols-[28px_1fr] gap-5 sm:gap-8">
@@ -210,7 +205,7 @@ export default function MetroLine({ color, stops, next }: MetroLineProps) {
                   {s.when}
                 </p>
               </div>
-              <div className={cn("col-start-2 ml-reveal lg:col-start-3")}>
+              <div className="col-start-2 ml-reveal lg:col-start-3">
                 {s.content}
               </div>
             </li>
