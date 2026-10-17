@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import Carriage, { DOOR_TRAVEL } from "@/components/seoul/carriage";
+import { useMounted } from "@/hooks/use-mounted";
 import {
   gsap,
   prefersReducedMotion,
@@ -195,7 +196,25 @@ function layout(portrait: boolean) {
   };
 }
 
+/**
+ * The scene's layout depends on the viewport, so it renders only in the
+ * browser. The prerendered page gets the scene's empty night backdrop, which
+ * covers the page until the intro takes over.
+ */
 export default function Preloader() {
+  const mounted = useMounted();
+  if (!mounted) {
+    return (
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 z-[100] bg-night-950 motion-reduce:hidden"
+      />
+    );
+  }
+  return <PreloaderScene />;
+}
+
+function PreloaderScene() {
   const root = useRef<HTMLDivElement>(null);
   const [done, setDone] = useState(false);
   const L = useMemo(

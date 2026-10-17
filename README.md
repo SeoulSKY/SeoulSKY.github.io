@@ -5,7 +5,7 @@
 
 ## Stack
 
-- [Vite](https://vite.dev) + [React 19](https://react.dev) + TypeScript
+- [Next.js 16](https://nextjs.org) (App Router) + [React 19](https://react.dev) + TypeScript
 - [Tailwind CSS v4](https://tailwindcss.com) with [shadcn/ui](https://ui.shadcn.com) components (`src/components/ui`)
 - [GSAP](https://gsap.com) for animation (ScrollTrigger, ScrollSmoother, SplitText, DrawSVG, ScrambleText, Text)
 - [EmailJS](https://www.emailjs.com) for the contact form
@@ -14,6 +14,8 @@
 
 ```
 src/
+  app/layout.tsx         # <html>, metadata, fonts, global CSS
+  app/page.tsx           # the page: preloader, nav, sections, footer
   components/
     seoul/skyline.tsx    # the SVG city: Bukhansan, Namsan + N Seoul Tower,
                          # Lotte World Tower, 63 Building, Gyeongbokgung, Han river
@@ -28,6 +30,7 @@ src/
   sections/              # Hero, About, Experience, Skills, Projects, Awards, Contact
   data/content.ts        # all copy, projects, experience, awards, skills
   lib/gsap.ts            # plugin registration + custom eases
+public/                  # logo, project media, skill logos
 ```
 
 All copy lives in `src/data/content.ts`.
@@ -45,16 +48,23 @@ cp .env.example .env   # fill in the EmailJS values
 npm run dev
 ```
 
-| Name                       | Description                                        |
-| -------------------------- | -------------------------------------------------- |
-| `VITE_EMAILJS_PUBLIC_KEY`  | Public Key for [EmailJS](https://www.emailjs.com)  |
-| `VITE_EMAILJS_TEMPLATE_ID` | Template ID for [EmailJS](https://www.emailjs.com) |
+| Name                              | Description                                        |
+| --------------------------------- | -------------------------------------------------- |
+| `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`  | Public Key for [EmailJS](https://www.emailjs.com)  |
+| `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` | Template ID for [EmailJS](https://www.emailjs.com) |
 
-## Deploy to GitHub Pages
+## Deploy
+
+The site is hosted on [Vercel](https://vercel.com), which builds and deploys
+every push with its Next.js defaults; no `vercel.json` is needed. Set the two
+EmailJS variables above in the Vercel project's environment variables, and
+add `www.seoulsky.dev` under its domains.
+
+To check a production build locally:
 
 ```bash
 npm run build
-npm run deploy
+npm start
 ```
 
 The site respects `prefers-reduced-motion`: the subway intro is skipped and the

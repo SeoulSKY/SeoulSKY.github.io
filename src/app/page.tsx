@@ -1,3 +1,7 @@
+"use client";
+
+import "@/lib/gsap";
+
 import CursorGlow from "@/components/cursor-glow";
 import Footer from "@/components/footer";
 import IntroScrubber from "@/components/intro-scrubber";
@@ -6,6 +10,7 @@ import Preloader from "@/components/preloader";
 import Starfield from "@/components/seoul/starfield";
 import SmoothScroll from "@/components/smooth-scroll";
 import { Toaster } from "@/components/ui/sonner";
+import { useMounted } from "@/hooks/use-mounted";
 import { INTRO_DEBUG } from "@/lib/intro";
 import About from "@/sections/about";
 import Awards from "@/sections/awards";
@@ -15,13 +20,16 @@ import Hero from "@/sections/hero";
 import Projects from "@/sections/projects";
 import Skills from "@/sections/skills";
 
-export default function App() {
+export default function Page() {
+  // INTRO_DEBUG reads the URL, which the prerendered page cannot know
+  const mounted = useMounted();
+
   return (
     <>
       <SmoothScroll />
       <Preloader />
       {/* TEMPORARY: review controls for the opening sequence */}
-      {INTRO_DEBUG && <IntroScrubber />}
+      {mounted && INTRO_DEBUG && <IntroScrubber />}
 
       {/* the night sky behind everything below the hero */}
       <div

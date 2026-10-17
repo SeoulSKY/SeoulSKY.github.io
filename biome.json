@@ -10,8 +10,10 @@
     "includes": [
       "**",
       "!**/*.css",
-      "!dist",
-      "!node_modules"
+      "!.next",
+      "!out",
+      "!node_modules",
+      "!next-env.d.ts"
     ]
   },
   "formatter": {

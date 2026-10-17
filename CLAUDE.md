@@ -8,24 +8,25 @@ Guidance for Claude (and humans) working in this repository: the source of
 
 ```bash
 npm install
-npm run dev        # Vite dev server (the intro scrubber is on in dev)
-npm run build      # tsc -b && vite build → dist/
-npm run preview    # serve dist/ on :4173
+npm run dev        # Next dev server (the intro scrubber is on in dev)
+npm run build      # type-check, then production build → .next/
+npm start          # serve the production build on :3000
 npm run lint       # biome check --write (format + lint + sorted classes)
-npm run deploy     # copies CNAME into dist and publishes to gh-pages
 ```
 
-Before calling a change done: `npx biome check --write src`, `npx tsc -b`,
-`npx vite build` must all pass, and look at the result in a browser at a
+Before calling a change done: `npx biome check --write src` and
+`npm run build` must both pass, and look at the result in a browser at a
 desktop width (1440×900) **and** a phone width (390×844).
 
-Env vars (see `.env.example`): `VITE_EMAILJS_PUBLIC_KEY`,
-`VITE_EMAILJS_TEMPLATE_ID` for the contact form.
+Env vars (see `.env.example`): `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`,
+`NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` for the contact form.
 
 ## Stack
 
-- Vite 8 + React 19 + TypeScript 5.9, path alias `@/` → `src/`.
-- Tailwind CSS v4 via `@tailwindcss/vite`. No `tailwind.config`; all tokens
+- Next.js 16 (App Router) + React 19 + TypeScript 5.9, path alias `@/` →
+  `src/`. Hosted on Vercel, which deploys every push; the EmailJS env vars
+  are set in the Vercel project.
+- Tailwind CSS v4 via `@tailwindcss/postcss`. No `tailwind.config`; all tokens
   live in `src/globals.css` (`:root` + `@theme inline`).
 - shadcn/ui (new-york) components in `src/components/ui`, themed by the tokens.
   Add new ones by hand in the same style if the CLI is unavailable.
@@ -36,14 +37,15 @@ Env vars (see `.env.example`): `VITE_EMAILJS_PUBLIC_KEY`,
 - Biome 2 (`biome.json`): double quotes, space indent, `useSortedClasses` is an
   error, CSS files are ignored.
 - Fonts are self-hosted from npm (`@fontsource-variable/*`, `pretendard`),
-  except Instrument Serif, which loads from Google Fonts in `index.html`.
+  except Instrument Serif, which loads from Google Fonts in
+  `src/app/layout.tsx`.
 
 ## Structure
 
 ```
 src/
-  app.tsx                 page shell: SmoothScroll, Preloader, Navbar, sections
-  main.tsx                font + CSS imports, registers GSAP
+  app/layout.tsx          <html>, metadata, font + CSS imports
+  app/page.tsx            page shell: SmoothScroll, Preloader, Navbar, sections
   globals.css             design tokens, hero CSS, utilities (.glass, .grain…)
   data/content.ts         ALL copy: nav, Korean tags, about, experience,
                           skills, projects, awards
@@ -66,6 +68,8 @@ src/
 ```
 
 Copy changes go in `src/data/content.ts`, not in section components.
+Static files (logo, project media, skill logos) live in `public/` and are
+referenced by URL (`/projects/ytnoti.jpg`).
 
 ---
 
@@ -215,7 +219,7 @@ GSAP everywhere; every animation tells the dusk/subway story.
 
 - UI icons: `lucide-react`, 1.6–2px stroke, `peach` in a 48px glass tile or
   inline at 16px.
-- Skill logos: original full-colour SVGs in `src/assets/skills` on glass pills.
+- Skill logos: original full-colour SVGs in `public/skills` on glass pills.
 - Logo: the swallow over a dusk mountain, always in a circle.
 
 ## Components
@@ -265,10 +269,15 @@ GSAP everywhere; every animation tells the dusk/subway story.
   should animate after the doors open subscribes with `onIntro()`.
   Timelines register with `registerTimeline()` so the scrubber can find them.
 - **Temporary scrubber:** `IntroScrubber` renders when `INTRO_DEBUG` is true
-  (dev server, or `#debug` / `?debug` in the URL). Remove it from `app.tsx`
+  (dev server, or `#debug` / `?debug` in the URL). Remove it from `app/page.tsx`
   once the intro is signed off; with it on, the preloader overlay stays
   mounted for scrubbing.
 - **Clip what overlaps:** anything inside a rounded window or doorway gets a
   `clipPath`; overlays (vignette, floor shine) must not show through the
   open doorway.
 - Keep `useGSAP` scoped (`{ scope: root }`) and revert SplitText in cleanup.
+- **Prerendering:** the page is static, so `next build` renders it to HTML
+  ahead of time, where render code cannot read `window`, the viewport or the
+  URL. Effects and GSAP callbacks can. Anything whose markup depends on the browser waits for
+  `useMounted()`, as `Preloader` and the intro scrubber do; the prerendered
+  page shows the preloader's night backdrop until then.

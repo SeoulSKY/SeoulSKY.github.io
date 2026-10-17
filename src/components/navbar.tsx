@@ -1,6 +1,5 @@
 import { Menu } from "lucide-react";
 import { useRef, useState } from "react";
-import logo from "@/assets/logo.png";
 import { GithubIcon } from "@/components/icons";
 import {
   Sheet,
@@ -91,7 +90,7 @@ export default function Navbar() {
           aria-label="Back to top"
         >
           <img
-            src={logo}
+            src="/logo.png"
             alt=""
             className="size-8 rounded-full ring-1 ring-white/20 transition-transform duration-500 group-hover:rotate-[-12deg] group-hover:scale-110"
           />

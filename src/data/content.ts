@@ -1,17 +1,6 @@
 /**
  * All site copy lives here, ported from the previous version of seoulsky.dev.
  */
-import chessaiPoster from "@/assets/projects/chessai.jpg";
-import chessaiVideo from "@/assets/projects/chessai.mp4";
-import desdemonaPoster from "@/assets/projects/desdemona.jpg";
-import desdemonaVideo from "@/assets/projects/desdemona.mp4";
-import gochat from "@/assets/projects/gochat.jpg";
-import memorymatePoster from "@/assets/projects/memorymate.jpg";
-import memorymateVideo from "@/assets/projects/memorymate.mp4";
-import sorusoraPoster from "@/assets/projects/sorusora.jpg";
-import sorusoraVideo from "@/assets/projects/sorusora.mp4";
-import ytnoti from "@/assets/projects/ytnoti.jpg";
-
 export const GITHUB_URL = "https://github.com/SeoulSKY";
 
 export const navSections = [
@@ -125,7 +114,7 @@ export const projects: Project[] = [
     description:
       "ytnoti is a Python library that sends real-time notifications when YouTube videos are uploaded or edited. It uses the PubSubHubbub protocol, so there is no API polling. It has 16,000+ downloads and 99% code coverage.",
     tags: ["Python", "FastAPI", "GitHub Actions"],
-    image: ytnoti,
+    image: "/projects/ytnoti.jpg",
     sourceCodeLink: "https://github.com/SeoulSKY/ytnoti",
     stat: "16,000+ downloads",
   },
@@ -135,8 +124,8 @@ export const projects: Project[] = [
     description:
       "SoruSora is a Discord bot that holds AI conversations and translates messages in real time across 45 languages. Discord has verified it, and it runs on 100+ servers.",
     tags: ["Python", "MongoDB", "Docker"],
-    image: sorusoraPoster,
-    video: sorusoraVideo,
+    image: "/projects/sorusora.jpg",
+    video: "/projects/sorusora.mp4",
     sourceCodeLink: "https://github.com/SeoulSKY/SoruSora",
     playLink: "https://sorusora.seoulsky.dev",
     stat: "100+ servers",
@@ -147,8 +136,8 @@ export const projects: Project[] = [
     description:
       "Play Othello against Desdemona, a strong AI opponent, then explore the 3D world around the board and look inside its buildings.",
     tags: ["Rust", "Unity3D", "Node.js"],
-    image: desdemonaPoster,
-    video: desdemonaVideo,
+    image: "/projects/desdemona.jpg",
+    video: "/projects/desdemona.mp4",
     sourceCodeLink: "https://github.com/SeoulSKY/Desdemona",
     playLink: "https://desdemona.seoulsky.dev",
   },
@@ -158,8 +147,8 @@ export const projects: Project[] = [
     description:
       "An AI companion for people with dementia. It holds friendly conversations and offers personalized brain games that exercise memory and thinking.",
     tags: ["React Native", "TypeScript", "Gemini AI"],
-    image: memorymatePoster,
-    video: memorymateVideo,
+    image: "/projects/memorymate.jpg",
+    video: "/projects/memorymate.mp4",
     sourceCodeLink: "https://github.com/SeoulSKY/MemoryMate",
   },
   {
@@ -168,7 +157,7 @@ export const projects: Project[] = [
     description:
       "A real-time chat web app built with WebSocket, Go, React, and MongoDB.",
     tags: ["Go", "React.js", "TailwindCSS"],
-    image: gochat,
+    image: "/projects/gochat.jpg",
     sourceCodeLink: "https://github.com/SeoulSKY/go-chat",
     playLink: "https://gochat.seoulsky.dev",
   },
@@ -178,8 +167,8 @@ export const projects: Project[] = [
     description:
       "A chess AI you can play in the browser, with adjustable difficulty and custom settings, so it suits beginners and strong players alike.",
     tags: ["Java", "React.js", "CSS"],
-    image: chessaiPoster,
-    video: chessaiVideo,
+    image: "/projects/chessai.jpg",
+    video: "/projects/chessai.mp4",
     sourceCodeLink: "https://github.com/SeoulSKY/ChessAI",
   },
 ];
@@ -219,18 +208,9 @@ export const awards: Award[] = [
 
 /* ── Skills ─────────────────────────────────────────────── */
 
-const icons = import.meta.glob<string>("@/assets/skills/*.svg", {
-  eager: true,
-  import: "default",
-  query: "?url",
-});
-
+/** Skill logos live in public/skills. */
 function icon(file: string): string {
-  const match = Object.entries(icons).find(([path]) =>
-    path.endsWith(`/${file}.svg`),
-  );
-  if (!match) throw new Error(`Missing skill icon: ${file}`);
-  return match[1];
+  return `/skills/${file}.svg`;
 }
 
 export interface Skill {

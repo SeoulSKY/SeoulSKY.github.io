@@ -152,13 +152,13 @@ export default function Contact() {
 
     const promise = emailjs.send(
       "default_service",
-      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
       {
         fromName: form.name,
         fromEmail: form.email,
         message: form.message,
       },
-      import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
     );
 
     toast.promise(promise, {

@@ -30,11 +30,11 @@ export function introStarted() {
 /* ── Intro debugging ────────────────────────────────────────
  * TEMPORARY: a scrubber for reviewing the opening sequence.
  * On in `npm run dev`, or anywhere with #debug / ?debug in the URL.
- * Remove <IntroScrubber/> from app.tsx to drop it.
+ * Remove <IntroScrubber/> from app/page.tsx to drop it.
  */
 export const INTRO_DEBUG =
   typeof window !== "undefined" &&
-  (import.meta.env.DEV ||
+  (process.env.NODE_ENV === "development" ||
     /debug/.test(window.location.hash) ||
     /debug/.test(window.location.search));
 
