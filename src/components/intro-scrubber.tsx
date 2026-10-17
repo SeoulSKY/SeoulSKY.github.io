@@ -21,7 +21,7 @@ export default function IntroScrubber() {
 
   // Nest the preloader and hero timelines into one master timeline.
   useEffect(() => {
-    const build = () => {
+    function build() {
       const pre = getTimeline("preloader");
       const hero = getTimeline("hero");
       if (!pre) return;
@@ -41,16 +41,16 @@ export default function IntroScrubber() {
 
       setDuration(m.duration());
       setReady(true);
-    };
+    }
     build();
     const off = onTimelinesChange(build);
 
-    const tick = () => {
+    function tick() {
       const m = master.current;
       if (!m) return;
       setTime(m.time());
       setPlaying(!m.paused() && m.progress() < 1);
-    };
+    }
     gsap.ticker.add(tick);
     return () => {
       off();
@@ -58,12 +58,12 @@ export default function IntroScrubber() {
     };
   }, []);
 
-  const seek = (t: number) => {
+  function seek(t: number) {
     const m = master.current;
     if (!m) return;
     m.pause();
     m.time(gsap.utils.clamp(0, m.duration(), t));
-  };
+  }
 
   const toggle = useCallback(() => {
     const m = master.current;
@@ -78,7 +78,7 @@ export default function IntroScrubber() {
   useEffect(() => {
     // a hidden bar leaves Space to scroll the page
     if (hidden) return;
-    const onKey = (e: KeyboardEvent) => {
+    function onKey(e: KeyboardEvent) {
       const el = e.target as HTMLElement;
       // let text fields keep Space, but not the timeline slider
       if (el.closest('input:not([type="range"]), textarea, [contenteditable]'))
@@ -87,7 +87,7 @@ export default function IntroScrubber() {
         e.preventDefault();
         toggle();
       }
-    };
+    }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [toggle, hidden]);

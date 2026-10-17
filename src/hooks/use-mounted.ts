@@ -1,6 +1,8 @@
 import { useSyncExternalStore } from "react";
 
-const subscribe = () => () => {};
+function subscribe() {
+  return () => {};
+}
 
 /** False while prerendering and hydrating, true once running in the browser. */
 export function useMounted(): boolean {

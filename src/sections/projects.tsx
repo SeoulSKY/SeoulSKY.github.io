@@ -232,13 +232,13 @@ export default function Projects() {
           // Stop when the GitHub card's right edge meets the page gutter
           // (measured from the card, not scrollWidth: the rail overhangs).
           const more = q(".pj-more")[0] as HTMLElement;
-          const distance = () => {
+          function distance() {
             const gutter = parseFloat(getComputedStyle(track).paddingLeft);
             return Math.max(
               0,
               more.offsetLeft + more.offsetWidth + gutter - window.innerWidth,
             );
-          };
+          }
 
           const scroller = gsap.to(track, {
             x: () => -distance(),

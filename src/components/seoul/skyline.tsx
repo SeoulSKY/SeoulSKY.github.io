@@ -259,15 +259,21 @@ function BuildingShape({ b, fill }: { b: Building; fill: string }) {
 }
 
 // Height envelope: low near the palace, rising toward Gangnam on the right.
-const backHeights = (x: number) =>
-  120 +
-  Math.max(0, 1 - Math.abs(x - 1180) / 520) * 120 +
-  Math.max(0, 1 - Math.abs(x - 260) / 300) * 60;
-const frontHeights = (x: number) =>
-  70 +
-  Math.max(0, 1 - Math.abs(x - 1250) / 380) * 90 +
-  Math.max(0, 1 - Math.abs(x - 150) / 260) * 50 -
-  Math.max(0, 1 - Math.abs(x - 810) / 220) * 40;
+function backHeights(x: number) {
+  return (
+    120 +
+    Math.max(0, 1 - Math.abs(x - 1180) / 520) * 120 +
+    Math.max(0, 1 - Math.abs(x - 260) / 300) * 60
+  );
+}
+function frontHeights(x: number) {
+  return (
+    70 +
+    Math.max(0, 1 - Math.abs(x - 1250) / 380) * 90 +
+    Math.max(0, 1 - Math.abs(x - 150) / 260) * 50 -
+    Math.max(0, 1 - Math.abs(x - 810) / 220) * 40
+  );
+}
 
 export function CityLayer({ className, viewBox }: LayerProps) {
   const uid = useId().replace(/:/g, "");

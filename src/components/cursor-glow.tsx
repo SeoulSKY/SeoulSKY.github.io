@@ -10,11 +10,11 @@ export default function CursorGlow() {
     const el = ref.current;
     const x = gsap.quickTo(el, "x", { duration: 0.9, ease: "power3" });
     const y = gsap.quickTo(el, "y", { duration: 0.9, ease: "power3" });
-    const move = (e: PointerEvent) => {
+    function move(e: PointerEvent) {
       x(e.clientX);
       y(e.clientY);
       gsap.to(el, { autoAlpha: 1, duration: 0.6, overwrite: "auto" });
-    };
+    }
     window.addEventListener("pointermove", move);
     return () => window.removeEventListener("pointermove", move);
   });

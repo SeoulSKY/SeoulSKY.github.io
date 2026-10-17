@@ -157,9 +157,12 @@ const ANNOUNCEMENTS = [
 function layout(portrait: boolean) {
   // Portrait: rotate the map a quarter turn (x ↔ y) and halve it so the
   // labels stay readable on a phone.
-  const t = (p: Pt): Pt => (portrait ? [p[1] * 0.5 - 30, p[0] * 0.5] : p);
-  const d = (pts: Pt[]) =>
-    pts.map((p, i) => `${i ? "L" : "M"}${t(p)[0]},${t(p)[1]}`).join(" ");
+  function t(p: Pt): Pt {
+    return portrait ? [p[1] * 0.5 - 30, p[0] * 0.5] : p;
+  }
+  function d(pts: Pt[]) {
+    return pts.map((p, i) => `${i ? "L" : "M"}${t(p)[0]},${t(p)[1]}`).join(" ");
+  }
 
   const main = MAIN.map(t);
   // cumulative length of each station along the main route
@@ -168,7 +171,7 @@ function layout(portrait: boolean) {
     return { a, b, len: Math.hypot(b[0] - a[0], b[1] - a[1]) };
   });
   const total = segs.reduce((s, x) => s + x.len, 0);
-  const lengthAt = (p: Pt) => {
+  function lengthAt(p: Pt) {
     let acc = 0;
     for (const s of segs) {
       const ap = Math.hypot(p[0] - s.a[0], p[1] - s.a[1]);
@@ -177,7 +180,7 @@ function layout(portrait: boolean) {
       acc += s.len;
     }
     return total;
-  };
+  }
 
   return {
     viewBox: portrait ? "0 -20 450 860" : "0 0 1600 900",
@@ -232,11 +235,11 @@ function PreloaderScene() {
       document.body.classList.add("is-loading");
       ScrollSmoother.get()?.paused(true);
 
-      const finish = () => {
+      function finish() {
         document.body.classList.remove("is-loading");
         ScrollSmoother.get()?.paused(false);
         setDone(true);
-      };
+      }
 
       if (prefersReducedMotion()) {
         startIntro();
@@ -268,7 +271,7 @@ function PreloaderScene() {
       });
 
       const passed = new Set<string>();
-      const arrive = (code: string) => {
+      function arrive(code: string) {
         const g = q(`[data-station="${code}"]`)[0];
         if (!g) return;
         const st = L.stations.find((x) => x.code === code);
@@ -296,9 +299,9 @@ function PreloaderScene() {
         if (next) {
           next.textContent = n ? `${n.en} ${n.kr}` : AFTER_TERMINUS;
         }
-      };
+      }
 
-      const depart = (code: string) => {
+      function depart(code: string) {
         const g = q(`[data-station="${code}"]`)[0];
         if (!g) return;
         gsap.set(g.querySelectorAll(".pl-st-label"), {
@@ -310,10 +313,10 @@ function PreloaderScene() {
         if (chipText) gsap.set(chipText, { fill: LINE2 });
         const s = L.stations.find((x) => x.code === code);
         if (next && s) next.textContent = `${s.en} ${s.kr}`;
-      };
+      }
 
       const train = { d: 0 };
-      const placeTrain = () => {
+      function placeTrain() {
         cars.forEach((car, i) => {
           const at = train.d - i * CAR;
           if (at < 0) {
@@ -348,7 +351,7 @@ function PreloaderScene() {
             depart(s.code);
           }
         }
-      };
+      }
       placeTrain();
 
       const tl = gsap.timeline({ defaults: { ease: "rise" } });
@@ -624,9 +627,9 @@ function PreloaderScene() {
           tl.seek("dive").play();
         }
       });
-      const onKey = (e: KeyboardEvent) => {
+      function onKey(e: KeyboardEvent) {
         if (e.key === "Enter" && !e.repeat) skip?.();
-      };
+      }
       const btn = q(".pl-skip")[0];
       if (skip && btn) btn.addEventListener("click", skip);
       window.addEventListener("keydown", onKey);

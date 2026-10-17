@@ -35,8 +35,9 @@ export default function Hero() {
         charsClass: "hero-char",
       });
 
-      const originOf = (el: Element) =>
-        (el as SVGElement).dataset.origin ?? "0 0";
+      function originOf(el: Element) {
+        return (el as SVGElement).dataset.origin ?? "0 0";
+      }
 
       /* ── initial (pre-curtain) state ─────────────────────── */
       gsap.set(q(".hero-night"), { autoAlpha: 1 });
@@ -326,9 +327,11 @@ export default function Hero() {
       }
 
       function shootingStars() {
-        const sky = q(".hero-shooting")[0] as HTMLElement | undefined;
-        if (!sky) return;
-        const spawn = () => {
+        const found = q(".hero-shooting")[0] as HTMLElement | undefined;
+        if (!found) return;
+        // re-bound so spawn(), a hoisted declaration, sees it as non-null
+        const sky = found;
+        function spawn() {
           const star = document.createElement("span");
           star.className =
             "absolute h-px w-36 rounded-full bg-gradient-to-r from-transparent via-white/70 to-white";
@@ -353,7 +356,7 @@ export default function Hero() {
             },
           );
           gsap.delayedCall(gsap.utils.random(4, 9), spawn);
-        };
+        }
         gsap.delayedCall(1.5, spawn);
       }
 

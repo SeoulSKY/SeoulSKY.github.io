@@ -73,10 +73,10 @@ export default function Navbar() {
     { scope: root },
   );
 
-  const go = (id: string) => {
+  function go(id: string) {
     setOpen(false);
     scrollToSection(id);
-  };
+  }
 
   return (
     <header

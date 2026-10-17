@@ -94,11 +94,12 @@ function Strap({ x, id }: { x: number; id: string }) {
    bends into the door header */
 const POLE_X = 486;
 const POLE_L = `M${POLE_X},566 L${POLE_X},204 C${POLE_X},174 498,160 522,154`;
-const mirrorPath = (d: string) =>
-  d.replace(
+function mirrorPath(d: string) {
+  return d.replace(
     /(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g,
     (_, x, y) => `${1600 - Number(x)},${y}`,
   );
+}
 
 function Pole({ side, id }: { side: "l" | "r"; id: string }) {
   const d = side === "l" ? POLE_L : mirrorPath(POLE_L);
@@ -399,31 +400,35 @@ function Poster({
   const y = 109;
   const h = 36;
   const clip = `${id}-poster-${kind}`;
-  const title = (t: string, fill: string, dx = 0) => (
-    <text
-      x={x + 44 + dx}
-      y={y + 17}
-      fontFamily="var(--font-display)"
-      fontWeight="800"
-      fontSize="13.5"
-      letterSpacing="-0.3"
-      fill={fill}
-    >
-      {t}
-    </text>
-  );
-  const sub = (t: string, fill: string, dx = 0) => (
-    <text
-      x={x + 44 + dx}
-      y={y + 29}
-      fontFamily="var(--font-mono)"
-      fontSize="7.2"
-      letterSpacing="0.6"
-      fill={fill}
-    >
-      {t}
-    </text>
-  );
+  function title(t: string, fill: string, dx = 0) {
+    return (
+      <text
+        x={x + 44 + dx}
+        y={y + 17}
+        fontFamily="var(--font-display)"
+        fontWeight="800"
+        fontSize="13.5"
+        letterSpacing="-0.3"
+        fill={fill}
+      >
+        {t}
+      </text>
+    );
+  }
+  function sub(t: string, fill: string, dx = 0) {
+    return (
+      <text
+        x={x + 44 + dx}
+        y={y + 29}
+        fontFamily="var(--font-mono)"
+        fontSize="7.2"
+        letterSpacing="0.6"
+        fill={fill}
+      >
+        {t}
+      </text>
+    );
+  }
   return (
     <g>
       <clipPath id={clip}>

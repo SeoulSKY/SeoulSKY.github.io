@@ -34,10 +34,13 @@ export default function Starfield({
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const found = ref.current;
+    const context = found?.getContext("2d");
+    if (!found || !context) return;
+    // re-bound after the check: narrowing does not reach the hoisted
+    // function declarations below, but these consts are non-null by type
+    const canvas = found;
+    const ctx = context;
 
     let stars: Star[] = [];
     let w = 0;
@@ -47,7 +50,7 @@ export default function Starfield({
     const still = prefersReducedMotion();
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    const build = () => {
+    function build() {
       w = canvas.clientWidth;
       h = canvas.clientHeight;
       canvas.width = Math.round(w * dpr);
@@ -68,9 +71,9 @@ export default function Starfield({
           hue: HUES[Math.floor(rand() * HUES.length)],
         };
       });
-    };
+    }
 
-    const draw = (t: number) => {
+    function draw(t: number) {
       ctx.clearRect(0, 0, w, h);
       for (const s of stars) {
         const tw = still
@@ -88,12 +91,12 @@ export default function Starfield({
           ctx.fill();
         }
       }
-    };
+    }
 
-    const loop = (t: number) => {
+    function loop(t: number) {
       draw(t);
       if (!still && visible) raf = requestAnimationFrame(loop);
-    };
+    }
 
     build();
     raf = requestAnimationFrame(loop);

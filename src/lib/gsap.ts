@@ -26,13 +26,19 @@ gsap.registerPlugin(
 CustomEase.create("seoul", "0.76, 0, 0.24, 1");
 CustomEase.create("rise", "0.16, 1, 0.3, 1");
 
-export const prefersReducedMotion = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+export function prefersReducedMotion() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
 
-export const isFinePointer = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+export function isFinePointer() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches
+  );
+}
 
 /** Scrolls to a section, through ScrollSmoother when it is active. */
 export function scrollToSection(id: string) {

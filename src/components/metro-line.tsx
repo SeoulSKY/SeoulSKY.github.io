@@ -35,19 +35,19 @@ export default function MetroLine({ color, stops, next }: MetroLineProps) {
       const track = q<HTMLElement>(".ml-track")[0];
 
       // The rail runs exactly from the first station's centre to the last.
-      const layout = () => {
+      function layout() {
         const dots = q<HTMLElement>(".ml-dot");
         if (!dots.length) return;
         const base = track.getBoundingClientRect().top;
-        const centre = (el: HTMLElement) => {
+        function centre(el: HTMLElement) {
           const r = el.getBoundingClientRect();
           return r.top + r.height / 2 - base;
-        };
+        }
         const first = centre(dots[0]);
         const last = centre(dots[dots.length - 1]);
         rail.style.top = `${first}px`;
         rail.style.height = `${Math.max(0, last - first)}px`;
-      };
+      }
       layout();
       ScrollTrigger.addEventListener("refreshInit", layout);
       let pending = 0;
