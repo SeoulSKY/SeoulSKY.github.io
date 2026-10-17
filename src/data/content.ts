@@ -116,11 +116,12 @@ export const experiences: Experience[] = [
     company: "NutraMate",
     date: "Jan 2025 – Present",
     points: [
-      "Led development of the company’s desktop application in Tauri and React.js, owning the architecture, front-end design and implementation, backend integration, testing, and deployment.",
-      "Wrote a Rust backend module for CPU-intensive processing and low-level work, including scanner integration over FFI and direct calls to the Windows API.",
-      "Made architecture and system design decisions that improved the scalability, reliability, and performance of services under high load.",
-      "Led development of the user management and usage analytics microservices. Elsewhere in the backend, added REST API endpoints, integrated an LLM into the existing AI pipeline to improve prescription entity extraction, and wrote automated test suites to make services more reliable.",
-      "Built and maintained CI pipelines for regression testing and static analysis, and enforced code standards with linters, formatters, type checkers, and pre-commit hooks.",
+      "Own the company’s Windows desktop app end to end, built with Tauri, React and TypeScript on a Rust backend, covering architecture, UI, backend integration, testing, and release. Built the self-hosted server that distributes signed app updates and the PMS automation agent.",
+      "Built prescription intake from document scanners, email, and fax, including TWAIN scanner support by calling a native C++ library from Rust through FFI, Gmail and Outlook import with multi-account OAuth 2.0, fax machine and cloud fax import.",
+      "Own the company’s pharmacy ambient AI scribe end to end, which turns recorded patient consultations into filled assessment forms for pharmacist review. Built an on-device speech recognition and speaker diarization pipeline for CPU-only PCs, and an LLM extraction layer with hallucination safeguards that verify every answer against the transcript and flag uncertain ones for review.",
+      "Turned a prototype of the company website (www.nutramate.com) into a production built with Next.js, implementing server-side rendering, image and media optimization, and SEO through structured data, sitemaps and per-page metadata, and deployed it on AWS.",
+      "Designed and built the authentication and authorization service, with role-based access control and organization accounts that group multiple users.",
+      "Enforced engineering standards with CI, Git hooks for linting, formatting, and type checking, and automated test suites.",
     ],
   },
   {
