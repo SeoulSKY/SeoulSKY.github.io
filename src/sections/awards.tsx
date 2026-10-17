@@ -56,7 +56,7 @@ export default function Awards() {
                   </p>
                 </div>
                 <span className="font-mono text-[10px] tracking-widest">
-                  NO. 50{i + 1}
+                  NO. 5{String(i + 1).padStart(2, "0")}
                 </span>
                 {/* notches */}
                 <span className="-top-3 -right-3 absolute size-6 rounded-full bg-night-950" />
