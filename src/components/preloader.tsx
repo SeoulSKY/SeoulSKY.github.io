@@ -8,6 +8,7 @@ import {
   useGSAP,
 } from "@/lib/gsap";
 import { INTRO_DEBUG, registerTimeline, startIntro } from "@/lib/intro";
+import { METRO_LINES } from "@/lib/metro";
 
 /**
  * "Last train to SeoulSKY"
@@ -32,7 +33,7 @@ interface Station {
   flip?: boolean;
 }
 
-const LINE2 = "#00a84d";
+const LINE2 = METRO_LINES[2].color;
 
 /* Route drawn for a 1600 × 900 landscape canvas. */
 const MAIN: Pt[] = [
@@ -51,8 +52,8 @@ const MAIN: Pt[] = [
  * SeoulSKY stop.
  * (Independent of the site's sections, so new sections don't break the map.)
  */
-const LINE7 = "#747f00";
-const LINE8 = "#e6186c";
+const LINE7 = METRO_LINES[7].color;
+const LINE8 = METRO_LINES[8].color;
 
 const STATIONS: Station[] = [
   { code: "211", en: "Seongsu", kr: "성수", at: [180, 640] },
@@ -119,7 +120,7 @@ const CROSSING: { color: string; pts: Pt[]; width?: number }[] = [
   },
   // other lines of the network, for density (they meet none of our stations)
   {
-    color: "#0052a4",
+    color: METRO_LINES[1].color,
     pts: [
       [-40, 160],
       [260, 160],
@@ -128,7 +129,7 @@ const CROSSING: { color: string; pts: Pt[]; width?: number }[] = [
     ],
   },
   {
-    color: "#ef7c1c",
+    color: METRO_LINES[3].color,
     pts: [
       [1640, 760],
       [1380, 760],

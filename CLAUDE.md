@@ -55,6 +55,7 @@ src/
                           skills, projects, awards
   lib/gsap.ts             plugins, custom eases, scrollToSection()
   lib/intro.ts            intro pub/sub + timeline registry (+ INTRO_DEBUG)
+  lib/metro.ts            METRO_LINES: Seoul Metro line colour + ink
   lib/random.ts           mulberry32 seeded RNG (deterministic SVG detail)
   components/
     preloader.tsx         "Last train to SeoulSKY" subway intro
@@ -162,7 +163,8 @@ rule, timeline track, rings, ticket stubs, code chips) uses that one colour.
 | 9 | `line-9` | `#bdb092` | `#06071a` | next new section |
 
 The `index` prop of `SectionHeading` is the line number; `METRO_LINES` in
-`section-heading.tsx` holds colour + ink. A new section takes the next free
+`lib/metro.ts` holds colour + ink for TypeScript (SVG included), and the
+`--line-N` tokens in `globals.css` hold the same colours for CSS. A new section takes the next free
 line, and any line-coloured details inside it must use the same line.
 Show the line's name once per section (in the heading); inner elements use
 the colour, not a second badge.

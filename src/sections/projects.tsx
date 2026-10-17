@@ -2,11 +2,12 @@ import { ArrowUpRight, Play } from "lucide-react";
 import Image, { getImageProps } from "next/image";
 import { Fragment, useEffect, useRef } from "react";
 import { GithubIcon } from "@/components/icons";
-import SectionHeading, { METRO_LINES } from "@/components/section-heading";
+import SectionHeading from "@/components/section-heading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GITHUB_URL, type Project, projects } from "@/data/content";
 import { gsap, useGSAP } from "@/lib/gsap";
+import { METRO_LINES } from "@/lib/metro";
 import { cn } from "@/lib/utils";
 
 /** Project media is about half the viewport wide on desktop, full width below. */

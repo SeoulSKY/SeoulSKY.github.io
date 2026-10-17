@@ -289,7 +289,7 @@
   appearance: none;
   height: 6px;
   border-radius: 9999px;
-  background: linear-gradient(90deg, #00a84d 0 var(--p), rgb(244 240 255 / 0.12) var(--p) 100%);
+  background: linear-gradient(90deg, var(--line-2) 0 var(--p), rgb(244 240 255 / 0.12) var(--p) 100%);
   outline: none;
 }
 .intro-scrub::-webkit-slider-thumb {
@@ -298,13 +298,13 @@
   height: 16px;
   border-radius: 9999px;
   background: #f4f0ff;
-  border: 4px solid #00a84d;
-  box-shadow: 0 0 12px rgb(0 168 77 / 0.7);
+  border: 4px solid var(--line-2);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--line-2) 70%, transparent);
 }
 .intro-scrub::-moz-range-thumb {
   width: 10px;
   height: 10px;
   border-radius: 9999px;
   background: #f4f0ff;
-  border: 4px solid #00a84d;
+  border: 4px solid var(--line-2);
 }

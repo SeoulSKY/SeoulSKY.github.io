@@ -1,8 +1,9 @@
 import { ArrowDownRight } from "lucide-react";
 import MetroLine from "@/components/metro-line";
-import SectionHeading, { METRO_LINES } from "@/components/section-heading";
+import SectionHeading from "@/components/section-heading";
 import { experiences, nextStop } from "@/data/content";
 import { scrollToSection } from "@/lib/gsap";
+import { METRO_LINES } from "@/lib/metro";
 
 const LINE = METRO_LINES[2].color;
 

@@ -1,25 +1,13 @@
 import { useRef } from "react";
 import { KOREAN } from "@/data/content";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
+import { METRO_LINES, type MetroLineNumber } from "@/lib/metro";
 import { cn } from "@/lib/utils";
-
-/** Official Seoul Metropolitan Subway line colours, Line 1–9. */
-export const METRO_LINES: Record<number, { color: string; ink: string }> = {
-  1: { color: "#0052a4", ink: "#ffffff" },
-  2: { color: "#00a84d", ink: "#ffffff" },
-  3: { color: "#ef7c1c", ink: "#ffffff" },
-  4: { color: "#00a4e3", ink: "#ffffff" },
-  5: { color: "#996cac", ink: "#ffffff" },
-  6: { color: "#cd7c2f", ink: "#ffffff" },
-  7: { color: "#747f00", ink: "#ffffff" },
-  8: { color: "#e6186c", ink: "#ffffff" },
-  9: { color: "#bdb092", ink: "#06071a" },
-};
 
 interface SectionHeadingProps {
   id: string;
-  /** which Seoul Metro line this section rides (1–9) */
-  index: number;
+  /** which Seoul Metro line this section rides */
+  index: MetroLineNumber;
   title: string;
   /** optional italic serif tail, e.g. "experience" */
   accent?: string;
@@ -36,7 +24,7 @@ export default function SectionHeading({
   children,
 }: SectionHeadingProps) {
   const root = useRef<HTMLDivElement>(null);
-  const line = METRO_LINES[index] ?? METRO_LINES[2];
+  const line = METRO_LINES[index];
 
   useGSAP(
     () => {

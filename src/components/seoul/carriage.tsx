@@ -13,10 +13,11 @@
  *   .pl-door-sign      LCD text groups
  */
 
+import { METRO_LINES } from "@/lib/metro";
 import { mulberry32 } from "@/lib/random";
 import { evenlySpaced } from "@/lib/utils";
 
-const LINE2 = "#00a84d";
+const LINE2 = METRO_LINES[2].color;
 
 /* door geometry (landscape units) */
 const JAMB = { x0: 520, x1: 1080, y0: 150, y1: 890 }; // outer opening
