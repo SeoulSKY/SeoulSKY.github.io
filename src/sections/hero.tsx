@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
+import SectionLink from "@/components/section-link";
 import {
   CityLayer,
   MountainLayer,
@@ -15,7 +16,6 @@ import {
   isFinePointer,
   prefersReducedMotion,
   SplitText,
-  scrollToSection,
   useGSAP,
 } from "@/lib/gsap";
 import { introStarted, onIntro, registerTimeline } from "@/lib/intro";
@@ -550,22 +550,17 @@ export default function Hero() {
             <span className="sr-only">{heroTaglines.join(" ")}</span>
           </p>
           <div className="flex items-center gap-3">
-            <Button
-              className="hero-reveal"
-              size="lg"
-              onClick={() => scrollToSection("projects")}
-            >
-              View projects
-              <ArrowDown />
+            <Button asChild className="hero-reveal" size="lg">
+              <SectionLink to="projects">
+                View projects
+                <ArrowDown />
+              </SectionLink>
             </Button>
-            <Button
-              className="hero-reveal"
-              size="lg"
-              variant="outline"
-              onClick={() => scrollToSection("contact")}
-            >
-              Get in touch
-              <ArrowUpRight />
+            <Button asChild className="hero-reveal" size="lg" variant="outline">
+              <SectionLink to="contact">
+                Get in touch
+                <ArrowUpRight />
+              </SectionLink>
             </Button>
           </div>
         </div>

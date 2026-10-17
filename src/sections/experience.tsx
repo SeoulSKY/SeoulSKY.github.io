@@ -1,8 +1,8 @@
 import { ArrowDownRight } from "lucide-react";
 import MetroLine from "@/components/metro-line";
 import SectionHeading from "@/components/section-heading";
+import SectionLink from "@/components/section-link";
 import { experiences, nextStop } from "@/data/content";
-import { scrollToSection } from "@/lib/gsap";
 import { METRO_LINES } from "@/lib/metro";
 
 const LINE = METRO_LINES[2].color;
@@ -46,14 +46,13 @@ export default function Experience() {
                     {nextStop.accent}
                   </span>
                 </p>
-                <button
-                  type="button"
-                  onClick={() => scrollToSection("contact")}
-                  className="group mt-4 inline-flex cursor-pointer items-center gap-1.5 font-mono text-mist/60 text-xs uppercase tracking-[0.2em] transition-colors hover:text-peach"
+                <SectionLink
+                  to="contact"
+                  className="group mt-4 inline-flex items-center gap-1.5 font-mono text-mist/60 text-xs uppercase tracking-[0.2em] transition-colors hover:text-peach"
                 >
                   {nextStop.cta}
                   <ArrowDownRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
-                </button>
+                </SectionLink>
               </div>
             }
             stops={experiences.map((exp, i) => ({

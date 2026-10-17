@@ -2,6 +2,7 @@ import { Menu } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { GithubIcon } from "@/components/icons";
+import SectionLink from "@/components/section-link";
 import {
   Sheet,
   SheetContent,
@@ -10,13 +11,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { GITHUB_URL, KOREAN, navSections } from "@/data/content";
-import {
-  gsap,
-  prefersReducedMotion,
-  ScrollTrigger,
-  scrollToSection,
-  useGSAP,
-} from "@/lib/gsap";
+import { gsap, prefersReducedMotion, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { onIntro } from "@/lib/intro";
 import { cn } from "@/lib/utils";
 
@@ -73,9 +68,8 @@ export default function Navbar() {
     { scope: root },
   );
 
-  function go(id: string) {
+  function close() {
     setOpen(false);
-    scrollToSection(id);
   }
 
   return (
@@ -84,10 +78,10 @@ export default function Navbar() {
       className="group/nav fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4"
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-transparent px-3 py-2 transition-[background,border-color,box-shadow,backdrop-filter] duration-500 group-[.is-scrolled]/nav:border-white/10 group-[.is-scrolled]/nav:bg-night-900/60 group-[.is-scrolled]/nav:shadow-[0_10px_40px_-20px_rgb(0_0_0/0.8)] group-[.is-scrolled]/nav:backdrop-blur-xl sm:px-4">
-        <button
-          type="button"
-          onClick={() => go("top")}
-          className="group flex cursor-pointer items-center gap-2.5"
+        <SectionLink
+          to="top"
+          onClick={close}
+          className="group flex items-center gap-2.5"
           aria-label="Back to top"
         >
           <Image
@@ -100,16 +94,17 @@ export default function Navbar() {
           <span className="font-bold font-display text-[17px] tracking-tight">
             SeoulSKY
           </span>
-        </button>
+        </SectionLink>
 
         <ul className="hidden items-center gap-1 lg:flex">
           {navSections.map(({ id, label }) => (
             <li key={id}>
-              <button
-                type="button"
-                onClick={() => go(id)}
+              <SectionLink
+                to={id}
+                onClick={close}
+                aria-current={active === id ? "location" : undefined}
                 className={cn(
-                  "group relative flex cursor-pointer flex-col items-center rounded-full px-4 py-1.5 text-sm transition-colors",
+                  "group relative flex flex-col items-center rounded-full px-4 py-1.5 text-sm transition-colors",
                   active === id ? "text-mist" : "text-mist/60 hover:text-mist",
                 )}
               >
@@ -122,7 +117,7 @@ export default function Navbar() {
                   )}
                 />
                 <span className="relative">{label}</span>
-              </button>
+              </SectionLink>
             </li>
           ))}
         </ul>
@@ -158,10 +153,11 @@ export default function Navbar() {
               <ul className="mt-10 flex flex-col gap-2">
                 {navSections.map(({ id, label }, i) => (
                   <li key={id}>
-                    <button
-                      type="button"
-                      onClick={() => go(id)}
-                      className="group flex w-full cursor-pointer items-baseline gap-4 border-white/5 border-b py-4 text-left"
+                    <SectionLink
+                      to={id}
+                      onClick={close}
+                      aria-current={active === id ? "location" : undefined}
+                      className="group flex w-full items-baseline gap-4 border-white/5 border-b py-4 text-left"
                     >
                       <span className="font-mono text-mist/40 text-xs">
                         0{i + 1}
@@ -172,7 +168,7 @@ export default function Navbar() {
                       <span className="ml-auto font-kr text-mist/40 text-sm">
                         {KOREAN[id]}
                       </span>
-                    </button>
+                    </SectionLink>
                   </li>
                 ))}
               </ul>

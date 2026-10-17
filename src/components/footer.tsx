@@ -1,5 +1,6 @@
 import { ArrowUp } from "lucide-react";
 import { useRef } from "react";
+import SectionLink from "@/components/section-link";
 import {
   CityLayer,
   NARROW_VIEWBOX,
@@ -9,7 +10,7 @@ import Starfield from "@/components/seoul/starfield";
 import { GITHUB_URL, navSections } from "@/data/content";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useMounted } from "@/hooks/use-mounted";
-import { gsap, scrollToSection, useGSAP, withMotion } from "@/lib/gsap";
+import { gsap, useGSAP, withMotion } from "@/lib/gsap";
 
 export default function Footer() {
   const root = useRef<HTMLElement>(null);
@@ -70,14 +71,13 @@ export default function Footer() {
             className="grid grid-cols-2 gap-x-12 gap-y-2 text-sm sm:grid-cols-3"
           >
             {navSections.map(({ id, label }) => (
-              <button
+              <SectionLink
                 key={id}
-                type="button"
-                onClick={() => scrollToSection(id)}
-                className="cursor-pointer text-left text-mist/60 transition-colors hover:text-peach"
+                to={id}
+                className="text-mist/60 transition-colors hover:text-peach"
               >
                 {label}
-              </button>
+              </SectionLink>
             ))}
             <a
               href={GITHUB_URL}
@@ -108,16 +108,15 @@ export default function Footer() {
       <div className="absolute inset-x-0 bottom-0 z-10">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 pb-6 font-mono text-[11px] text-mist/50 uppercase tracking-[0.2em] sm:px-10">
           <span>© {mounted ? new Date().getFullYear() : null} SeoulSKY</span>
-          <button
-            type="button"
-            onClick={() => scrollToSection("top")}
-            className="group flex cursor-pointer items-center gap-2 transition-colors hover:text-mist"
+          <SectionLink
+            to="top"
+            className="group flex items-center gap-2 transition-colors hover:text-mist"
           >
             Back to top
             <span className="group-hover:-translate-y-1 grid size-8 place-items-center rounded-full border border-white/15 transition-transform duration-500">
               <ArrowUp className="size-3.5" />
             </span>
-          </button>
+          </SectionLink>
         </div>
       </div>
     </footer>

@@ -64,6 +64,7 @@ src/
                           Lotte World Tower, 63 Building, Gyeongbokgung, Han
     seoul/starfield.tsx   canvas starfield
     section-heading.tsx   metro-line badge · rule · Korean tag, split title
+    section-link.tsx      in-page #section link that scrolls smoothly
     metro-line.tsx        vertical Seoul-Metro timeline (Experience)
     intro-scrubber.tsx    TEMPORARY review transport bar for the intro
     ui/                   shadcn: button, input, textarea, label, badge,
@@ -285,7 +286,8 @@ GSAP everywhere; every animation tells the dusk/subway story.
   elements off position.
 - **Scrolling:** ScrollSmoother wraps the page (`#smooth-wrapper` /
   `#smooth-content`) and is created first in `SmoothScroll`. Scroll in code
-  with `scrollToSection(id)`; fixed UI (nav, preloader, scrubber) lives
+  with `scrollToSection(id)`, and link to a section with `<SectionLink>`
+  (a real `#id` link) rather than a button; fixed UI (nav, preloader, scrubber) lives
   outside the wrapper.
 - **Intro handshake:** the preloader calls `startIntro()`; anything that
   should animate after the doors open subscribes with `onIntro()`.
