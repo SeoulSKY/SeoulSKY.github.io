@@ -332,7 +332,11 @@ GSAP everywhere; every animation tells the dusk/subway story.
   into another svg until something repaints it, which once left the doors
   missing as the carriage came in. Give a
   single shape `fillOpacity` / `strokeOpacity` rather than `opacity`,
-  which makes every such shape a paint chunk of its own.
+  which makes every such shape a paint chunk of its own. In a per-frame
+  callback, work positions out from data rather than asking the DOM
+  (`getPointAtLength`, `getBBox`, `getBoundingClientRect`): after a write,
+  each read forces a style and layout pass. The page stays hidden under
+  the intro until the dive, so it is not painted beneath the opaque map.
 - **Prerendering:** the page is static, so `next build` renders it to HTML
   ahead of time, where render code cannot read `window`, the viewport or the
   URL. Effects and GSAP callbacks can. Anything whose markup depends on the browser waits for
