@@ -270,19 +270,45 @@ function BuildingShape({
         <rect x={x} y={y} width={w} height={b.h} fill={fill} />
       )}
       {windows &&
-        b.windows.map((win) => (
-          <rect
-            key={`${win.x}-${win.y}`}
-            className="sk-win"
-            x={win.x}
-            y={win.y}
-            width={3}
-            height={4}
-            fill={win.c}
-          />
+        lightBatches(b).map((batch) => (
+          <g key={`${batch[0].x}-${batch[0].y}`} className="sk-win">
+            {batch.map((win) => (
+              <rect
+                key={`${win.x}-${win.y}`}
+                x={win.x}
+                y={win.y}
+                width={3}
+                height={4}
+                fill={win.c}
+              />
+            ))}
+          </g>
         ))}
     </g>
   );
+}
+
+/** Roughly how many windows switch on together in the entrance. */
+const WINDOWS_PER_BATCH = 4;
+
+/**
+ * A building's windows, shuffled the same way on every render and dealt
+ * into small batches that each switch on as one. Scattered over the
+ * building, a batch still reads as windows lighting at random, for a fifth
+ * of the tweens and paint chunks of lighting each window on its own.
+ */
+function lightBatches(b: Building) {
+  const rand = mulberry32(b.x + 1000);
+  const shuffled = [...b.windows];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  const batches: Building["windows"][] = [];
+  for (let i = 0; i < shuffled.length; i += WINDOWS_PER_BATCH) {
+    batches.push(shuffled.slice(i, i + WINDOWS_PER_BATCH));
+  }
+  return batches;
 }
 
 /** A row's windows as one path per colour (see `staticWindows`). */
