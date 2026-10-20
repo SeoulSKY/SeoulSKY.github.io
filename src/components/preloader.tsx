@@ -852,7 +852,7 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
         aria-hidden="true"
         className="absolute inset-x-3 top-3 sm:inset-x-0 sm:top-6 sm:flex sm:justify-center"
       >
-        <div className="flex items-stretch overflow-hidden rounded-2xl border border-white/10 bg-[#07081c]/90 pl-board shadow-[0_20px_60px_-20px_rgb(0_0_0/0.9)] backdrop-blur sm:w-[min(760px,90vw)]">
+        <div className="flex items-stretch overflow-hidden rounded-2xl border border-white/10 bg-[#07081c]/90 pl-board shadow-[0_20px_60px_-20px_rgb(0_0_0/0.9)] sm:w-[min(760px,90vw)]">
           <div className="flex shrink-0 items-center gap-2 border-white/10 border-r px-3 sm:px-4">
             <span
               className="grid size-7 place-items-center rounded-full font-bold font-display text-night-950 text-sm"
