@@ -1,5 +1,8 @@
 import { useMemo, useRef, useState } from "react";
-import Carriage, { DOOR_TRAVEL } from "@/components/seoul/carriage";
+import Carriage, {
+  CARRIAGE_VIEWBOX,
+  DOOR_TRAVEL,
+} from "@/components/seoul/carriage";
 import { useMounted } from "@/hooks/use-mounted";
 import {
   gsap,
@@ -210,6 +213,16 @@ function mapPointOnScreen(scene: HTMLElement, viewBox: string, [px, py]: Pt) {
   const H = scene.clientHeight;
   const s = Math.min(W / w, H / h);
   return [(px - x) * s + (W - w * s) / 2, (py - y) * s + (H - h * s) / 2];
+}
+
+/** Screen px per carriage unit; the carriage is a full-scene `slice` svg. */
+function carriageUnit(scene: HTMLElement, portrait: boolean) {
+  const [, , w, h] = (
+    portrait ? CARRIAGE_VIEWBOX.portrait : CARRIAGE_VIEWBOX.landscape
+  )
+    .split(" ")
+    .map(Number);
+  return Math.max(scene.clientWidth / w, scene.clientHeight / h);
 }
 
 /**
@@ -533,7 +546,7 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
         // the train has just braked: the cabin rocks, the straps swing and settle
         .fromTo(
           q(".pl-cabin"),
-          { x: 14 },
+          { x: () => 14 * carriageUnit(scene, L.portrait) },
           { x: 0, duration: 1.6, ease: "elastic.out(1, 0.35)" },
           "doors",
         )

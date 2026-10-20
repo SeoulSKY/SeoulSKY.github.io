@@ -5,15 +5,21 @@
  * seat-end wing partitions, patterned bench seats, triangle hand straps,
  * the LCD route display above the doors and the blue vinyl floor.
  *
- * Everything is one SVG so it scales as a single picture. GSAP hooks:
- *   .pl-cabin          whole scene (brake jolt)
+ * It is four stacked svgs sharing one viewBox: the still cabin (which
+ * holds every def), the straps, the doors with the LCD text, and the
+ * mood tint over all of them. Moving a part repaints only its own layer;
+ * when the straps and doors were in the one svg with the cabin, every
+ * frame of them relaid out and repainted the whole carriage, blurs and
+ * all. GSAP hooks:
+ *   .pl-cabin          the first three layers (brake jolt; an HTML element,
+ *                      so it moves in px: see `carriageUnit`)
  *   .pl-door-l / -r    door leaves (slide ±DOOR_TRAVEL into the pockets)
  *   .pl-strap          hand straps (sway; data-origin = pivot)
  *   .pl-mini-dot       LCD route stations (data-origin)   .pl-mini-here  terminus
  *   .pl-door-sign      LCD text groups
  */
 
-import { useId } from "react";
+import { type ReactNode, useId } from "react";
 import { METRO_LINES } from "@/lib/metro";
 import { mulberry32 } from "@/lib/random";
 import { evenlySpaced } from "@/lib/utils";
@@ -727,9 +733,6 @@ function SideWall({ side, id }: { side: "l" | "r"; id: string }) {
         rx="4.5"
         fill={`url(#${id}-rail)`}
       />
-      {STRAP_X.map((x) => (
-        <Strap key={x} x={x} id={id} />
-      ))}
     </g>
   );
 }
@@ -838,406 +841,199 @@ function DoorLeaf({ side, id }: { side: "l" | "r"; id: string }) {
 
 export default function Carriage({ portrait }: { portrait: boolean }) {
   const id = `cab${useId().replace(/:/g, "")}`;
+  const viewBox = portrait
+    ? CARRIAGE_VIEWBOX.portrait
+    : CARRIAGE_VIEWBOX.landscape;
   return (
-    <svg
-      viewBox={
-        portrait ? CARRIAGE_VIEWBOX.portrait : CARRIAGE_VIEWBOX.landscape
-      }
-      preserveAspectRatio="xMidYMid slice"
-      className="absolute inset-0 h-full w-full"
-      aria-hidden="true"
-    >
-      <defs>
-        <linearGradient id={`${id}-ceiling`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#d8dbe3" />
-          <stop offset="0.75" stopColor="#f2f3f7" />
-          <stop offset="1" stopColor="#e2e5ec" />
-        </linearGradient>
-        <linearGradient id={`${id}-wall`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#f5f6f9" />
-          <stop offset="0.6" stopColor="#eceef3" />
-          <stop offset="1" stopColor="#dcdfe6" />
-        </linearGradient>
-        <linearGradient id={`${id}-floor`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#4f7590" />
-          <stop offset="1" stopColor="#2c4558" />
-        </linearGradient>
-        <radialGradient id={`${id}-floorShine`} cx="0.5" cy="0" r="0.6">
-          <stop offset="0" stopColor="#fff" stopOpacity="0.35" />
-          <stop offset="1" stopColor="#fff" stopOpacity="0" />
-        </radialGradient>
-        <linearGradient id={`${id}-dusk`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#0c0e2e" />
-          <stop offset="0.38" stopColor="#2a2163" />
-          <stop offset="0.62" stopColor="#6a4592" />
-          <stop offset="0.85" stopColor="#e894ad" />
-          <stop offset="1" stopColor="#ffc3a1" />
-        </linearGradient>
-        <linearGradient id={`${id}-steel`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#d9dce3" />
-          <stop offset="0.5" stopColor="#c3c7d0" />
-          <stop offset="1" stopColor="#aeb3be" />
-        </linearGradient>
-        <linearGradient id={`${id}-sheenl`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#000" stopOpacity="0.12" />
-          <stop offset="0.45" stopColor="#fff" stopOpacity="0.3" />
-          <stop offset="0.6" stopColor="#fff" stopOpacity="0.05" />
-          <stop offset="1" stopColor="#000" stopOpacity="0.06" />
-        </linearGradient>
-        <linearGradient id={`${id}-sheenr`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#000" stopOpacity="0.06" />
-          <stop offset="0.4" stopColor="#fff" stopOpacity="0.05" />
-          <stop offset="0.55" stopColor="#fff" stopOpacity="0.3" />
-          <stop offset="1" stopColor="#000" stopOpacity="0.12" />
-        </linearGradient>
-        {/* embossed checker stainless */}
-        <pattern
-          id={`${id}-dimple`}
-          width="10"
-          height="10"
-          patternUnits="userSpaceOnUse"
-        >
-          <rect width="5" height="5" fill="#fff" opacity="0.13" />
-          <rect x="5" y="5" width="5" height="5" fill="#fff" opacity="0.13" />
-          <rect x="5" width="5" height="5" fill="#000" opacity="0.035" />
-          <rect y="5" width="5" height="5" fill="#000" opacity="0.035" />
-        </pattern>
-        <pattern
-          id={`${id}-rib`}
-          width="6"
-          height="6"
-          patternUnits="userSpaceOnUse"
-        >
-          <rect width="6" height="6" fill="#9aa0ab" />
-          <rect width="6" height="2.5" fill="#c9cdd5" />
-        </pattern>
-        <linearGradient id={`${id}-jambL`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#e9ebf0" />
-          <stop offset="1" stopColor="#b8bcc6" />
-        </linearGradient>
-        <linearGradient id={`${id}-jambR`} x1="1" y1="0" x2="0" y2="0">
-          <stop offset="0" stopColor="#e9ebf0" />
-          <stop offset="1" stopColor="#b8bcc6" />
-        </linearGradient>
-        <linearGradient id={`${id}-jambT`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#dfe2e8" />
-          <stop offset="1" stopColor="#aeb2bd" />
-        </linearGradient>
-        <linearGradient id={`${id}-wing`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#e6e9ef" />
-          <stop offset="0.35" stopColor="#ffffff" />
-          <stop offset="1" stopColor="#d6dae2" />
-        </linearGradient>
-        <linearGradient id={`${id}-rail`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#ffffff" />
-          <stop offset="0.5" stopColor="#c3c7d0" />
-          <stop offset="1" stopColor="#868b97" />
-        </linearGradient>
-        <linearGradient id={`${id}-strap`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#a9adb8" />
-          <stop offset="0.5" stopColor="#e9ebf0" />
-          <stop offset="1" stopColor="#a9adb8" />
-        </linearGradient>
-        <linearGradient id={`${id}-handle`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#ffffff" />
-          <stop offset="1" stopColor="#c2c6cf" />
-        </linearGradient>
-        {/* seat fabric: muted grey-teal with confetti swooshes */}
-        <pattern
-          id={`${id}-fabric`}
-          width="46"
-          height="40"
-          patternUnits="userSpaceOnUse"
-        >
-          <rect width="46" height="40" fill="#545e6d" />
-          <path
-            d="M4,8 q6,-5 12,0"
-            stroke="#f2b04b"
-            strokeWidth="1.8"
-            strokeOpacity="0.75"
-            fill="none"
-            strokeLinecap="round"
-          />
-          <path
-            d="M24,22 q5,4 10,-1"
-            stroke="#e66a8a"
-            strokeWidth="1.8"
-            strokeOpacity="0.75"
-            fill="none"
-            strokeLinecap="round"
-          />
-          <path
-            d="M8,30 q4,-6 10,-4"
-            stroke="#6fc3e8"
-            strokeWidth="1.8"
-            strokeOpacity="0.75"
-            fill="none"
-            strokeLinecap="round"
-          />
-          <path
-            d="M32,6 q5,2 7,7"
-            stroke={LINE2}
-            strokeWidth="1.8"
-            strokeOpacity="0.75"
-            fill="none"
-            strokeLinecap="round"
-          />
-          <circle cx="40" cy="32" r="1.6" fill="#f4f0ff" opacity="0.6" />
-        </pattern>
-        <pattern
-          id={`${id}-priority`}
-          width="18"
-          height="18"
-          patternUnits="userSpaceOnUse"
-        >
-          <rect width="18" height="18" fill="#d6458a" />
-          <path d="M0,9 L9,0 L18,9 L9,18 Z" fill="#e865a2" />
-          <circle cx="9" cy="9" r="1.6" fill="#ffd1e4" />
-        </pattern>
-        <linearGradient id={`${id}-cushion`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#fff" stopOpacity="0.18" />
-          <stop offset="0.25" stopColor="#fff" stopOpacity="0" />
-          <stop offset="1" stopColor="#000" stopOpacity="0.3" />
-        </linearGradient>
-        <linearGradient id={`${id}-seatTop`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#fff" stopOpacity="0.22" />
-          <stop offset="1" stopColor="#000" stopOpacity="0.28" />
-        </linearGradient>
-        <linearGradient id={`${id}-underSeat`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#1f2430" />
-          <stop offset="1" stopColor="#3d4656" />
-        </linearGradient>
-        <radialGradient id={`${id}-vignette`} cx="0.5" cy="0.5" r="0.75">
-          <stop offset="0.55" stopColor="#06071a" stopOpacity="0" />
-          <stop offset="1" stopColor="#06071a" stopOpacity="0.55" />
-        </radialGradient>
-        <radialGradient id={`${id}-amber`}>
-          <stop offset="0" stopColor="#ffb357" stopOpacity="0.9" />
-          <stop offset="1" stopColor="#ffb357" stopOpacity="0" />
-        </radialGradient>
-        <filter id={`${id}-soft`} x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="5" />
-        </filter>
-        <filter id={`${id}-glow`} x="-50%" y="-200%" width="200%" height="500%">
-          <feGaussianBlur stdDeviation="10" />
-        </filter>
-        <filter id={`${id}-bokeh`} x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="3.5" />
-        </filter>
-        <linearGradient
-          id={`${id}-duskAbs`}
-          gradientUnits="userSpaceOnUse"
-          x1="0"
-          y1="200"
-          x2="0"
-          y2={HORIZON}
-        >
-          <stop offset="0" stopColor="#0c0e2e" />
-          <stop offset="0.38" stopColor="#2a2163" />
-          <stop offset="0.64" stopColor="#6a4592" />
-          <stop offset="0.86" stopColor="#e894ad" />
-          <stop offset="1" stopColor="#ffc3a1" />
-        </linearGradient>
-        <linearGradient
-          id={`${id}-river`}
-          gradientUnits="userSpaceOnUse"
-          x1="0"
-          y1={HORIZON}
-          x2="0"
-          y2={HORIZON + 70}
-        >
-          <stop offset="0" stopColor="#5a3f7e" />
-          <stop offset="0.35" stopColor="#2a2156" />
-          <stop offset="1" stopColor="#0b0d26" />
-        </linearGradient>
-        <clipPath id={`${id}-sidewin-l`}>
-          <rect x="48" y="246" width="364" height="272" rx="29" />
-        </clipPath>
-        <clipPath id={`${id}-sidewin-r`}>
-          <rect x="1188" y="246" width="364" height="272" rx="29" />
-        </clipPath>
-        <clipPath id={`${id}-sidewin`}>
-          <rect x="48" y="246" width="364" height="272" rx="29" />
-        </clipPath>
-        <clipPath id={`${id}-floorClip`}>
-          <rect x="-300" y="884" width="2200" height="440" />
-        </clipPath>
-        <clipPath id={`${id}-door`}>
-          <rect
-            x={DOOR.x0}
-            y={DOOR.y0}
-            width={DOOR.x1 - DOOR.x0}
-            height={DOOR.y1 - DOOR.y0}
-          />
-        </clipPath>
-        <clipPath id={`${id}-winl`}>
-          <rect
-            x={DOOR.x0 + 32}
-            y="216"
-            width={MID - DOOR.x0 - 64}
-            height="266"
-            rx="37"
-          />
-        </clipPath>
-        <clipPath id={`${id}-winr`}>
-          <rect
-            x={MID + 32}
-            y="216"
-            width={MID - DOOR.x0 - 64}
-            height="266"
-            rx="37"
-          />
-        </clipPath>
-      </defs>
-
-      <g className="pl-cabin">
-        {/* side walls, with a hole for the doorway */}
-        <path
-          fillRule="evenodd"
-          fill={`url(#${id}-wall)`}
-          d={`M-300,90 H1900 V890 H-300 Z M${JAMB.x0},${JAMB.y0 + 18} Q${JAMB.x0},${JAMB.y0} ${JAMB.x0 + 18},${JAMB.y0} H${JAMB.x1 - 18} Q${JAMB.x1},${JAMB.y0} ${JAMB.x1},${JAMB.y0 + 18} V${JAMB.y1} H${JAMB.x0} Z`}
-        />
-        {/* Line 2 accent where the wall meets the ceiling */}
-        <rect x="-300" y="90" width="2200" height="5" fill={LINE2} />
-
-        {/* ceiling */}
-        <rect
-          x="-300"
-          y="-320"
-          width="2200"
-          height="410"
-          fill={`url(#${id}-ceiling)`}
-        />
-        <g>
-          <rect
-            x="60"
-            y="22"
-            width="640"
-            height="16"
-            rx="8"
-            fill="#fff"
-            filter={`url(#${id}-glow)`}
-            opacity="0.9"
-          />
-          <rect
-            x="900"
-            y="22"
-            width="640"
-            height="16"
-            rx="8"
-            fill="#fff"
-            filter={`url(#${id}-glow)`}
-            opacity="0.9"
-          />
-          <rect x="60" y="24" width="640" height="12" rx="6" fill="#fff" />
-          <rect x="900" y="24" width="640" height="12" rx="6" fill="#fff" />
-          <rect
-            x="-300"
-            y="-120"
-            width="2200"
-            height="14"
-            fill="#fff"
-            opacity="0.8"
-            filter={`url(#${id}-glow)`}
-          />
-          {evenlySpaced(14, 730, 10).map((vx) => (
-            <rect
-              key={vx}
-              x={vx}
-              y="20"
-              width="5"
-              height="20"
-              rx="2"
-              fill="#b9bdc7"
+    <>
+      {/* the cabin: everything that jolts when the train brakes */}
+      <div className="absolute inset-0 pl-cabin">
+        <Layer viewBox={viewBox} id={id}>
+          <g>
+            {/* side walls, with a hole for the doorway */}
+            <path
+              fillRule="evenodd"
+              fill={`url(#${id}-wall)`}
+              d={`M-300,90 H1900 V890 H-300 Z M${JAMB.x0},${JAMB.y0 + 18} Q${JAMB.x0},${JAMB.y0} ${JAMB.x0 + 18},${JAMB.y0} H${JAMB.x1 - 18} Q${JAMB.x1},${JAMB.y0} ${JAMB.x1},${JAMB.y0 + 18} V${JAMB.y1} H${JAMB.x0} Z`}
             />
-          ))}
-          <rect
-            x="-300"
-            y="78"
-            width="2200"
-            height="12"
-            fill="#000"
-            opacity="0.05"
-          />
-        </g>
+            {/* Line 2 accent where the wall meets the ceiling */}
+            <rect x="-300" y="90" width="2200" height="5" fill={LINE2} />
 
-        {/* floor */}
-        <rect
-          x="-300"
-          y="880"
-          width="2200"
-          height="440"
-          fill={`url(#${id}-floor)`}
-        />
-        {/* sheen on the floor only; it must never spill into the doorway */}
-        <ellipse
-          cx="800"
-          cy="900"
-          rx="520"
-          ry="260"
-          fill={`url(#${id}-floorShine)`}
-          clipPath={`url(#${id}-floorClip)`}
-        />
-        <rect x="-300" y="876" width="2200" height="8" fill="#c9ccd4" />
+            {/* ceiling */}
+            <rect
+              x="-300"
+              y="-320"
+              width="2200"
+              height="410"
+              fill={`url(#${id}-ceiling)`}
+            />
+            <g>
+              <rect
+                x="60"
+                y="22"
+                width="640"
+                height="16"
+                rx="8"
+                fill="#fff"
+                filter={`url(#${id}-glow)`}
+                opacity="0.9"
+              />
+              <rect
+                x="900"
+                y="22"
+                width="640"
+                height="16"
+                rx="8"
+                fill="#fff"
+                filter={`url(#${id}-glow)`}
+                opacity="0.9"
+              />
+              <rect x="60" y="24" width="640" height="12" rx="6" fill="#fff" />
+              <rect x="900" y="24" width="640" height="12" rx="6" fill="#fff" />
+              <rect
+                x="-300"
+                y="-120"
+                width="2200"
+                height="14"
+                fill="#fff"
+                opacity="0.8"
+                filter={`url(#${id}-glow)`}
+              />
+              {evenlySpaced(14, 730, 10).map((vx) => (
+                <rect
+                  key={vx}
+                  x={vx}
+                  y="20"
+                  width="5"
+                  height="20"
+                  rx="2"
+                  fill="#b9bdc7"
+                />
+              ))}
+              <rect
+                x="-300"
+                y="78"
+                width="2200"
+                height="12"
+                fill="#000"
+                opacity="0.05"
+              />
+            </g>
 
-        <SideWall side="l" id={id} />
-        <SideWall side="r" id={id} />
+            {/* floor */}
+            <rect
+              x="-300"
+              y="880"
+              width="2200"
+              height="440"
+              fill={`url(#${id}-floor)`}
+            />
+            {/* sheen on the floor only; it must never spill into the doorway */}
+            <ellipse
+              cx="800"
+              cy="900"
+              rx="520"
+              ry="260"
+              fill={`url(#${id}-floorShine)`}
+              clipPath={`url(#${id}-floorClip)`}
+            />
+            <rect x="-300" y="876" width="2200" height="8" fill="#c9ccd4" />
 
-        {/* backing for the vestibule: fills the rounded corners of the opening
+            <SideWall side="l" id={id} />
+            <SideWall side="r" id={id} />
+
+            {/* backing for the vestibule: fills the rounded corners of the opening
             (everything except the door plane, which must stay see-through) */}
-        <path
-          fillRule="evenodd"
-          fill="#c3c7d0"
-          d={`M${JAMB.x0},${JAMB.y0 + 18} Q${JAMB.x0},${JAMB.y0} ${JAMB.x0 + 18},${JAMB.y0} H${JAMB.x1 - 18} Q${JAMB.x1},${JAMB.y0} ${JAMB.x1},${JAMB.y0 + 18} V${JAMB.y1} H${JAMB.x0} Z M${DOOR.x0},${DOOR.y0} V${DOOR.y1} H${DOOR.x1} V${DOOR.y0} Z`}
-        />
-        {/* door jambs: the vestibule's depth */}
-        <path
-          d={`M${JAMB.x0},${JAMB.y0 + 10} L${DOOR.x0},${DOOR.y0} L${DOOR.x0},${DOOR.y1} L${JAMB.x0},${JAMB.y1} Z`}
-          fill={`url(#${id}-jambL)`}
-        />
-        <path
-          d={`M${JAMB.x1},${JAMB.y0 + 10} L${DOOR.x1},${DOOR.y0} L${DOOR.x1},${DOOR.y1} L${JAMB.x1},${JAMB.y1} Z`}
-          fill={`url(#${id}-jambR)`}
-        />
-        <path
-          d={`M${JAMB.x0 + 10},${JAMB.y0} H${JAMB.x1 - 10} L${DOOR.x1},${DOOR.y0} H${DOOR.x0} Z`}
-          fill={`url(#${id}-jambT)`}
-        />
-        <path
-          d={`M${JAMB.x0},${JAMB.y1} V${JAMB.y0 + 18} Q${JAMB.x0},${JAMB.y0} ${JAMB.x0 + 18},${JAMB.y0} H${JAMB.x1 - 18} Q${JAMB.x1},${JAMB.y0} ${JAMB.x1},${JAMB.y0 + 18} V${JAMB.y1}`}
-          fill="none"
-          stroke="#fff"
-          strokeWidth="4"
-        />
-        <path
-          d={`M${JAMB.x0 - 4},${JAMB.y1} V${JAMB.y0 + 14} Q${JAMB.x0 - 4},${JAMB.y0 - 4} ${JAMB.x0 + 14},${JAMB.y0 - 4} H${JAMB.x1 - 14} Q${JAMB.x1 + 4},${JAMB.y0 - 4} ${JAMB.x1 + 4},${JAMB.y0 + 14} V${JAMB.y1}`}
-          fill="none"
-          stroke="#000"
-          strokeOpacity="0.08"
-          strokeWidth="3"
-        />
+            <path
+              fillRule="evenodd"
+              fill="#c3c7d0"
+              d={`M${JAMB.x0},${JAMB.y0 + 18} Q${JAMB.x0},${JAMB.y0} ${JAMB.x0 + 18},${JAMB.y0} H${JAMB.x1 - 18} Q${JAMB.x1},${JAMB.y0} ${JAMB.x1},${JAMB.y0 + 18} V${JAMB.y1} H${JAMB.x0} Z M${DOOR.x0},${DOOR.y0} V${DOOR.y1} H${DOOR.x1} V${DOOR.y0} Z`}
+            />
+            {/* door jambs: the vestibule's depth */}
+            <path
+              d={`M${JAMB.x0},${JAMB.y0 + 10} L${DOOR.x0},${DOOR.y0} L${DOOR.x0},${DOOR.y1} L${JAMB.x0},${JAMB.y1} Z`}
+              fill={`url(#${id}-jambL)`}
+            />
+            <path
+              d={`M${JAMB.x1},${JAMB.y0 + 10} L${DOOR.x1},${DOOR.y0} L${DOOR.x1},${DOOR.y1} L${JAMB.x1},${JAMB.y1} Z`}
+              fill={`url(#${id}-jambR)`}
+            />
+            <path
+              d={`M${JAMB.x0 + 10},${JAMB.y0} H${JAMB.x1 - 10} L${DOOR.x1},${DOOR.y0} H${DOOR.x0} Z`}
+              fill={`url(#${id}-jambT)`}
+            />
+            <path
+              d={`M${JAMB.x0},${JAMB.y1} V${JAMB.y0 + 18} Q${JAMB.x0},${JAMB.y0} ${JAMB.x0 + 18},${JAMB.y0} H${JAMB.x1 - 18} Q${JAMB.x1},${JAMB.y0} ${JAMB.x1},${JAMB.y0 + 18} V${JAMB.y1}`}
+              fill="none"
+              stroke="#fff"
+              strokeWidth="4"
+            />
+            <path
+              d={`M${JAMB.x0 - 4},${JAMB.y1} V${JAMB.y0 + 14} Q${JAMB.x0 - 4},${JAMB.y0 - 4} ${JAMB.x0 + 14},${JAMB.y0 - 4} H${JAMB.x1 - 14} Q${JAMB.x1 + 4},${JAMB.y0 - 4} ${JAMB.x1 + 4},${JAMB.y0 + 14} V${JAMB.y1}`}
+              fill="none"
+              stroke="#000"
+              strokeOpacity="0.08"
+              strokeWidth="3"
+            />
 
-        {/* LCD route display above the doors */}
-        <g>
-          <rect
-            x="566"
-            y="98"
-            width="468"
-            height="48"
-            rx="8"
-            fill="#05060f"
-            stroke="#2c2f3d"
-            strokeWidth="3"
-          />
-          <rect
-            x="566"
-            y="98"
-            width="468"
-            height="20"
-            rx="8"
-            fill="#fff"
-            opacity="0.04"
-          />
+            {/* LCD route display above the doors */}
+            <g>
+              <rect
+                x="566"
+                y="98"
+                width="468"
+                height="48"
+                rx="8"
+                fill="#05060f"
+                stroke="#2c2f3d"
+                strokeWidth="3"
+              />
+              <rect
+                x="566"
+                y="98"
+                width="468"
+                height="20"
+                rx="8"
+                fill="#fff"
+                opacity="0.04"
+              />
+            </g>
+
+            {/* threshold plate */}
+            <path
+              d={`M${DOOR.x0},${DOOR.y1} H${DOOR.x1} L${DOOR.x1 + 46},${DOOR.y1 + 58} H${DOOR.x0 - 46} Z`}
+              fill={`url(#${id}-rib)`}
+            />
+            <path
+              d={`M${DOOR.x0},${DOOR.y1} H${DOOR.x1} L${DOOR.x1 + 46},${DOOR.y1 + 58} H${DOOR.x0 - 46} Z`}
+              fill="#fff"
+              opacity="0.12"
+            />
+            <rect
+              x={DOOR.x0 - 46}
+              y={DOOR.y1 + 58}
+              width={DOOR.x1 - DOOR.x0 + 92}
+              height="4"
+              fill="#f2c94c"
+            />
+
+            <Pole side="l" id={id} />
+            <Pole side="r" id={id} />
+          </g>
+        </Layer>
+
+        <Layer viewBox={viewBox} id={`${id}s`}>
+          {STRAP_X.map((x) => (
+            <Strap key={x} x={x} id={`${id}s`} />
+          ))}
+          <g transform="matrix(-1 0 0 1 1600 0)">
+            {STRAP_X.map((x) => (
+              <Strap key={x} x={x} id={`${id}s`} />
+            ))}
+          </g>
+        </Layer>
+
+        <Layer viewBox={viewBox} id={`${id}d`}>
           <g className="pl-door-sign">
             <circle cx="590" cy="122" r="10" fill={LINE2} />
             <text
@@ -1299,60 +1095,316 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
               );
             })}
           </g>
-        </g>
+          {/* the doorway: leaves slide into the wall pockets */}
+          <g clipPath={`url(#${id}d-door)`}>
+            <DoorLeaf side="l" id={`${id}d`} />
+            <DoorLeaf side="r" id={`${id}d`} />
+            {/* top shadow cast by the header */}
+            <rect
+              x={DOOR.x0}
+              y={DOOR.y0}
+              width={DOOR.x1 - DOOR.x0}
+              height="16"
+              fill="#000"
+              opacity="0.12"
+            />
+          </g>
+        </Layer>
+      </div>
 
-        {/* the doorway: leaves slide into the wall pockets */}
-        <g clipPath={`url(#${id}-door)`}>
-          <DoorLeaf side="l" id={id} />
-          <DoorLeaf side="r" id={id} />
-          {/* top shadow cast by the header */}
-          <rect
-            x={DOOR.x0}
-            y={DOOR.y0}
-            width={DOOR.x1 - DOOR.x0}
-            height="16"
-            fill="#000"
-            opacity="0.12"
-          />
-        </g>
-
-        {/* threshold plate */}
-        <path
-          d={`M${DOOR.x0},${DOOR.y1} H${DOOR.x1} L${DOOR.x1 + 46},${DOOR.y1 + 58} H${DOOR.x0 - 46} Z`}
-          fill={`url(#${id}-rib)`}
-        />
-        <path
-          d={`M${DOOR.x0},${DOOR.y1} H${DOOR.x1} L${DOOR.x1 + 46},${DOOR.y1 + 58} H${DOOR.x0 - 46} Z`}
-          fill="#fff"
-          opacity="0.12"
-        />
-        <rect
-          x={DOOR.x0 - 46}
-          y={DOOR.y1 + 58}
-          width={DOOR.x1 - DOOR.x0 + 92}
-          height="4"
-          fill="#f2c94c"
-        />
-
-        <Pole side="l" id={id} />
-        <Pole side="r" id={id} />
-      </g>
-
-      {/* mood: keep the cabin in the night palette, with a hole for the
+      <Layer viewBox={viewBox} id={`${id}m`}>
+        {/* mood: keep the cabin in the night palette, with a hole for the
           doorway so nothing tints the city once the doors are open */}
-      <path
-        fillRule="evenodd"
-        d={`M-300,-320 H1900 V1320 H-300 Z M${DOOR.x0},${DOOR.y0} V${DOOR.y1} H${DOOR.x1} V${DOOR.y0} Z`}
-        fill={`url(#${id}-vignette)`}
-        pointerEvents="none"
-      />
-      <path
-        fillRule="evenodd"
-        d={`M-300,-320 H1900 V1320 H-300 Z M${DOOR.x0},${DOOR.y0} V${DOOR.y1} H${DOOR.x1} V${DOOR.y0} Z`}
-        fill="#1e2152"
-        opacity="0.08"
-        pointerEvents="none"
-      />
+        <path
+          fillRule="evenodd"
+          d={`M-300,-320 H1900 V1320 H-300 Z M${DOOR.x0},${DOOR.y0} V${DOOR.y1} H${DOOR.x1} V${DOOR.y0} Z`}
+          fill={`url(#${id}m-vignette)`}
+          pointerEvents="none"
+        />
+        <path
+          fillRule="evenodd"
+          d={`M-300,-320 H1900 V1320 H-300 Z M${DOOR.x0},${DOOR.y0} V${DOOR.y1} H${DOOR.x1} V${DOOR.y0} Z`}
+          fill="#1e2152"
+          opacity="0.08"
+          pointerEvents="none"
+        />
+      </Layer>
+    </>
+  );
+}
+
+/**
+ * One layer of the carriage: all of them share the viewBox and its crop.
+ * Each carries its own copy of the defs under its own `id` prefix, because
+ * a reference into another svg may not resolve on the first paint, and an
+ * unresolved clip path hides what it clips (the doors went missing).
+ */
+function Layer({
+  viewBox,
+  id,
+  children,
+}: {
+  viewBox: string;
+  id: string;
+  children: ReactNode;
+}) {
+  return (
+    <svg
+      viewBox={viewBox}
+      preserveAspectRatio="xMidYMid slice"
+      className="absolute inset-0 h-full w-full"
+      aria-hidden="true"
+    >
+      <CarriageDefs id={id} />
+      {children}
     </svg>
+  );
+}
+
+/** Gradients, patterns, filters and clips, prefixed with `id`. */
+function CarriageDefs({ id }: { id: string }) {
+  return (
+    <defs>
+      <linearGradient id={`${id}-ceiling`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#d8dbe3" />
+        <stop offset="0.75" stopColor="#f2f3f7" />
+        <stop offset="1" stopColor="#e2e5ec" />
+      </linearGradient>
+      <linearGradient id={`${id}-wall`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#f5f6f9" />
+        <stop offset="0.6" stopColor="#eceef3" />
+        <stop offset="1" stopColor="#dcdfe6" />
+      </linearGradient>
+      <linearGradient id={`${id}-floor`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#4f7590" />
+        <stop offset="1" stopColor="#2c4558" />
+      </linearGradient>
+      <radialGradient id={`${id}-floorShine`} cx="0.5" cy="0" r="0.6">
+        <stop offset="0" stopColor="#fff" stopOpacity="0.35" />
+        <stop offset="1" stopColor="#fff" stopOpacity="0" />
+      </radialGradient>
+      <linearGradient id={`${id}-dusk`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#0c0e2e" />
+        <stop offset="0.38" stopColor="#2a2163" />
+        <stop offset="0.62" stopColor="#6a4592" />
+        <stop offset="0.85" stopColor="#e894ad" />
+        <stop offset="1" stopColor="#ffc3a1" />
+      </linearGradient>
+      <linearGradient id={`${id}-steel`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#d9dce3" />
+        <stop offset="0.5" stopColor="#c3c7d0" />
+        <stop offset="1" stopColor="#aeb3be" />
+      </linearGradient>
+      <linearGradient id={`${id}-sheenl`} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stopColor="#000" stopOpacity="0.12" />
+        <stop offset="0.45" stopColor="#fff" stopOpacity="0.3" />
+        <stop offset="0.6" stopColor="#fff" stopOpacity="0.05" />
+        <stop offset="1" stopColor="#000" stopOpacity="0.06" />
+      </linearGradient>
+      <linearGradient id={`${id}-sheenr`} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stopColor="#000" stopOpacity="0.06" />
+        <stop offset="0.4" stopColor="#fff" stopOpacity="0.05" />
+        <stop offset="0.55" stopColor="#fff" stopOpacity="0.3" />
+        <stop offset="1" stopColor="#000" stopOpacity="0.12" />
+      </linearGradient>
+      {/* embossed checker stainless */}
+      <pattern
+        id={`${id}-dimple`}
+        width="10"
+        height="10"
+        patternUnits="userSpaceOnUse"
+      >
+        <rect width="5" height="5" fill="#fff" opacity="0.13" />
+        <rect x="5" y="5" width="5" height="5" fill="#fff" opacity="0.13" />
+        <rect x="5" width="5" height="5" fill="#000" opacity="0.035" />
+        <rect y="5" width="5" height="5" fill="#000" opacity="0.035" />
+      </pattern>
+      <pattern
+        id={`${id}-rib`}
+        width="6"
+        height="6"
+        patternUnits="userSpaceOnUse"
+      >
+        <rect width="6" height="6" fill="#9aa0ab" />
+        <rect width="6" height="2.5" fill="#c9cdd5" />
+      </pattern>
+      <linearGradient id={`${id}-jambL`} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stopColor="#e9ebf0" />
+        <stop offset="1" stopColor="#b8bcc6" />
+      </linearGradient>
+      <linearGradient id={`${id}-jambR`} x1="1" y1="0" x2="0" y2="0">
+        <stop offset="0" stopColor="#e9ebf0" />
+        <stop offset="1" stopColor="#b8bcc6" />
+      </linearGradient>
+      <linearGradient id={`${id}-jambT`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#dfe2e8" />
+        <stop offset="1" stopColor="#aeb2bd" />
+      </linearGradient>
+      <linearGradient id={`${id}-wing`} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stopColor="#e6e9ef" />
+        <stop offset="0.35" stopColor="#ffffff" />
+        <stop offset="1" stopColor="#d6dae2" />
+      </linearGradient>
+      <linearGradient id={`${id}-rail`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#ffffff" />
+        <stop offset="0.5" stopColor="#c3c7d0" />
+        <stop offset="1" stopColor="#868b97" />
+      </linearGradient>
+      <linearGradient id={`${id}-strap`} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stopColor="#a9adb8" />
+        <stop offset="0.5" stopColor="#e9ebf0" />
+        <stop offset="1" stopColor="#a9adb8" />
+      </linearGradient>
+      <linearGradient id={`${id}-handle`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stopColor="#ffffff" />
+        <stop offset="1" stopColor="#c2c6cf" />
+      </linearGradient>
+      {/* seat fabric: muted grey-teal with confetti swooshes */}
+      <pattern
+        id={`${id}-fabric`}
+        width="46"
+        height="40"
+        patternUnits="userSpaceOnUse"
+      >
+        <rect width="46" height="40" fill="#545e6d" />
+        <path
+          d="M4,8 q6,-5 12,0"
+          stroke="#f2b04b"
+          strokeWidth="1.8"
+          strokeOpacity="0.75"
+          fill="none"
+          strokeLinecap="round"
+        />
+        <path
+          d="M24,22 q5,4 10,-1"
+          stroke="#e66a8a"
+          strokeWidth="1.8"
+          strokeOpacity="0.75"
+          fill="none"
+          strokeLinecap="round"
+        />
+        <path
+          d="M8,30 q4,-6 10,-4"
+          stroke="#6fc3e8"
+          strokeWidth="1.8"
+          strokeOpacity="0.75"
+          fill="none"
+          strokeLinecap="round"
+        />
+        <path
+          d="M32,6 q5,2 7,7"
+          stroke={LINE2}
+          strokeWidth="1.8"
+          strokeOpacity="0.75"
+          fill="none"
+          strokeLinecap="round"
+        />
+        <circle cx="40" cy="32" r="1.6" fill="#f4f0ff" opacity="0.6" />
+      </pattern>
+      <pattern
+        id={`${id}-priority`}
+        width="18"
+        height="18"
+        patternUnits="userSpaceOnUse"
+      >
+        <rect width="18" height="18" fill="#d6458a" />
+        <path d="M0,9 L9,0 L18,9 L9,18 Z" fill="#e865a2" />
+        <circle cx="9" cy="9" r="1.6" fill="#ffd1e4" />
+      </pattern>
+      <linearGradient id={`${id}-cushion`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#fff" stopOpacity="0.18" />
+        <stop offset="0.25" stopColor="#fff" stopOpacity="0" />
+        <stop offset="1" stopColor="#000" stopOpacity="0.3" />
+      </linearGradient>
+      <linearGradient id={`${id}-seatTop`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#fff" stopOpacity="0.22" />
+        <stop offset="1" stopColor="#000" stopOpacity="0.28" />
+      </linearGradient>
+      <linearGradient id={`${id}-underSeat`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#1f2430" />
+        <stop offset="1" stopColor="#3d4656" />
+      </linearGradient>
+      <radialGradient id={`${id}-vignette`} cx="0.5" cy="0.5" r="0.75">
+        <stop offset="0.55" stopColor="#06071a" stopOpacity="0" />
+        <stop offset="1" stopColor="#06071a" stopOpacity="0.55" />
+      </radialGradient>
+      <radialGradient id={`${id}-amber`}>
+        <stop offset="0" stopColor="#ffb357" stopOpacity="0.9" />
+        <stop offset="1" stopColor="#ffb357" stopOpacity="0" />
+      </radialGradient>
+      <filter id={`${id}-soft`} x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="5" />
+      </filter>
+      <filter id={`${id}-glow`} x="-50%" y="-200%" width="200%" height="500%">
+        <feGaussianBlur stdDeviation="10" />
+      </filter>
+      <filter id={`${id}-bokeh`} x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3.5" />
+      </filter>
+      <linearGradient
+        id={`${id}-duskAbs`}
+        gradientUnits="userSpaceOnUse"
+        x1="0"
+        y1="200"
+        x2="0"
+        y2={HORIZON}
+      >
+        <stop offset="0" stopColor="#0c0e2e" />
+        <stop offset="0.38" stopColor="#2a2163" />
+        <stop offset="0.64" stopColor="#6a4592" />
+        <stop offset="0.86" stopColor="#e894ad" />
+        <stop offset="1" stopColor="#ffc3a1" />
+      </linearGradient>
+      <linearGradient
+        id={`${id}-river`}
+        gradientUnits="userSpaceOnUse"
+        x1="0"
+        y1={HORIZON}
+        x2="0"
+        y2={HORIZON + 70}
+      >
+        <stop offset="0" stopColor="#5a3f7e" />
+        <stop offset="0.35" stopColor="#2a2156" />
+        <stop offset="1" stopColor="#0b0d26" />
+      </linearGradient>
+      <clipPath id={`${id}-sidewin-l`}>
+        <rect x="48" y="246" width="364" height="272" rx="29" />
+      </clipPath>
+      <clipPath id={`${id}-sidewin-r`}>
+        <rect x="1188" y="246" width="364" height="272" rx="29" />
+      </clipPath>
+      <clipPath id={`${id}-sidewin`}>
+        <rect x="48" y="246" width="364" height="272" rx="29" />
+      </clipPath>
+      <clipPath id={`${id}-floorClip`}>
+        <rect x="-300" y="884" width="2200" height="440" />
+      </clipPath>
+      <clipPath id={`${id}-door`}>
+        <rect
+          x={DOOR.x0}
+          y={DOOR.y0}
+          width={DOOR.x1 - DOOR.x0}
+          height={DOOR.y1 - DOOR.y0}
+        />
+      </clipPath>
+      <clipPath id={`${id}-winl`}>
+        <rect
+          x={DOOR.x0 + 32}
+          y="216"
+          width={MID - DOOR.x0 - 64}
+          height="266"
+          rx="37"
+        />
+      </clipPath>
+      <clipPath id={`${id}-winr`}>
+        <rect
+          x={MID + 32}
+          y="216"
+          width={MID - DOOR.x0 - 64}
+          height="266"
+          rx="37"
+        />
+      </clipPath>
+    </defs>
   );
 }
