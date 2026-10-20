@@ -269,6 +269,16 @@ function setPageInert(inert: boolean) {
   document.getElementById("smooth-wrapper")?.toggleAttribute("inert", inert);
 }
 
+/**
+ * The page behind the intro. The intro hides it until the camera dives:
+ * under the opaque map it was painted on every frame of the train's run
+ * for nothing. Hidden, it keeps its layout, so the sections can still
+ * measure themselves.
+ */
+function pageBehind() {
+  return document.getElementById("smooth-wrapper");
+}
+
 function PreloaderScene({ onDone }: { onDone: () => void }) {
   const root = useRef<HTMLDivElement>(null);
   const L = useMemo(
@@ -293,11 +303,13 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
 
       document.body.classList.add("is-loading");
       setPageInert(true);
+      gsap.set(pageBehind(), { visibility: "hidden" });
       ScrollSmoother.get()?.paused(true);
 
       function release() {
         document.body.classList.remove("is-loading");
         setPageInert(false);
+        gsap.set(pageBehind(), { visibility: "visible" });
         ScrollSmoother.get()?.paused(false);
       }
 
@@ -519,8 +531,11 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
           },
           "arrived+=0.3",
         )
-        // the camera dives into the platform
+        // the camera dives into the platform, and the page behind it can
+        // show again (a set, not a callback, so a skip that seeks past it
+        // still runs it)
         .addLabel("dive", "arrived+=1.5")
+        .set(pageBehind(), { visibility: "visible" }, "dive")
         .to(
           q(".pl-map"),
           {
