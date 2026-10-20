@@ -571,11 +571,25 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
           { autoAlpha: 1, scale: 1, duration: 0.8, ease: "power3.out" },
           "doors",
         )
-        // the train has just braked: the cabin rocks, the straps swing and settle
+        // the train has just braked: the cabin lurches forward, pitching on
+        // its springs about the floor, and the straps swing and settle. The
+        // tilt is what reads as braking where only the doorway is in frame;
+        // a slide alone looks like the camera panning.
         .fromTo(
           q(".pl-cabin"),
-          { x: () => 14 * carriageUnit(scene, L.portrait) },
-          { x: 0, duration: 1.6, ease: "elastic.out(1, 0.35)" },
+          {
+            x: () => 14 * carriageUnit(scene, L.portrait),
+            y: () => 6 * carriageUnit(scene, L.portrait),
+            rotate: 0.7,
+            transformOrigin: L.portrait ? "50% 79%" : "50% 89%",
+          },
+          {
+            x: 0,
+            y: 0,
+            rotate: 0,
+            duration: 1.6,
+            ease: "elastic.out(1, 0.35)",
+          },
           "doors",
         )
         .fromTo(

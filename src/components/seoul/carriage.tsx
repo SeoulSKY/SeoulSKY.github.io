@@ -14,7 +14,8 @@
  *   .pl-cabin          the first three layers (brake jolt; an HTML element,
  *                      so it moves in px: see `carriageUnit`)
  *   .pl-door-l / -r    door leaves (slide ±DOOR_TRAVEL into the pockets)
- *   .pl-strap          hand straps (sway; data-origin = pivot)
+ *   .pl-strap          hand straps: the far wall's, or in portrait the
+ *                      near rail's (sway; data-origin = pivot)
  *   .pl-mini-dot       LCD route stations (data-origin)   .pl-mini-here  terminus
  *   .pl-door-sign      LCD text groups
  */
@@ -45,28 +46,73 @@ const RAIL_CY = RAIL_Y + 4.5;
 
 /** A triangle hand strap, clamped around the ceiling rail. */
 function Strap({ x, id }: { x: number; id: string }) {
+  return (
+    <g className="pl-strap" data-origin={`${x} ${RAIL_CY}`}>
+      <StrapBody x={x} id={id} wallShadow />
+    </g>
+  );
+}
+
+/* the near-side rail runs overhead, above the top of the frame */
+const NEAR_STRAPS = [630, 942];
+const NEAR_RAIL_Y = -360;
+const NEAR_SCALE = 2.4;
+
+/**
+ * A strap on the rail behind the camera, larger for being closer, with
+ * only its handle hanging into the top of the frame. A phone crops the
+ * carriage to the doorway, past the straps on the far wall, so these
+ * are the ones that swing when the train stops.
+ */
+function NearStrap({ x, id }: { x: number; id: string }) {
+  return (
+    <g className="pl-strap" data-origin={`${x} ${NEAR_RAIL_Y}`}>
+      <g
+        transform={`translate(${x} ${NEAR_RAIL_Y}) scale(${NEAR_SCALE}) translate(0 ${-RAIL_CY})`}
+      >
+        <StrapBody x={0} id={id} near />
+      </g>
+    </g>
+  );
+}
+
+function StrapBody({
+  x,
+  id,
+  wallShadow = false,
+  near = false,
+}: {
+  x: number;
+  id: string;
+  wallShadow?: boolean;
+  /** seen from below, with the ceiling lights behind it: a shade darker */
+  near?: boolean;
+}) {
+  const strap = `url(#${id}-strap${near ? "-near" : ""})`;
+  const handle = `url(#${id}-handle${near ? "-near" : ""})`;
   const band0 = RAIL_Y + 8;
   const buckle = band0 + 70;
   const h0 = buckle + 14; // top of the handle
   const h1 = h0 + 60; // bottom bar of the handle
   return (
-    <g className="pl-strap" data-origin={`${x} ${RAIL_CY}`}>
-      {/* soft shadow on the wall */}
-      <path
-        d={`M${x + 12},${band0 + 6} V${buckle} M${x + 12},${h0 + 6} l26,48 q2,10 -8,10 h-36 q-10,0 -8,-10 z`}
-        stroke="#000"
-        strokeOpacity="0.08"
-        strokeWidth="10"
-        fill="none"
-        filter={`url(#${id}-soft)`}
-      />
+    <>
+      {wallShadow && (
+        <path
+          d={`M${x + 12},${band0 + 6} V${buckle} M${x + 12},${h0 + 6} l26,48 q2,10 -8,10 h-36 q-10,0 -8,-10 z`}
+          stroke="#000"
+          strokeOpacity="0.08"
+          strokeWidth="10"
+          fill="none"
+          filter={`url(#${id}-soft)`}
+        />
+      )}
       <rect
         x={x - 5}
         y={band0}
         width={10}
         height={buckle - band0 + 2}
         rx={2}
-        fill={`url(#${id}-strap)`}
+        fill={strap}
       />
       {/* clamp wrapping the rail */}
       <rect
@@ -75,26 +121,33 @@ function Strap({ x, id }: { x: number; id: string }) {
         width={18}
         height={20}
         rx={5}
-        fill={`url(#${id}-strap)`}
+        fill={strap}
         stroke="#9a9eaa"
         strokeWidth="1"
       />
-      <rect x={x - 7} y={buckle} width={14} height={16} rx={4} fill="#c8cbd4" />
+      <rect
+        x={x - 7}
+        y={buckle}
+        width={14}
+        height={16}
+        rx={4}
+        fill={near ? "#aeb2bc" : "#c8cbd4"}
+      />
       <path
         d={`M${x},${h0} L${x + 27},${h1 - 10} Q${x + 30},${h1} ${x + 19},${h1} L${x - 19},${h1} Q${x - 30},${h1} ${x - 27},${h1 - 10} Z`}
         fill="none"
-        stroke={`url(#${id}-handle)`}
+        stroke={handle}
         strokeWidth="10"
         strokeLinejoin="round"
       />
       <path
         d={`M${x - 3},${h0 + 6} L${x - 23},${h1 - 14}`}
         stroke="#fff"
-        strokeOpacity="0.8"
+        strokeOpacity={near ? 0.55 : 0.8}
         strokeWidth="2.5"
         strokeLinecap="round"
       />
-    </g>
+    </>
   );
 }
 
@@ -848,7 +901,7 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
     <>
       {/* the cabin: everything that jolts when the train brakes */}
       <div className="absolute inset-0 pl-cabin">
-        <Layer viewBox={viewBox} id={id}>
+        <Layer viewBox={viewBox} id={id} overscan>
           <g>
             {/* side walls, with a hole for the doorway */}
             <path
@@ -1022,18 +1075,26 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
           </g>
         </Layer>
 
-        <Layer viewBox={viewBox} id={`${id}s`}>
-          {STRAP_X.map((x) => (
-            <Strap key={x} x={x} id={`${id}s`} />
-          ))}
-          <g transform="matrix(-1 0 0 1 1600 0)">
-            {STRAP_X.map((x) => (
-              <Strap key={x} x={x} id={`${id}s`} />
-            ))}
-          </g>
+        <Layer viewBox={viewBox} id={`${id}s`} overscan>
+          {/* portrait crops the far wall's straps out of the frame, so it
+            hangs the near rail's instead, rather than swing what no one sees */}
+          {portrait ? (
+            NEAR_STRAPS.map((x) => <NearStrap key={x} x={x} id={`${id}s`} />)
+          ) : (
+            <>
+              {STRAP_X.map((x) => (
+                <Strap key={x} x={x} id={`${id}s`} />
+              ))}
+              <g transform="matrix(-1 0 0 1 1600 0)">
+                {STRAP_X.map((x) => (
+                  <Strap key={x} x={x} id={`${id}s`} />
+                ))}
+              </g>
+            </>
+          )}
         </Layer>
 
-        <Layer viewBox={viewBox} id={`${id}d`}>
+        <Layer viewBox={viewBox} id={`${id}d`} overscan>
           <g className="pl-door-sign">
             <circle cx="590" cy="122" r="10" fill={LINE2} />
             <text
@@ -1134,25 +1195,53 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
 }
 
 /**
+ * How far the cabin's layers reach past the screen on every side, as a
+ * fraction of it: enough carriage to cover the brake jolt's slide and tilt
+ * at the edges. Letting the svgs overflow instead painted all of the
+ * artwork, a layer three screens wide on a phone.
+ */
+const OVERSCAN = 0.04;
+
+/** Grows a viewBox by `OVERSCAN` on every side, about the same centre. */
+function overscanned(viewBox: string) {
+  const [x, y, w, h] = viewBox.split(" ").map(Number);
+  const k = 1 + 2 * OVERSCAN;
+  return `${x - OVERSCAN * w} ${y - OVERSCAN * h} ${w * k} ${h * k}`;
+}
+
+/**
  * One layer of the carriage: all of them share the viewBox and its crop.
  * Each carries its own copy of the defs under its own `id` prefix, because
  * a reference into another svg may not resolve on the first paint, and an
  * unresolved clip path hides what it clips (the doors went missing).
+ *
+ * An `overscan` layer is larger than the screen by `OVERSCAN` and its
+ * viewBox by the same fraction, so the aspect ratio, the scale and every
+ * point's place on screen stay those of a plain layer.
  */
 function Layer({
   viewBox,
   id,
+  overscan = false,
   children,
 }: {
   viewBox: string;
   id: string;
+  overscan?: boolean;
   children: ReactNode;
 }) {
+  const edge = `${-OVERSCAN * 100}%`;
+  const size = `${(1 + 2 * OVERSCAN) * 100}%`;
   return (
     <svg
-      viewBox={viewBox}
+      viewBox={overscan ? overscanned(viewBox) : viewBox}
       preserveAspectRatio="xMidYMid slice"
       className="absolute inset-0 h-full w-full"
+      style={
+        overscan
+          ? { left: edge, top: edge, width: size, height: size }
+          : undefined
+      }
       aria-hidden="true"
     >
       <CarriageDefs id={id} />
@@ -1258,6 +1347,15 @@ function CarriageDefs({ id }: { id: string }) {
       <linearGradient id={`${id}-handle`} x1="0" y1="0" x2="1" y2="1">
         <stop offset="0" stopColor="#ffffff" />
         <stop offset="1" stopColor="#c2c6cf" />
+      </linearGradient>
+      <linearGradient id={`${id}-strap-near`} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stopColor="#868b98" />
+        <stop offset="0.5" stopColor="#c3c6cf" />
+        <stop offset="1" stopColor="#868b98" />
+      </linearGradient>
+      <linearGradient id={`${id}-handle-near`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stopColor="#dadde4" />
+        <stop offset="1" stopColor="#979ca8" />
       </linearGradient>
       {/* seat fabric: muted grey-teal with confetti swooshes */}
       <pattern
