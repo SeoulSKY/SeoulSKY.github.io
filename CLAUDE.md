@@ -324,7 +324,15 @@ GSAP everywhere; every animation tells the dusk/subway story.
   SVG filters on anything that changes, `mix-blend-mode` on moving
   elements, and animating layout properties (`top`, `height`) on scroll.
   Pause loops while their section is off screen. ScrollSmoother is created
-  only for fine pointers; touch screens scroll natively.
+  only for fine pointers; touch screens scroll natively. The carriage is
+  layered the same way (still cabin, straps, doors + LCD text, mood tint),
+  and the brake jolt and the map's dive move HTML elements, not SVG
+  groups: moving a group relays out and repaints its whole svg. Every
+  stacked svg carries its own defs: Safari draws nothing for a reference
+  into another svg until something repaints it, which once left the doors
+  missing as the carriage came in. Give a
+  single shape `fillOpacity` / `strokeOpacity` rather than `opacity`,
+  which makes every such shape a paint chunk of its own.
 - **Prerendering:** the page is static, so `next build` renders it to HTML
   ahead of time, where render code cannot read `window`, the viewport or the
   URL. Effects and GSAP callbacks can. Anything whose markup depends on the browser waits for
