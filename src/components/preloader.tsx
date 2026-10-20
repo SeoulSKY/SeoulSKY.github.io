@@ -201,6 +201,18 @@ function layout(portrait: boolean) {
 }
 
 /**
+ * Where a point of the map lands in the scene, in px from its top left.
+ * The map is a full-scene svg fitted with `meet`.
+ */
+function mapPointOnScreen(scene: HTMLElement, viewBox: string, [px, py]: Pt) {
+  const [x, y, w, h] = viewBox.split(" ").map(Number);
+  const W = scene.clientWidth;
+  const H = scene.clientHeight;
+  const s = Math.min(W / w, H / h);
+  return [(px - x) * s + (W - w * s) / 2, (py - y) * s + (H - h * s) / 2];
+}
+
+/**
  * The scene's layout depends on the viewport, so it renders only in the
  * browser. The prerendered page gets the scene's empty night backdrop, which
  * covers the page until the intro takes over. Once the intro is over the
@@ -240,6 +252,8 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
   useGSAP(
     (_, contextSafe) => {
       const q = gsap.utils.selector(root);
+      const scene = root.current;
+      if (!scene) return;
       if (prefersReducedMotion()) {
         startIntro();
         onDone();
@@ -482,8 +496,13 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
         .to(
           q(".pl-map"),
           {
+            // The svg element scales, as a CSS transform. Scaling a group
+            // inside it relaid out and repainted the whole map every frame.
             scale: 9,
-            svgOrigin: `${L.terminus[0]} ${L.terminus[1]}`,
+            transformOrigin: () => {
+              const [x, y] = mapPointOnScreen(scene, L.viewBox, L.terminus);
+              return `${x}px ${y}px`;
+            },
             duration: 1.1,
             ease: "power3.in",
           },
@@ -669,7 +688,11 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
       </div>
 
       {/* ── the metro map ─────────────────────────────────────── */}
-      <div aria-hidden="true" className="absolute inset-0 bg-night-950 pl-svg">
+      {/* its own layer, so the blur as it fades is the compositor's job */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-night-950 pl-svg will-change-[filter,opacity]"
+      >
         <div
           className="absolute inset-0 pl-grid opacity-60"
           style={{
@@ -683,7 +706,7 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
         <svg
           viewBox={L.viewBox}
           preserveAspectRatio="xMidYMid meet"
-          className="absolute inset-0 h-full w-full"
+          className="absolute inset-0 h-full w-full pl-map"
           aria-hidden="true"
         >
           <defs>
@@ -696,7 +719,7 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
               <stop offset="1" stopColor="#ffc3a1" stopOpacity="0" />
             </radialGradient>
           </defs>
-          <g className="pl-map">
+          <g>
             {/* other lines of the network */}
             {/* the Han river */}
             <g className="pl-river">
