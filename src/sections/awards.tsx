@@ -11,6 +11,7 @@ export default function Awards() {
     () =>
       withMotion(() => {
         const q = gsap.utils.selector(root);
+        // a tilted ticket is wider than a phone, so the section clips x
         gsap.from(q(".ticket"), {
           y: 120,
           rotate: (i: number) => (i % 2 ? 6 : -6),
@@ -28,7 +29,7 @@ export default function Awards() {
     <section
       ref={root}
       id="awards"
-      className="relative px-5 py-28 sm:px-10 sm:py-40"
+      className="relative overflow-x-clip px-5 py-28 sm:px-10 sm:py-40"
     >
       <div className="mx-auto max-w-7xl">
         <SectionHeading
@@ -42,7 +43,7 @@ export default function Awards() {
           {awards.map((a, i) => (
             <li
               key={a.title}
-              className="ticket group hover:-translate-y-1.5 relative flex overflow-hidden rounded-3xl transition-transform duration-500"
+              className="ticket group hover:-translate-y-1.5 relative flex overflow-hidden rounded-3xl transition-[translate] duration-500"
             >
               {/* stub */}
               <div className="relative flex w-28 shrink-0 flex-col items-center justify-between bg-line-5 px-3 py-6 text-night-950 sm:w-36">
