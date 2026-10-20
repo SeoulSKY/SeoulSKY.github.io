@@ -10,7 +10,7 @@ function SkillPill({ skill, hidden }: { skill: Skill; hidden?: boolean }) {
     <li
       aria-hidden={hidden || undefined}
       className={cn(
-        "group flex shrink-0 items-center gap-3 rounded-2xl border border-white/8 bg-white/3 py-3 pr-5 pl-3 backdrop-blur-sm transition-colors duration-300 hover:border-peach/40 hover:bg-white/7",
+        "group flex shrink-0 items-center gap-3 rounded-2xl border border-white/8 bg-white/3 py-3 pr-5 pl-3 transition-colors duration-300 hover:border-peach/40 hover:bg-white/7",
         // the second copy only exists to loop the marquee
         hidden && "motion-reduce:hidden",
       )}

@@ -81,7 +81,7 @@ export default function Navbar() {
       ref={root}
       className="group/nav fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4"
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-transparent px-3 py-2 transition-[background,border-color,box-shadow,backdrop-filter] duration-500 group-[.is-scrolled]/nav:border-white/10 group-[.is-scrolled]/nav:bg-night-900/60 group-[.is-scrolled]/nav:shadow-[0_10px_40px_-20px_rgb(0_0_0/0.8)] group-[.is-scrolled]/nav:backdrop-blur-xl sm:px-4">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-transparent px-3 py-2 transition-[background,border-color,box-shadow,backdrop-filter] duration-500 group-[.is-scrolled]/nav:border-white/10 group-[.is-scrolled]/nav:bg-night-900/70 group-[.is-scrolled]/nav:shadow-[0_10px_40px_-20px_rgb(0_0_0/0.8)] group-[.is-scrolled]/nav:backdrop-blur-md sm:px-4">
         <SectionLink
           to="top"
           onClick={close}
