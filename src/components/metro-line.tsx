@@ -81,10 +81,15 @@ export default function MetroLine({ color, stops, next }: MetroLineProps) {
           { scaleY: 0 },
           { scaleY: 1, ease: "none", scrollTrigger: ride },
         );
+        // a transform, not `top`, so the ride never relays out the page
         gsap.fromTo(
           q(".ml-train"),
-          { top: "0%" },
-          { top: "100%", ease: "none", scrollTrigger: { ...ride } },
+          { y: 0 },
+          {
+            y: () => rail.offsetHeight,
+            ease: "none",
+            scrollTrigger: { ...ride, invalidateOnRefresh: true },
+          },
         );
         gsap.from(q(".ml-next .ml-reveal"), {
           y: 40,
