@@ -169,7 +169,7 @@ export function MountainLayer({ className, viewBox }: LayerProps) {
           className="sk-ridge"
           d={far}
           fill={`url(#${uid}-far)`}
-          opacity="0.85"
+          fillOpacity="0.85"
         />
         <path className="sk-ridge" d={near} fill={`url(#${uid}-near)`} />
       </g>
@@ -609,7 +609,7 @@ function CityScene({ uid, back, front, live, staticWindows }: CitySceneProps) {
             width="44"
             height="1"
             fill="#3a2340"
-            opacity="0.35"
+            fillOpacity="0.35"
           />
         ))}
       </g>
@@ -666,7 +666,7 @@ function CityScene({ uid, back, front, live, staticWindows }: CitySceneProps) {
         <path
           d="M572,238 L574.5,238 L577,386 L574,386 Z"
           fill="#ffc3a1"
-          opacity="0.28"
+          fillOpacity="0.28"
         />
         <rect x="558" y="230" width="24" height="8" rx="2" fill="#13163a" />
         <rect x="549" y="204" width="42" height="27" rx="7" fill="#1a1c4a" />
@@ -686,7 +686,7 @@ function CityScene({ uid, back, front, live, staticWindows }: CitySceneProps) {
           height="2"
           rx="1"
           fill="#ffb357"
-          opacity="0.55"
+          fillOpacity="0.55"
         />
         <rect x="554" y="196" width="32" height="9" rx="3" fill="#13163a" />
         <rect x="566.5" y="112" width="7" height="86" fill="#e9e3f7" />

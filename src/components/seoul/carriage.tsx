@@ -316,7 +316,7 @@ function CityView({ id }: { id: string }) {
         width="12"
         height="1.6"
         fill="#ffd39a"
-        opacity="0.9"
+        fillOpacity="0.9"
       />
       <rect x="213" y={HORIZON - 128} width="2" height="28" fill="#1b1a48" />
       <circle cx="214" cy={HORIZON - 129} r="1.8" fill="#ff8a6b" />
@@ -353,7 +353,7 @@ function CityView({ id }: { id: string }) {
               width="1.8"
               height="2.2"
               fill={LIT_COLORS[i % LIT_COLORS.length]}
-              opacity="0.9"
+              fillOpacity="0.9"
             />
           ))}
         </g>
@@ -373,7 +373,7 @@ function CityView({ id }: { id: string }) {
         width="1640"
         height="1.5"
         fill="#ffc3a1"
-        opacity="0.25"
+        fillOpacity="0.25"
       />
       {[90, 330, 640, 700, 880, 980, 1260, 1480].map((x) => (
         <rect
@@ -384,7 +384,7 @@ function CityView({ id }: { id: string }) {
           height="1.2"
           rx="0.6"
           fill="#ffb357"
-          opacity="0.35"
+          fillOpacity="0.35"
         />
       ))}
     </g>
@@ -524,7 +524,7 @@ function Poster({
               cy={y + 6}
               r="22"
               fill="#fff"
-              opacity="0.08"
+              fillOpacity="0.08"
             />
             <path
               d={`M${x + 14},${y + 10} h20 a4,4 0 0 1 4,4 v8 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 v-8 a4,4 0 0 1 4,-4 z`}
@@ -635,7 +635,7 @@ function SideWall({ side, id }: { side: "l" | "r"; id: string }) {
           key={x}
           d={`M${x + 20},106 h40 l-22,42 h-40 z`}
           fill="#fff"
-          opacity="0.25"
+          fillOpacity="0.25"
         />
       ))}
 
@@ -661,12 +661,12 @@ function SideWall({ side, id }: { side: "l" | "r"; id: string }) {
         <path
           d="M150,246 L230,246 L120,518 L48,518 L48,470 Z"
           fill="#fff"
-          opacity="0.1"
+          fillOpacity="0.1"
         />
         <path
           d="M262,246 L292,246 L182,518 L152,518 Z"
           fill="#fff"
-          opacity="0.07"
+          fillOpacity="0.07"
         />
       </g>
       <rect
@@ -688,7 +688,7 @@ function SideWall({ side, id }: { side: "l" | "r"; id: string }) {
         d={WING}
         transform="translate(5 7)"
         fill="#000"
-        opacity="0.1"
+        fillOpacity="0.1"
         filter={`url(#${id}-soft)`}
       />
       <path
@@ -703,7 +703,7 @@ function SideWall({ side, id }: { side: "l" | "r"; id: string }) {
         strokeWidth="5"
         fill="none"
         strokeLinecap="round"
-        opacity="0.95"
+        strokeOpacity="0.95"
       />
       <path
         d="M488,600 L488,880"
@@ -802,12 +802,12 @@ function DoorLeaf({ side, id }: { side: "l" | "r"; id: string }) {
         <path
           d={`M${wx + 40},216 L${wx + 90},216 L${wx + 10},482 L${wx - 40},482 Z`}
           fill="#fff"
-          opacity="0.14"
+          fillOpacity="0.14"
         />
         <path
           d={`M${wx + 112},216 L${wx + 128},216 L${wx + 48},482 L${wx + 32},482 Z`}
           fill="#fff"
-          opacity="0.09"
+          fillOpacity="0.09"
         />
       </g>
 
@@ -825,7 +825,7 @@ function DoorLeaf({ side, id }: { side: "l" | "r"; id: string }) {
         width="1.5"
         height={DOOR.y1 - DOOR.y0}
         fill="#fff"
-        opacity="0.15"
+        fillOpacity="0.15"
       />
       {/* pocket edge */}
       <rect
@@ -876,7 +876,7 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
                 rx="8"
                 fill="#fff"
                 filter={`url(#${id}-glow)`}
-                opacity="0.9"
+                fillOpacity="0.9"
               />
               <rect
                 x="900"
@@ -886,7 +886,7 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
                 rx="8"
                 fill="#fff"
                 filter={`url(#${id}-glow)`}
-                opacity="0.9"
+                fillOpacity="0.9"
               />
               <rect x="60" y="24" width="640" height="12" rx="6" fill="#fff" />
               <rect x="900" y="24" width="640" height="12" rx="6" fill="#fff" />
@@ -896,7 +896,7 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
                 width="2200"
                 height="14"
                 fill="#fff"
-                opacity="0.8"
+                fillOpacity="0.8"
                 filter={`url(#${id}-glow)`}
               />
               {evenlySpaced(14, 730, 10).map((vx) => (
@@ -916,7 +916,7 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
                 width="2200"
                 height="12"
                 fill="#000"
-                opacity="0.05"
+                fillOpacity="0.05"
               />
             </g>
 
@@ -995,7 +995,7 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
                 height="20"
                 rx="8"
                 fill="#fff"
-                opacity="0.04"
+                fillOpacity="0.04"
               />
             </g>
 
@@ -1007,7 +1007,7 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
             <path
               d={`M${DOOR.x0},${DOOR.y1} H${DOOR.x1} L${DOOR.x1 + 46},${DOOR.y1 + 58} H${DOOR.x0 - 46} Z`}
               fill="#fff"
-              opacity="0.12"
+              fillOpacity="0.12"
             />
             <rect
               x={DOOR.x0 - 46}
@@ -1106,7 +1106,7 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
               width={DOOR.x1 - DOOR.x0}
               height="16"
               fill="#000"
-              opacity="0.12"
+              fillOpacity="0.12"
             />
           </g>
         </Layer>
@@ -1125,7 +1125,7 @@ export default function Carriage({ portrait }: { portrait: boolean }) {
           fillRule="evenodd"
           d={`M-300,-320 H1900 V1320 H-300 Z M${DOOR.x0},${DOOR.y0} V${DOOR.y1} H${DOOR.x1} V${DOOR.y0} Z`}
           fill="#1e2152"
-          opacity="0.08"
+          fillOpacity="0.08"
           pointerEvents="none"
         />
       </Layer>
@@ -1214,10 +1214,10 @@ function CarriageDefs({ id }: { id: string }) {
         height="10"
         patternUnits="userSpaceOnUse"
       >
-        <rect width="5" height="5" fill="#fff" opacity="0.13" />
-        <rect x="5" y="5" width="5" height="5" fill="#fff" opacity="0.13" />
-        <rect x="5" width="5" height="5" fill="#000" opacity="0.035" />
-        <rect y="5" width="5" height="5" fill="#000" opacity="0.035" />
+        <rect width="5" height="5" fill="#fff" fillOpacity="0.13" />
+        <rect x="5" y="5" width="5" height="5" fill="#fff" fillOpacity="0.13" />
+        <rect x="5" width="5" height="5" fill="#000" fillOpacity="0.035" />
+        <rect y="5" width="5" height="5" fill="#000" fillOpacity="0.035" />
       </pattern>
       <pattern
         id={`${id}-rib`}
@@ -1299,7 +1299,7 @@ function CarriageDefs({ id }: { id: string }) {
           fill="none"
           strokeLinecap="round"
         />
-        <circle cx="40" cy="32" r="1.6" fill="#f4f0ff" opacity="0.6" />
+        <circle cx="40" cy="32" r="1.6" fill="#f4f0ff" fillOpacity="0.6" />
       </pattern>
       <pattern
         id={`${id}-priority`}
