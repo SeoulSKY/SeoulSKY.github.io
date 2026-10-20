@@ -198,7 +198,8 @@ The text sizes set no line height, unlike `text-xs` and up.
 - Radii: `rounded-full` for every button, badge, pill and the nav;
   `rounded-3xl` (24px) for cards and tickets; base `--radius` 1rem.
 - **Glass** (`.glass`) is the default card: `night-700 → night-900` gradient at
-  ~50%, 16px backdrop blur, `border` hairline.
+  ~60–75%, `border` hairline. No backdrop blur: the twinkling starfield sits
+  behind every card, so a blur would be redone per card on every frame.
 - Depth comes from **light, not shadows**: peach glow under primary buttons,
   radial glows behind objects, blur. `.grain` adds film noise.
 
@@ -224,7 +225,9 @@ GSAP everywhere; every animation tells the dusk/subway story.
   line rule wipes in with `seoul`; paragraphs light up as you read; metro
   timelines fill and stations ping; Projects is a pinned horizontal train
   of carriages passing by.
-- **Ambient:** beacons blink, water ripples, lanterns flicker, straps sway.
+- **Ambient:** beacons blink, glints shimmer on the water, lanterns flicker,
+  windows go dark for a moment, straps sway. The hero's loops pause while
+  it is off screen.
 - **Reduced motion:** `prefersReducedMotion()` skips the preloader and
   ScrollSmoother and shows the finished, fully lit scene. Wrap a section's
   scroll animations in `withMotion()` (from `@/lib/gsap`), which runs them
@@ -311,6 +314,17 @@ GSAP everywhere; every animation tells the dusk/subway story.
   `clipPath`; overlays (vignette, floor shine) must not show through the
   open doorway.
 - Keep `useGSAP` scoped (`{ scope: root }`) and revert SplitText in cleanup.
+- **Performance:** the site has to run on low-end PCs and phones, so keep
+  continuous motion cheap. `CityLayer` stacks three svgs: the reflection
+  (drawn once, then swapped for an image of itself), the city (still once
+  lit) and `CityLights`, the only part that keeps moving. New ambient motion
+  in the skyline goes in `CityLights`, never in the big city svg, and
+  parallax moves the layer wrappers (`.scene-box > *`), not the svgs. Avoid
+  `backdrop-filter` on anything that scrolls or sits over the starfield,
+  SVG filters on anything that changes, `mix-blend-mode` on moving
+  elements, and animating layout properties (`top`, `height`) on scroll.
+  Pause loops while their section is off screen. ScrollSmoother is created
+  only for fine pointers; touch screens scroll natively.
 - **Prerendering:** the page is static, so `next build` renders it to HTML
   ahead of time, where render code cannot read `window`, the viewport or the
   URL. Effects and GSAP callbacks can. Anything whose markup depends on the browser waits for
