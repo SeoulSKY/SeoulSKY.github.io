@@ -516,8 +516,8 @@ export default function Hero() {
 
       let unsubscribe = () => {};
       if (reduce || introStarted()) {
-        // reduced motion, or a re-run after a breakpoint change: skip
-        // straight to the lit city
+        // reduced motion, or a remount once the intro has played (a dev
+        // reload, say): skip straight to the lit city
         tl.progress(1);
       } else {
         unsubscribe = onIntro(() => tl.play());
@@ -543,7 +543,10 @@ export default function Hero() {
         split.revert();
       };
     },
-    { scope: root, dependencies: [narrow], revertOnUpdate: true },
+    // No re-run on a breakpoint change: that only swaps the viewBox, the
+    // animated elements stay the same, and phones would otherwise build the
+    // whole entrance twice at load (`narrow` is false until hydration).
+    { scope: root },
   );
 
   return (
