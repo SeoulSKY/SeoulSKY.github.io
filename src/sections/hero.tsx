@@ -15,6 +15,7 @@ import {
   gsap,
   isFinePointer,
   prefersReducedMotion,
+  ScrollTrigger,
   SplitText,
   useGSAP,
 } from "@/lib/gsap";
@@ -229,11 +230,14 @@ function buildEntrance(
     .add(onType, 2.6);
 }
 
-/** Types the taglines in and out, forever; with reduced motion, shows one. */
+/**
+ * Types the taglines in and out, forever, and returns that loop; with
+ * reduced motion, shows one.
+ */
 function typeTaglines(el: Element, reduce: boolean) {
   if (reduce) {
     el.textContent = heroTaglines[0];
-    return;
+    return null;
   }
   const typing = gsap.timeline({ repeat: -1 });
   for (const line of heroTaglines) {
@@ -251,87 +255,119 @@ function typeTaglines(el: Element, reduce: boolean) {
       })
       .to({}, { duration: 0.35 });
   }
+  return typing;
 }
 
 /**
- * The city's ambient loops (beacons, glows, glints, lanterns, ripples,
- * clouds), plus two chains that schedule themselves: windows switching on
- * and off, and the odd shooting star. A context only reverts what was made
- * while it ran, so the chains get the stop function returned here.
+ * Once the city is lit, clears what the entrance left inline on the parts
+ * that stay put. An inline opacity or transform made each of these
+ * thousand-odd shapes a paint chunk of its own, which the compositor sorted
+ * again on every frame that anything in the hero moved.
  */
-function startAmbient(q: Query): () => void {
-  gsap.to(q(".sk-beacon"), {
-    autoAlpha: 0.15,
-    duration: 0.9,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut",
-    stagger: 0.4,
-  });
-  gsap.to(q(".sk-glow"), {
-    scale: 1.4,
-    autoAlpha: 0.4,
-    transformOrigin: "50% 50%",
-    duration: 1.8,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut",
-  });
-  gsap.to(q(".sk-glint"), {
-    scaleX: () => gsap.utils.random(0.3, 1.3),
-    opacity: () => gsap.utils.random(0.15, 0.7),
-    duration: () => gsap.utils.random(1.2, 2.6),
-    repeat: -1,
-    repeatRefresh: true,
-    yoyo: true,
-    ease: "sine.inOut",
-  });
-  gsap.to(q(".sk-lantern"), {
-    opacity: () => gsap.utils.random(0.4, 0.7),
-    duration: () => gsap.utils.random(0.3, 1.2),
-    repeat: -1,
-    repeatRefresh: true,
-    ease: "sine.inOut",
-  });
-  gsap.to(q(".sk-ripple-offset"), {
-    attr: { dy: 400 },
-    duration: 22,
-    repeat: -1,
-    ease: "none",
-  });
-  gsap.to(q(".hero-cloud"), {
-    xPercent: (i: number) => (i % 2 ? -18 : 14),
-    duration: (i: number) => 40 + i * 12,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut",
-  });
+function settleCity(q: Query) {
+  gsap.set(
+    q(
+      ".sk-water, .sk-horizon, .sk-ridge, .sk-bldg, .sk-63, .sk-namsan, .sk-ntower, .sk-palace-part, .sk-win, .sk-riverlights circle, .sk-lotte-body, .sk-lotte-sheen, .sk-label-text, .sk-label-dot",
+    ),
+    { clearProps: "opacity,visibility,transform" },
+  );
+}
 
-  // a few windows switch on/off, like a living city
-  const wins = q(".sk-win");
+/** Ambient motion that can be paused while the hero is off screen. */
+interface Ambient {
+  run: (on: boolean) => void;
+  stop: () => void;
+}
+
+/**
+ * The city's ambient loops (beacons, glows, glints, lanterns, clouds),
+ * plus two chains that schedule themselves: windows switching on and off,
+ * and the odd shooting star. A context only reverts what was made while it
+ * ran, so the chains get the `stop` returned here.
+ */
+function startAmbient(q: Query): Ambient {
+  const loops = [
+    gsap.to(q(".sk-beacon"), {
+      autoAlpha: 0.15,
+      duration: 0.9,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+      stagger: 0.4,
+    }),
+    gsap.to(q(".sk-glow"), {
+      scale: 1.4,
+      autoAlpha: 0.4,
+      transformOrigin: "50% 50%",
+      duration: 1.8,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    }),
+    gsap.to(q(".sk-glint"), {
+      scaleX: () => gsap.utils.random(0.3, 1.3),
+      opacity: () => gsap.utils.random(0.15, 0.7),
+      duration: () => gsap.utils.random(1.2, 2.6),
+      repeat: -1,
+      repeatRefresh: true,
+      yoyo: true,
+      ease: "sine.inOut",
+    }),
+    gsap.to(q(".sk-lantern-glow"), {
+      opacity: () => gsap.utils.random(0, 0.3),
+      duration: () => gsap.utils.random(0.3, 1.2),
+      repeat: -1,
+      repeatRefresh: true,
+      ease: "sine.inOut",
+    }),
+    gsap.to(q(".hero-cloud"), {
+      xPercent: (i: number) => (i % 2 ? -18 : 14),
+      duration: (i: number) => 40 + i * 12,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    }),
+  ];
+
+  // now and then a window goes dark for a moment, like a living city
+  const shutters = q(".sk-shutter");
   let stopped = false;
   let nextFlicker = gsap.delayedCall(1, flicker);
   function flicker() {
     if (stopped) return;
-    const w = wins[Math.floor(Math.random() * wins.length)];
-    if (w) {
-      gsap.to(w, { autoAlpha: Math.random() < 0.5 ? 0 : 1, duration: 0.2 });
+    const shutter = shutters[Math.floor(Math.random() * shutters.length)];
+    if (shutter) {
+      gsap.to(shutter, {
+        opacity: 1,
+        duration: 0.2,
+        yoyo: true,
+        repeat: 1,
+        repeatDelay: gsap.utils.random(0.6, 4),
+        overwrite: true,
+      });
     }
     nextFlicker = gsap.delayedCall(gsap.utils.random(0.15, 0.6), flicker);
   }
-  const stopStars = shootingStars(q);
+  const stars = shootingStars(q);
 
-  return () => {
-    stopped = true;
-    nextFlicker.kill();
-    stopStars();
+  return {
+    run(on) {
+      for (const loop of loops) loop.paused(!on);
+      nextFlicker.paused(!on);
+      stars?.run(on);
+    },
+    stop() {
+      stopped = true;
+      nextFlicker.kill();
+      stars?.stop();
+    },
   };
 }
 
-/** Sends a shooting star across the sky every few seconds. Returns a stop. */
-function shootingStars(q: Query): () => void {
+/** Sends a shooting star across the sky every few seconds. */
+function shootingStars(q: Query): Ambient | null {
   const found = q<HTMLElement>(".hero-shooting")[0];
-  if (!found) return () => {};
+  if (!found) return null;
   // re-bound so spawn(), a hoisted declaration, sees it as non-null
   const sky = found;
   let stopped = false;
@@ -363,28 +399,37 @@ function shootingStars(q: Query): () => void {
     );
     nextStar = gsap.delayedCall(gsap.utils.random(4, 9), spawn);
   }
-  return () => {
-    stopped = true;
-    nextStar.kill();
-    gsap.killTweensOf(sky.children);
-    sky.replaceChildren();
+  return {
+    run(on) {
+      nextStar.paused(!on);
+    },
+    stop() {
+      stopped = true;
+      nextStar.kill();
+      gsap.killTweensOf(sky.children);
+      sky.replaceChildren();
+    },
   };
 }
 
-/** Layers drift against the pointer, nearer ones further. */
-function addParallax(q: Query): () => void {
+/**
+ * Layers drift against the pointer, nearer ones further, while `active()`
+ * says the hero is on screen.
+ */
+function addParallax(q: Query, active: () => boolean): () => void {
   const layers = [
     { el: q(".hero-stars"), depth: 6 },
     { el: q(".hero-moon"), depth: 10 },
-    { el: q(".layer-back svg"), depth: 12 },
+    { el: q(".layer-back > *"), depth: 12 },
     { el: q(".hero-title-wrap"), depth: 20 },
-    { el: q(".layer-front svg"), depth: 30 },
+    { el: q(".layer-front > *"), depth: 30 },
   ].map(({ el, depth }) => ({
     x: gsap.quickTo(el, "x", { duration: 1.2, ease: "power3" }),
     y: gsap.quickTo(el, "y", { duration: 1.2, ease: "power3" }),
     depth,
   }));
   function onMove(e: PointerEvent) {
+    if (!active()) return;
     const nx = e.clientX / window.innerWidth - 0.5;
     const ny = e.clientY / window.innerHeight - 0.5;
     for (const l of layers) {
@@ -432,19 +477,28 @@ export default function Hero() {
       // These run after this setup returns (when the entrance reaches them),
       // so they go through contextSafe for what they create to be reverted
       // along with everything else.
-      let looping = false;
-      let stopAmbient = () => {};
+      // the loops only run while the hero is on screen
+      let onScreen = true;
+      let ambient: Ambient | null = null;
+      let typing: gsap.core.Timeline | null = null;
+      function run(on: boolean) {
+        onScreen = on;
+        ambient?.run(on);
+        typing?.paused(!on);
+      }
       const startLoops = contextSafe?.(() => {
-        if (reduce || looping) return;
-        looping = true;
-        stopAmbient = startAmbient(q);
+        if (reduce || ambient) return;
+        ambient = startAmbient(q);
+        ambient.run(onScreen);
       });
+      const settle = contextSafe?.(() => settleCity(q));
       let typed = false;
       const startTyping = contextSafe?.(() => {
         const el = q(".hero-typed")[0];
         if (!el || typed) return;
         typed = true;
-        typeTaglines(el, reduce);
+        typing = typeTaglines(el, reduce);
+        typing?.paused(!onScreen);
       });
 
       const split = SplitText.create(q(".hero-title")[0], {
@@ -454,7 +508,10 @@ export default function Hero() {
       setInitialState(q, split.chars);
       const tl = buildEntrance(q, split.chars, {
         onType: () => startTyping?.(),
-        onLit: () => startLoops?.(),
+        onLit: () => {
+          settle?.();
+          startLoops?.();
+        },
       });
 
       let unsubscribe = () => {};
@@ -467,8 +524,14 @@ export default function Hero() {
       }
 
       const removeParallax =
-        isFinePointer() && !reduce ? addParallax(q) : () => {};
+        isFinePointer() && !reduce ? addParallax(q, () => onScreen) : () => {};
       if (!reduce) addScrollOut(q, root.current);
+      ScrollTrigger.create({
+        trigger: root.current,
+        start: "top bottom",
+        end: "bottom top",
+        onToggle: (self) => run(self.isActive),
+      });
 
       const unregister = registerTimeline("hero", tl);
 
@@ -476,7 +539,7 @@ export default function Hero() {
         unregister();
         unsubscribe();
         removeParallax();
-        stopAmbient();
+        ambient?.stop();
         split.revert();
       };
     },

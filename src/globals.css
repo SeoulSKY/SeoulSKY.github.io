@@ -215,6 +215,17 @@
     display: none;
   }
 }
+/* Everything that parallaxes or scrolls out keeps its own compositor
+   layer, so moving it never repaints the city underneath. */
+.scene-box,
+.scene-box > *,
+.hero-stars,
+.hero-moon,
+.hero-cloud,
+.hero-title-block,
+.hero-title-wrap {
+  will-change: transform;
+}
 .hero-sky {
   background: linear-gradient(
     180deg,
