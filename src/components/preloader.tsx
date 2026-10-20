@@ -185,11 +185,29 @@ function layout(portrait: boolean) {
     }
     return total;
   }
+  /**
+   * The point `at` along the main route. Worked out from the segments
+   * rather than asked of the path element, whose getPointAtLength() made
+   * the browser recompute style and layout for every call, several times
+   * a frame while the train ran.
+   */
+  function pointAt(at: number): Pt {
+    let rest = Math.min(Math.max(at, 0), total);
+    for (const s of segs) {
+      if (rest <= s.len) {
+        const k = s.len > 0 ? rest / s.len : 0;
+        return [s.a[0] + (s.b[0] - s.a[0]) * k, s.a[1] + (s.b[1] - s.a[1]) * k];
+      }
+      rest -= s.len;
+    }
+    return main[main.length - 1];
+  }
 
   return {
     viewBox: portrait ? "0 -20 450 860" : "0 0 1600 900",
     main: d(MAIN),
     total,
+    pointAt,
     stations: STATIONS.map((s) => ({
       ...s,
       p: t(s.at),
@@ -293,12 +311,11 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
         new Promise((r) => setTimeout(r, 2500)),
       ]);
 
-      const route = q<SVGPathElement>(".pl-route")[0];
       const trail = q<SVGPathElement>(".pl-trail")[0];
       const cars = q<SVGGElement>(".pl-car");
       const pct = q(".pl-pct")[0];
       const next = q(".pl-next")[0];
-      const total = route.getTotalLength();
+      const total = L.total;
       const CAR = L.portrait ? 28 : 64; // car pitch along the track
 
       gsap.set(trail, { strokeDasharray: total, strokeDashoffset: total });
@@ -364,24 +381,22 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
             car.setAttribute("opacity", "0");
             return;
           }
-          const p = route.getPointAtLength(at);
-          const ahead = route.getPointAtLength(Math.min(total, at + 2));
-          const behind = route.getPointAtLength(Math.max(0, at - 2));
+          const [x, y] = L.pointAt(at);
+          const ahead = L.pointAt(Math.min(total, at + 2));
+          const behind = L.pointAt(Math.max(0, at - 2));
           const a =
-            (Math.atan2(ahead.y - behind.y, ahead.x - behind.x) * 180) /
+            (Math.atan2(ahead[1] - behind[1], ahead[0] - behind[0]) * 180) /
             Math.PI;
           car.setAttribute("opacity", "1");
-          car.setAttribute(
-            "transform",
-            `translate(${p.x} ${p.y}) rotate(${a})`,
-          );
+          car.setAttribute("transform", `translate(${x} ${y}) rotate(${a})`);
         });
         trail.style.strokeDashoffset = String(total - train.d);
-        if (pct) {
-          pct.textContent = String(
-            Math.round((train.d / total) * 100),
-          ).padStart(3, "0");
-        }
+        const percent = String(Math.round((train.d / total) * 100)).padStart(
+          3,
+          "0",
+        );
+        // only when it changes: new text relays out the HUD
+        if (pct && pct.textContent !== percent) pct.textContent = percent;
         for (const s of L.stations) {
           if (!passed.has(s.code) && train.d >= s.len - 1) {
             passed.add(s.code);
