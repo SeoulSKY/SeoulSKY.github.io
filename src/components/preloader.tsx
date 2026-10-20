@@ -531,10 +531,10 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
           },
           "arrived+=0.3",
         )
-        // the camera dives into the platform, and the page behind it can
-        // show again (a set, not a callback, so a skip that seeks past it
-        // still runs it)
-        .addLabel("dive", "arrived+=1.5")
+        // the camera dives into the platform as soon as the train stops, and
+        // the page behind it can show again (a set, not a callback, so a
+        // skip that seeks past it still runs it)
+        .addLabel("dive", "arrived")
         .set(pageBehind(), { visibility: "visible" }, "dive")
         .to(
           q(".pl-map"),
@@ -561,11 +561,9 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
           },
           "dive+=0.6",
         )
-        .to(
-          q(".pl-board, .pl-hud, .pl-skip"),
-          { autoAlpha: 0, duration: 0.4 },
-          "dive",
-        )
+        .to(q(".pl-hud, .pl-skip"), { autoAlpha: 0, duration: 0.4 }, "dive")
+        // the board stays up long enough to announce the arrival
+        .to(q(".pl-board"), { autoAlpha: 0, duration: 0.4 }, "dive+=0.6")
         .addLabel("doors", "dive+=0.75")
         .fromTo(
           q(".pl-doors"),
