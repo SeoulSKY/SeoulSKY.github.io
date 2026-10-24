@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* The Projects train rides the page scroll when a car fits on screen and
+   motion is allowed. Keep in step with RIDE in src/sections/projects.tsx. */
+@custom-variant ride (@media (min-height: 40rem) and (prefers-reduced-motion: no-preference));
+
 /* ──────────────────────────────────────────────────────────────
    SeoulSKY "Seoul at dusk" palette
    Night sky over the Han river, a peach horizon behind Namsan,
@@ -33,6 +37,9 @@
   --line-7: #747f00;
   --line-8: #e6186c;
   --line-9: #bdb092;
+  /* livery, not wayfinding: the deep blue on the lower half of Line 4's
+     Korail doors, below the sky-blue band */
+  --line-4-door: #1e38c0;
 
   /* shadcn semantic tokens (dark-first site) */
   --background: var(--night-950);
@@ -115,6 +122,7 @@
   --color-line-2: var(--line-2);
   --color-line-3: var(--line-3);
   --color-line-4: var(--line-4);
+  --color-line-4-door: var(--line-4-door);
   --color-line-5: var(--line-5);
   --color-line-6: var(--line-6);
   --color-line-7: var(--line-7);
