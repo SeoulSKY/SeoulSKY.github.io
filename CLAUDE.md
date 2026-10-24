@@ -223,8 +223,8 @@ GSAP everywhere; every animation tells the dusk/subway story.
   once.
 - **Scroll:** headings reveal word by word through SplitText line masks, the
   line rule wipes in with `seoul`; paragraphs light up as you read; metro
-  timelines fill and stations ping; Projects is a pinned horizontal train
-  of carriages passing by.
+  timelines fill and stations ping; Projects is a horizontal train of
+  carriages passing by as you scroll, on every screen size.
 - **Ambient:** beacons blink, glints shimmer on the water, lanterns flicker,
   windows go dark for a moment, straps sway. The hero's loops pause while
   it is off screen.
@@ -278,16 +278,73 @@ GSAP everywhere; every animation tells the dusk/subway story.
   stations light at `center 60%`, so the train is on a station exactly as it
   lights. Station column is 28px so the rail shares its centre (14px) with
   the section heading's line badge.
-- Project *carriages* (`projects.tsx`): each project is one car, a glass
-  card holding its own media + text and a `CAR 0N / 06` plate in `line-4`.
-  Cars are joined by ribbed `Gangway` bellows (horizontal on desktop,
-  vertical on phones) instead of empty gaps, so media and description can't
-  be mistaken for a neighbour's. On desktop each car rides on two `Bogie`s
-  (side frame, spring pocket, two spoked wheels) over one shared rail; the
-  wheels turn with the horizontal scroll (rotation = distance / `WHEEL_R`).
-  All cars stretch to one height so the running gear lines up. No coloured
+- Project *carriages* (`projects.tsx`): each project is one car of a Line 4
+  train, drawn after the Korail EMUs that run it, and every screen size
+  shares one layout. The body is grooved stainless (`STAINLESS`) under a
+  roof line with one long AC unit. Along its length: a `Window` bay, a pair
+  of sliding doors (`Door`) in Line 4 livery, then a second bay. Each bay is
+  a `PANE` of black glass set straight into the silver body, in the same
+  light gasket as the door windows, over a `.glass` panel mounted below it
+  for the copy (the glass and the body must not both be dark, or the window
+  disappears). The first bay's pane shows the picture, with the title and a
+  `CAR 0N / 06` plate in `line-4` on its panel; the second's is bare tinted
+  glass over the details, mirroring it across the doors. Every window on the
+  car's side shares `--pane`'s height and top edge (the two panes, the door
+  leaves' windows, the driver's door's window), as on the real car, and
+  riding, `--pane` is half the door's height: the fit in Projects
+  (`fitTrain`) sets it to the rest of the car, less the door's cap. The
+  picture shows through its pane at 16:10, as large as fits. The doors are
+  stainless leaves in a recessed frame with a blue band down their middle:
+  `line-4` around the windows, `line-4-door` (a livery token, not
+  wayfinding) below, and a `line-4` cap above, up to the roof line. They run
+  down to the sill, below the windows. The first and last cars end in a
+  `Nose`: a smooth cap, drawn in a stretched SVG, that sweeps down from the
+  roof and leans forward to its foot, with a sliver of black front glass
+  edged in `line-4`, a headlight or tail light, and the skirt and coupler
+  below. Behind it, the body's `Cab` section holds a driver's door about one
+  leaf wide. The motor cars (2 and 5) and the cab cars, close to the cab
+  (mirrored at the rear), raise a single-arm `Pantograph` against the
+  overhead line (contact wire, messenger wire, droppers), which stays put
+  like the rail. Both are placed by `--lift`, so the pan head meets the wire
+  at every size and in the swipe row too (`--above`). Both windows of a car
+  are one `--side` wide, so the doors sit centred between them; the cab
+  (`--cab`) adds its length at the end of the first and last cars. Cars are
+  joined by full-height rubber `Gangway` bellows and ride on two `Bogie`s
+  each, with equipment boxes slung between them, over one shared rail that
+  stays put while the cars move and is drawn over the wheels' flanges. The
+  bogies are to scale: disc wheels `--wheel` across (about a seventh of the
+  body's height) riding just under the floor, a side frame with axle boxes,
+  brake units, bolster and air spring. The wheels turn with the travel
+  (rotation = distance / radius, the radius measured from the bogie on
+  refresh). Keep the bolt holes' positions rounded: Math.cos can differ in
+  the last digit between Node and the browser, and the mismatch breaks
+  hydration. The page scroll drives the train sideways at every width (the
+  `ride` variant / `RIDE`: tall enough for a car, motion allowed). Fine
+  pointers pin the stage with GSAP; touch screens stick it with CSS
+  `sticky`, since ScrollSmoother is off there, and make the wrapper as tall
+  as the ride. The whole train, overhead line included, has to fit between
+  the navbar and the screen's foot, so if it is taller than the stage below
+  the navbar, `fitTrain` scales the whole train down (`.pj-scale`, widened
+  by 1/scale so the line and rail still span the stage), keeping every
+  proportion. Distances are in the track's own px, and the scroll covers
+  them times the scale. Below `MIN_SCALE` the copy would get too small, so
+  the panes give up height instead. The swipe row (and the page before the
+  fit runs) uses the CSS fallback for `--pane`, about half the door,
+  budgeted against the screen height; on short desktops the pantographs and
+  wheels scale with the height too. Windows stay one screen wide on phones.
+  Short screens and reduced motion get a row you swipe, snapping to each
+  window; keep the car `overflow-clip`, not `overflow-hidden`, which would
+  make it a scroll container and steal those snap points. The door blue is
+  livery, the one place the line colour fills an area. Otherwise no coloured
   stripes or glowing underlines on cards. That reads as generic AI styling,
-  so use something physically specific to the metaphor instead.
+  so use something physically specific to the metaphor instead. Keep the
+  ride cheap: a frame turns only the wheels of bogies on screen (worked out
+  from spans measured on refresh, through `gsap.quickSetter`); video posters
+  are fetched at a fixed width (a `fill` image's src is its 3840px fallback)
+  and only once the section is about a screen away; and glows are radial
+  gradients, never `blur` filters. Measure performance on the production
+  build: the dev server adds a one-off spike when the stage first appears
+  that production does not have.
 - Award *tickets* have a `line-5` stub with the line name, year, month and
   `NO. 50x`, perforated edge, glass body.
 
