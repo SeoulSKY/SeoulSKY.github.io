@@ -1,7 +1,8 @@
 import { useMemo, useRef, useState } from "react";
 import Carriage, {
-  CARRIAGE_VIEWBOX,
+  carriageViewBox,
   DOOR_TRAVEL,
+  DOORWAY_CENTER,
 } from "@/components/seoul/carriage";
 import { useMounted } from "@/hooks/use-mounted";
 import {
@@ -234,12 +235,8 @@ function mapPointOnScreen(scene: HTMLElement, viewBox: string, [px, py]: Pt) {
 }
 
 /** Screen px per carriage unit; the carriage is a full-scene `slice` svg. */
-function carriageUnit(scene: HTMLElement, portrait: boolean) {
-  const [, , w, h] = (
-    portrait ? CARRIAGE_VIEWBOX.portrait : CARRIAGE_VIEWBOX.landscape
-  )
-    .split(" ")
-    .map(Number);
+function carriageUnit(scene: HTMLElement, frame: number[]) {
+  const [, , w, h] = frame;
   return Math.max(scene.clientWidth / w, scene.clientHeight / h);
 }
 
@@ -288,6 +285,16 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
           window.matchMedia("(max-aspect-ratio: 1/1)").matches,
       ),
     [],
+  );
+  const frame = useMemo(
+    () =>
+      carriageViewBox(
+        L.portrait,
+        typeof window !== "undefined"
+          ? window.innerWidth / window.innerHeight
+          : 16 / 10,
+      ),
+    [L.portrait],
   );
 
   useGSAP(
@@ -587,8 +594,8 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
         .fromTo(
           q(".pl-cabin"),
           {
-            x: () => 14 * carriageUnit(scene, L.portrait),
-            y: () => 6 * carriageUnit(scene, L.portrait),
+            x: () => 14 * carriageUnit(scene, frame),
+            y: () => 6 * carriageUnit(scene, frame),
             rotation: 0.7,
             transformOrigin: `50% ${pivotY * 100}%`,
           },
@@ -706,7 +713,7 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
             // push straight through the doorway: the walls leave the frame
             // instead of fading over the city
             scale: 5.6,
-            transformOrigin: "50% 52.8%",
+            transformOrigin: `${((DOORWAY_CENTER.x - frame[0]) / frame[2]) * 100}% ${((DOORWAY_CENTER.y - frame[1]) / frame[3]) * 100}%`,
             duration: 1.25,
             ease: "power3.in",
           },
@@ -764,7 +771,7 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
       {/* ── inside the carriage: the doors (revealed at arrival) ── */}
       <div aria-hidden="true" className="invisible absolute inset-0 pl-doors">
         <div className="absolute inset-0 pl-carbody">
-          <Carriage portrait={L.portrait} />
+          <Carriage portrait={L.portrait} frame={frame} />
         </div>
       </div>
 

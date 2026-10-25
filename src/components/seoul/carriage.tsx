@@ -33,13 +33,52 @@ const JAMB = { x0: 520, x1: 1080, y0: 150, y1: 890 }; // outer opening
 const DOOR = { x0: 548, x1: 1052, y0: 176, y1: 880 }; // door plane
 const MID = 800;
 export const DOOR_TRAVEL = MID - DOOR.x0; // 252
-/** The doorway's centre as a fraction of the viewBox (for the camera push). */
-export const DOORWAY_CENTER = { x: 0.5, y: (DOOR.y0 + DOOR.y1) / 2 };
+/** The doorway's centre, in carriage units (for the camera push). */
+export const DOORWAY_CENTER = { x: MID, y: (DOOR.y0 + DOOR.y1) / 2 };
 
-export const CARRIAGE_VIEWBOX = {
-  landscape: "0 0 1600 1000",
-  portrait: "455 -170 690 1340",
+const CARRIAGE_VIEWBOX = {
+  landscape: [0, 0, 1600, 1000],
+  portrait: [455, -170, 690, 1340],
 };
+
+/**
+ * The rows a landscape screen always shows: from just above the ads and
+ * the LCD down to the threshold plate. A screen wider than the viewBox
+ * would crop them off, so it sees more of the carriage at the sides
+ * instead (the walls, seats and rail run on well past the viewBox).
+ */
+const LANDSCAPE_ROWS = { y0: 70, y1: 950 };
+
+/**
+ * The carriage's viewBox, cut to the screen's aspect ratio: the part of
+ * the viewBox a `slice` would show, grown on wide screens to keep
+ * `LANDSCAPE_ROWS` in frame. Being the screen's shape, it maps onto the
+ * screen exactly, so a carriage unit is `screen width / viewBox width`.
+ */
+export function carriageViewBox(portrait: boolean, aspect: number) {
+  let [x, y, w, h] = portrait
+    ? CARRIAGE_VIEWBOX.portrait
+    : CARRIAGE_VIEWBOX.landscape;
+  if (aspect > w / h) {
+    y += (h - w / aspect) / 2;
+    h = w / aspect;
+  } else {
+    x += (w - h * aspect) / 2;
+    w = h * aspect;
+  }
+  if (!portrait) {
+    const { y0, y1 } = LANDSCAPE_ROWS;
+    if (h < y1 - y0) {
+      h = y1 - y0;
+      x += (w - h * aspect) / 2;
+      w = h * aspect;
+      y = y0;
+    } else {
+      y = Math.max(Math.min(y, y0), y1 - h);
+    }
+  }
+  return [x, y, w, h];
+}
 
 const STRAP_X = [100, 230, 360];
 const RAIL_Y = 160; // top of the strap rail (9 units thick)
@@ -893,11 +932,16 @@ function DoorLeaf({ side, id }: { side: "l" | "r"; id: string }) {
   );
 }
 
-export default function Carriage({ portrait }: { portrait: boolean }) {
+export default function Carriage({
+  portrait,
+  frame,
+}: {
+  portrait: boolean;
+  /** the viewBox, from `carriageViewBox` */
+  frame: number[];
+}) {
   const id = `cab${useId().replace(/:/g, "")}`;
-  const viewBox = portrait
-    ? CARRIAGE_VIEWBOX.portrait
-    : CARRIAGE_VIEWBOX.landscape;
+  const viewBox = frame.join(" ");
   return (
     <>
       {/* the cabin: everything that jolts when the train brakes */}
