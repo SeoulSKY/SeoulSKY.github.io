@@ -109,7 +109,7 @@ in a city at dusk, from the horizon, from lit windows and from line colours.
 ## Content
 
 - **Voice.** First person, plain, confident. State what was built and why it
-  mattered with real numbers ("16,000+ downloads", "100+ servers"). No hype.
+  mattered with real numbers ("31,000+ downloads", "100+ servers"). No hype.
 - **Bilingual marks, not bilingual copy.** Korean appears as small labels next
   to English, never as paragraph translations: `서울하늘` (brand), section tags
   `소개` About · `경력` Experience · `기술` Skills · `작품` Projects ·

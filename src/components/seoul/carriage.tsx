@@ -21,6 +21,7 @@
  */
 
 import { type ReactNode, useId } from "react";
+import { FIGURES, thousands } from "@/data/content";
 import { METRO_LINES } from "@/lib/metro";
 import { mulberry32 } from "@/lib/random";
 import { evenlySpaced } from "@/lib/utils";
@@ -566,7 +567,7 @@ function Poster({
               fill="#fff"
             />
             {title("ytnoti", "#1e2152")}
-            {sub("16,000+ DOWNLOADS", "#d6312f")}
+            {sub(`${thousands(FIGURES.ytnotiDownloads)}+ DOWNLOADS`, "#d6312f")}
           </>
         )}
         {kind === "sorusora" && (
@@ -587,7 +588,7 @@ function Poster({
             <circle cx={x + 25} cy={y + 18} r="1.6" fill="#5865f2" />
             <circle cx={x + 30} cy={y + 18} r="1.6" fill="#5865f2" />
             {title("SoruSora", "#fff")}
-            {sub("AI BOT · 45 LANGUAGES", "#dfe2ff")}
+            {sub(`AI BOT · ${FIGURES.sorusoraLanguages} LANGUAGES`, "#dfe2ff")}
           </>
         )}
         {kind === "desdemona" && (

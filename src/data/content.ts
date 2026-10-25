@@ -26,14 +26,15 @@ export const KOREAN: Record<SectionId, string> = {
 };
 
 /** Figures quoted in more than one place, so they change together. */
-const FIGURES = {
-  ytnotiDownloads: 16000,
-  ytnotiCoverage: 99,
+export const FIGURES = {
+  ytnotiDownloads: 31000,
+  ytnotiStars: 35,
+  ytnotiContributors: 5,
   sorusoraServers: 100,
   sorusoraLanguages: 45,
 };
 
-function thousands(n: number): string {
+export function thousands(n: number): string {
   return n.toLocaleString("en-US");
 }
 
@@ -54,20 +55,16 @@ export interface Stat {
 /** The counters beside the About introduction. */
 export const stats: Stat[] = [
   { value: FIGURES.ytnotiDownloads, suffix: "+", label: "ytnoti downloads" },
+  { value: FIGURES.ytnotiStars, suffix: "", label: "GitHub stars on ytnoti" },
   {
     value: FIGURES.sorusoraServers,
     suffix: "+",
     label: "Discord servers on SoruSora",
   },
   {
-    value: FIGURES.sorusoraLanguages,
+    value: FIGURES.ytnotiContributors,
     suffix: "",
-    label: "languages translated live",
-  },
-  {
-    value: FIGURES.ytnotiCoverage,
-    suffix: "%",
-    label: "test coverage on ytnoti",
+    label: "contributors to ytnoti",
   },
 ];
 
@@ -153,8 +150,8 @@ export const projects: Project[] = [
   {
     title: "ytnoti",
     subtitle:
-      "Python library for receiving real-time YouTube notifications via PubSubHubbub",
-    description: `ytnoti is a Python library that sends real-time notifications when YouTube videos are uploaded or edited. It uses the PubSubHubbub protocol, so there is no API polling. It has ${thousands(FIGURES.ytnotiDownloads)}+ downloads and ${FIGURES.ytnotiCoverage}% code coverage.`,
+      "Python library for receiving real-time YouTube notifications via WebSub",
+    description: `ytnoti is a Python library that sends real-time notifications when a YouTube video is uploaded, edited or deleted, or when a live stream starts. It uses the WebSub protocol, so there is no API polling. It has ${thousands(FIGURES.ytnotiDownloads)}+ downloads, ${FIGURES.ytnotiStars} GitHub stars and ${FIGURES.ytnotiContributors} contributors.`,
     tags: ["Python", "FastAPI", "GitHub Actions"],
     image: "/projects/ytnoti.jpg",
     sourceCodeLink: "https://github.com/SeoulSKY/ytnoti",
