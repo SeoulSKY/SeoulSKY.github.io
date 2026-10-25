@@ -29,12 +29,6 @@ function SkillPill({ skill, hidden }: { skill: Skill; hidden?: boolean }) {
   );
 }
 
-interface Row {
-  loop: gsap.core.Tween;
-  /** speed factor from hovering the row: 1, or 0.15 while hovered */
-  hover: { f: number };
-}
-
 export default function Skills() {
   const root = useRef<HTMLElement>(null);
 
@@ -44,7 +38,7 @@ export default function Skills() {
         const q = gsap.utils.selector(root);
         const removers: (() => void)[] = [];
 
-        const rows: Row[] = q<HTMLElement>(".mq-track").map((track, i) => {
+        const loops = q<HTMLElement>(".mq-track").map((track, i) => {
           const dir = i % 2 === 0 ? -1 : 1;
           const loop = gsap.fromTo(
             track,
@@ -57,16 +51,18 @@ export default function Skills() {
               paused: true,
             },
           );
-          const hover = { f: 1 };
-          // hovering eases a plain factor that tick() applies, so a hover
-          // tween still running after cleanup touches nothing on the page
+          // hovering a row slows its traffic down
           const row = track.parentElement;
           if (row) {
             function slow() {
-              gsap.to(hover, { f: 0.15, duration: 0.6, overwrite: true });
+              gsap.to(loop, {
+                timeScale: 0.15,
+                duration: 0.6,
+                overwrite: true,
+              });
             }
             function resume() {
-              gsap.to(hover, { f: 1, duration: 0.6, overwrite: true });
+              gsap.to(loop, { timeScale: 1, duration: 0.6, overwrite: true });
             }
             row.addEventListener("pointerenter", slow);
             row.addEventListener("pointerleave", resume);
@@ -75,42 +71,25 @@ export default function Skills() {
               row.removeEventListener("pointerleave", resume);
             });
           }
-          return { loop, hover };
+          return loop;
         });
 
-        // scroll velocity gives the rows a push that eases off: `target`
-        // follows the scroll speed and decays to 1, `push` chases it
-        let target = 1;
-        let push = 1;
-        function tick() {
-          const k = gsap.ticker.deltaRatio();
-          target = 1 + (target - 1) * 0.96 ** k;
-          push += (target - push) * Math.min(1, 0.25 * k);
-          for (const r of rows) r.loop.timeScale(r.hover.f * push);
-        }
+        // the rows only move while on screen, at a steady pace whatever
+        // the scroll speed
         ScrollTrigger.create({
           trigger: root.current,
           start: "top bottom",
           end: "bottom top",
-          onUpdate: (self) => {
-            target = gsap.utils.clamp(
-              1,
-              5,
-              1 + Math.abs(self.getVelocity()) / 400,
-            );
-          },
-          // the rows only move, and the ticker only runs, while on screen
           onToggle: (self) => {
-            for (const r of rows) r.loop.paused(!self.isActive);
-            if (self.isActive) gsap.ticker.add(tick);
-            else gsap.ticker.remove(tick);
+            for (const loop of loops) loop.paused(!self.isActive);
           },
         });
-        removers.push(() => gsap.ticker.remove(tick));
 
         gsap.from(q(".mq-row"), {
+          // rise, not slide: a sideways entrance reads as the traffic
+          // racing (or reversing) before it settles
           autoAlpha: 0,
-          x: (i: number) => (i % 2 ? 120 : -120),
+          y: 40,
           duration: 1.4,
           stagger: 0.12,
           ease: "rise",
