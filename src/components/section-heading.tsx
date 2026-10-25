@@ -47,7 +47,8 @@ export default function SectionHeading({
           )
           .from(
             split.words,
-            { yPercent: 110, duration: 1.2, stagger: 0.06 },
+            // far enough to start hidden below the mask's descender room
+            { yPercent: 140, duration: 1.2, stagger: 0.06 },
             0.15,
           );
         const body = q(".sh-body");

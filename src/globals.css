@@ -209,6 +209,14 @@
   }
 }
 
+/* A section title's line mask (SplitText) clips to its line box, which at
+   leading 0.95 ends above the serif tail's descenders (g, j, p, y). The
+   padding lets them show; the margin keeps the lines where they were. */
+.sh-line-mask {
+  padding-bottom: 0.25em;
+  margin-bottom: -0.25em;
+}
+
 /* ── Hero: Seoul at dusk ─────────────────────────────────── */
 .hero {
   --box-h: min(47.5vw, 80svh);
