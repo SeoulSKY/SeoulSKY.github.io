@@ -422,6 +422,15 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
       }
       placeTrain();
 
+      // the brake jolt pitches the cabin about the floor, and moves in
+      // whole device pixels
+      const pivotY = L.portrait ? 0.79 : 0.89;
+      const devicePx = 1 / window.devicePixelRatio;
+      /** A modifier rounding a value (unit and all) to multiples of `step`. */
+      function snapTo(step: number) {
+        return gsap.utils.unitize(gsap.utils.snap(step));
+      }
+
       const tl = gsap.timeline({ defaults: { ease: "rise" } });
 
       tl.addLabel("map")
@@ -580,15 +589,32 @@ function PreloaderScene({ onDone }: { onDone: () => void }) {
           {
             x: () => 14 * carriageUnit(scene, L.portrait),
             y: () => 6 * carriageUnit(scene, L.portrait),
-            rotate: 0.7,
-            transformOrigin: L.portrait ? "50% 79%" : "50% 89%",
+            rotation: 0.7,
+            transformOrigin: `50% ${pivotY * 100}%`,
           },
           {
             x: 0,
             y: 0,
-            rotate: 0,
+            rotation: 0,
             duration: 1.6,
             ease: "elastic.out(1, 0.35)",
+            // Whole device pixels only. The elastic's tail rocks the cabin
+            // by fractions of a pixel, and each time the seats' fine
+            // fabric crossed one it flicked between crisp and soft, so the
+            // seats shimmered after the lurch. Snapped, the tail holds still.
+            modifiers: {
+              x: snapTo(devicePx),
+              y: snapTo(devicePx),
+              // the tilt that moves the corner furthest from the pivot by a pixel
+              rotation: snapTo(
+                (devicePx /
+                  Math.hypot(
+                    scene.clientWidth / 2,
+                    pivotY * scene.clientHeight,
+                  )) *
+                  (180 / Math.PI),
+              ),
+            },
           },
           "doors",
         )
