@@ -38,6 +38,14 @@ export function thousands(n: number): string {
   return n.toLocaleString("en-US");
 }
 
+/** How the site names and describes itself to search engines and shares. */
+export const site = {
+  url: "https://www.seoulsky.dev",
+  name: "SeoulSKY",
+  title: "SeoulSKY · Software Engineer",
+  description: `SeoulSKY is a software engineer building healthcare products in Python, Rust and TypeScript, and the open-source library ytnoti (${thousands(FIGURES.ytnotiDownloads)}+ downloads).`,
+};
+
 export const heroTaglines = [
   "Software Engineer building products for the healthcare industry.",
   "Graduate in Software Engineering Honours with a Minor in Applied Mathematics.",
