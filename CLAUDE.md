@@ -47,13 +47,19 @@ from `@/env`, never `process.env`; a new variable gets a schema there first.
 - Fonts are self-hosted from npm (`@fontsource-variable/*`, `pretendard`),
   except Instrument Serif, which loads from Google Fonts in
   `src/app/layout.tsx`.
+- SEO copy (title, description, URL) is `site` in `content.ts`; the
+  metadata, sitemap, manifest and JSON-LD all read it.
 
 ## Structure
 
 ```
 src/
-  app/layout.tsx          <html>, metadata, font + CSS imports
+  app/layout.tsx          <html>, metadata, JSON-LD, font + CSS imports
   app/page.tsx            page shell: SmoothScroll, Preloader, Navbar, sections
+  app/opengraph-image.jpg share image: a 2x screenshot of the settled hero
+  app/apple-icon.tsx      home-screen icon; favicon.ico + icon.png beside it
+  app/sitemap.ts          the page, with project images and clips
+  app/robots.ts, manifest.ts
   globals.css             design tokens, hero CSS, utilities (.glass, .grain…)
   env.ts                  typed, validated env vars (@t3-oss/env-nextjs)
   data/content.ts         ALL copy: nav, Korean tags, about, experience,
@@ -70,6 +76,7 @@ src/
     seoul/starfield.tsx   canvas starfield
     section-heading.tsx   metro-line badge · rule · Korean tag, split title
     section-link.tsx      in-page #section link that scrolls smoothly
+    structured-data.tsx   schema.org JSON-LD built from content.ts
     metro-line.tsx        vertical Seoul-Metro timeline (Experience)
     intro-scrubber.tsx    TEMPORARY review transport bar for the intro
     ui/                   shadcn: button, input, textarea, label, badge,
@@ -114,6 +121,8 @@ in a city at dusk, from the horizon, from lit windows and from line colours.
   to English, never as paragraph translations: `서울하늘` (brand), section tags
   `소개` About · `경력` Experience · `기술` Skills · `작품` Projects ·
   `수상` Awards · `연락` Contact (`KOREAN` in `content.ts`), line names `N호선`.
+  The marks are visual only, so keep them out of metadata, the manifest and
+  the JSON-LD.
 - **Real Seoul details carry meaning:** coordinates `37.5665°N 126.9780°E`,
   landmark call-outs (`N SEOUL TOWER · 236M`, `GYEONGBOKGUNG · EST. 1395`),
   real Line 2 station names and codes, official metro colours.
