@@ -73,6 +73,7 @@ src/
     seoul/carriage.tsx    SVG interior of a Seoul Metro carriage (the doors)
     seoul/skyline.tsx     SVG city: Bukhansan, Namsan + N Seoul Tower,
                           Lotte World Tower, 63 Building, Gyeongbokgung, Han
+    seoul/night-city.tsx  Seoul at night behind the Projects train
     seoul/starfield.tsx   canvas starfield
     section-heading.tsx   metro-line badge · rule · Korean tag, split title
     section-link.tsx      in-page #section link that scrolls smoothly
@@ -296,37 +297,42 @@ GSAP everywhere; every animation tells the dusk/subway story.
   light gasket as the door windows, over a `.glass` panel mounted below it
   for the copy (the glass and the body must not both be dark, or the window
   disappears). The first bay's pane shows the picture, with the title and a
-  `CAR 0N / 06` plate in `line-4` on its panel; the second's is bare tinted
-  glass over the details, mirroring it across the doors. Every window on the
+  `CAR 0N / 06` plate in `line-4` on its panel; the second's is clear glass
+  into the lit car (`CarView`, below) over the details, mirroring it across
+  the doors. Every window on the
   car's side shares `--pane`'s height and top edge (the two panes, the door
   leaves' windows, the driver's door's window), as on the real car, and
   riding, `--pane` is half the door's height: the fit in Projects
   (`fitTrain`) sets it to the rest of the car, less the door's cap. The
-  picture shows through its pane at 16:10, as large as fits. The doors are
-  stainless leaves in a recessed frame with a blue band down their middle:
-  `line-4` around the windows, `line-4-door` (a livery token, not
-  wayfinding) below, and a `line-4` cap above, up to the roof line. They run
-  down to the sill, below the windows. The first and last cars end in a
-  `Nose`: a smooth cap, drawn in a stretched SVG, that sweeps down from the
-  roof and leans forward to its foot, with a sliver of black front glass
-  edged in `line-4`, a headlight or tail light, and the skirt and coupler
-  below. Behind it, the body's `Cab` section holds a driver's door about one
+  picture shows through its pane at 16:10, as large as fits. The livery
+  follows photos of the Korail 341000s (3rd generation) that run Line 4.
+  The doors are two leaves in a recessed frame, painted `line-4` sky blue
+  from the top down to just under their windows, then a narrow
+  `line-4-door` deep-blue band (a livery token, not wayfinding), then bare
+  stainless to the sill. Each leaf's tall window sits by the seam in a dark
+  gasket. The body runs on above the doorway to the roof line
+  (`.pj-cap`, unpainted). The first and last cars end in a `Nose`: a smooth
+  cap, drawn in a stretched SVG, that sweeps down from the roof and leans
+  forward to its foot. As on the real cab, a broad `line-4` frame wraps
+  the corner round the black front mask (a sliver of windscreen shows at
+  the tip), over a black lower front holding the headlight or tail light,
+  and the skirt and coupler below. Behind it, the body's `Cab` section holds a driver's door about one
   leaf wide. The motor cars (2 and 5) and the cab cars, close to the cab
   (mirrored at the rear), raise a single-arm `Pantograph` against the
-  overhead line (contact wire, messenger wire, droppers), which stays put
-  like the rail. Both are placed by `--lift`, so the pan head meets the wire
-  at every size and in the swipe row too (`--above`). Both windows of a car
+  overhead line (contact wire, messenger wire, droppers), whose droppers
+  move with the ground (see the world, below). Both are placed by
+  `--lift`, so the pan head meets the wire at every size and in the swipe
+  row too (`--above`). Both windows of a car
   are one `--side` wide, so the doors sit centred between them; the cab
   (`--cab`) adds its length at the end of the first and last cars. Cars are
   joined by full-height rubber `Gangway` bellows and ride on two `Bogie`s
   each, with equipment boxes slung between them, over one shared rail that
-  stays put while the cars move and is drawn over the wheels' flanges. The
-  bogies are to scale: disc wheels `--wheel` across (about a seventh of the
+  is drawn over the wheels' flanges. The bogies are to scale: disc wheels `--wheel` across (about a seventh of the
   body's height) riding just under the floor, a side frame with axle boxes,
   brake units, bolster and air spring. The wheels turn with the travel
-  (rotation = distance / radius, the radius measured from the bogie on
-  refresh). Keep the bolt holes' positions rounded: Math.cos can differ in
-  the last digit between Node and the browser, and the mismatch breaks
+  (rotation = distance over the ground / radius, the radius measured from
+  the bogie on refresh). Keep the bolt holes' positions rounded: Math.cos
+  can differ in the last digit between Node and the browser, and the mismatch breaks
   hydration. The page scroll drives the train sideways at every width (the
   `ride` variant / `RIDE`: tall enough for a car, motion allowed). Fine
   pointers pin the stage with GSAP; touch screens stick it with CSS
@@ -344,7 +350,8 @@ GSAP everywhere; every animation tells the dusk/subway story.
   Short screens and reduced motion get a row you swipe, snapping to each
   window; keep the car `overflow-clip`, not `overflow-hidden`, which would
   make it a scroll container and steal those snap points. The door blue is
-  livery, the one place the line colour fills an area. Otherwise no coloured
+  livery, the one place the line colour fills an area (with the cab's frame
+  and the seats inside). Otherwise no coloured
   stripes or glowing underlines on cards. That reads as generic AI styling,
   so use something physically specific to the metaphor instead. Keep the
   ride cheap: a frame turns only the wheels of bogies on screen (worked out
@@ -354,6 +361,66 @@ GSAP everywhere; every animation tells the dusk/subway story.
   gradients, never `blur` filters. Measure performance on the production
   build: the dev server adds a one-off spike when the stage first appears
   that production does not have.
+- The *ride's world* (`projects.tsx`, riding only). The camera follows the
+  train part way, like a tracking shot, so the world slides the other way:
+  for every px the cars move left, the ground moves `WORLD` px right
+  (catenary masts behind the cars, `.pj-masts`; the wire's droppers) and the
+  far city `CITY` px right (`NightCity`, `.pj-city`: Bukhansan, two rows of
+  towers with lit windows, Namsan and N Seoul Tower, the 63 Building, Lotte
+  World Tower, a bridge strung with lamps, the Han and its reflections).
+  The second window (`CarView`), the door leaves' windows, the far window
+  seen through open doors and the driver's door are clear glass: each is a
+  `SeeThrough` canvas that copies its slice of the city's bitmap and draws
+  the masts going by, so it lines up with the real world around the train.
+  `CarView` is a lit Line 4 car seen from outside, painted on the same
+  canvas (`paintCarRoom`, cached once per size, then `paintStraps` live):
+  cool white walls and ceiling, an LED strip and `line-4` trim, grey hand
+  straps on a stainless bar, a seat-end pole, and across the aisle sky-blue
+  bucket seats with a pink priority seat at the car's end, under the far
+  side's window onto the city. Nothing is laid over a window's canvas:
+  DOM over a canvas is pushed onto compositor layers of its own. The
+  straps are a damped pendulum kicked by the train's acceleration (back as
+  it pulls away, forward as it brakes). At
+  speed the pantographs arc against the wire (`.pj-spark`). Keep the
+  stainless plain: light bands sliding across the body (tried as city
+  reflections) showed through the copy panels and read as a see-through
+  body. The front car's headlight throws a beam down onto the rail ahead;
+  the rear's tail lamp glows red. **Station stops:** when the ride comes to
+  rest, the car whose doors are nearest the middle of the screen slides
+  them open (`.pj-leaf-l/-r` into the body's pockets) on the lit car.
+  Doors face each other across the aisle, so the doorway looks onto the
+  closed doors opposite (their windows onto the city), with the route
+  display above, seat-end poles either side and the yellow edge on the
+  floor. Its cool LED light spills onto the track (`.pj-spill`); moving
+  again shuts them.
+  Straps, sparks and doors run on one ticker (`sway`), only while
+  the section is on screen and only for the cars on screen, and it idles
+  once the train has stopped and the straps have settled. The trigger that
+  runs it refreshes after the stage's pin (`refreshPriority: -1`), or it
+  measures the section without the ride's length and switches off a screen
+  in.
+  **Keep the ride cheap; it has to run on low-end phones.** The city svg is
+  rasterised once into an opaque canvas (`paintCity`, with the night sky
+  and static stars from `paintNightSky` painted under it) that replaces the
+  svg behind the train and feeds the windows; drawing the svg in every
+  window every frame made the ride four times slower. Being opaque, it
+  lets the browser skip what it covers, and while the stage fills the
+  screen `coverSky()` (`lib/sky.ts`) pauses the page's starfield. The city,
+  masts and wire only move (`will-change-transform`). A window canvas is
+  redrawn only when the train moves (or a strap swings at rest), and taken
+  out of the page (`display: none`) when its car is more than half a screen
+  away, since each canvas is a compositor layer; the far windows behind
+  the doors are out of the page (`.pj-inside` hidden) until they open.
+  Weaker devices (≤ 4 cores or ≤ 4 GB) draw windows at 1x, skip sparks and
+  leave the door leaves' windows plain. **Lite:** a device with ≤ 2 GB
+  starts lite, and any other drops to it if the first 30 moving frames
+  come slower than about 36 a second (`watchFrames`): no city or masts
+  (the starfield shows), windows painted once and left still, no sparks.
+  The livery, lit interiors, doors and wheels stay. Reduced motion and the
+  swipe row paint the windows once the same way (`paintWindowsStill`): no
+  city, the night behind the glass, the lit car inside. Measure on the
+  production build, with a phone's CPU throttled 4x, against the previous
+  build.
 - Award *tickets* have a `line-5` stub with the line name, year, month and
   `NO. 50x`, perforated edge, glass body.
 
