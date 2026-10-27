@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { prefersReducedMotion } from "@/lib/gsap";
 import { onIntro } from "@/lib/intro";
 import { mulberry32 } from "@/lib/random";
+import { onSkyCover, skyCovered } from "@/lib/sky";
 import { cn } from "@/lib/utils";
 
 interface StarfieldProps {
@@ -56,6 +57,8 @@ export default function Starfield({
     let raf = 0;
     let last = Number.NEGATIVE_INFINITY;
     let visible = true;
+    // hidden behind something opaque (see lib/sky): no need to twinkle
+    let covered = skyCovered();
     let started = false;
     const still = prefersReducedMotion();
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -113,12 +116,12 @@ export default function Starfield({
         last = t;
         draw(t);
       }
-      if (visible) raf = requestAnimationFrame(loop);
+      if (visible && !covered) raf = requestAnimationFrame(loop);
     }
 
     // (re)starts the loop; cancelling first means two loops never run
     function play() {
-      if (still || !started || !visible) return;
+      if (still || !started || !visible || covered) return;
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(loop);
     }
@@ -142,7 +145,14 @@ export default function Starfield({
     });
     io.observe(canvas);
 
+    const offCover = onSkyCover((now) => {
+      covered = now;
+      if (covered) cancelAnimationFrame(raf);
+      else play();
+    });
+
     return () => {
+      offCover();
       off();
       cancelAnimationFrame(raf);
       ro.disconnect();
