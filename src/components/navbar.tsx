@@ -1,6 +1,6 @@
 import { Menu } from "lucide-react";
-import Image from "next/image";
 import { useRef, useState } from "react";
+import BrandLogo from "@/components/brand-logo";
 import { GithubIcon } from "@/components/icons";
 import SectionLink from "@/components/section-link";
 import {
@@ -88,13 +88,7 @@ export default function Navbar() {
           className="group flex items-center gap-2.5"
           aria-label="Back to top"
         >
-          <Image
-            src="/logo.png"
-            alt=""
-            width={32}
-            height={32}
-            className="group-hover:-rotate-12 size-8 rounded-full ring-1 ring-white/20 transition-transform duration-500 group-hover:scale-110"
-          />
+          <BrandLogo className="group-hover:-rotate-12 size-8 text-peach transition-transform duration-500 group-hover:scale-110" />
           <span className="font-bold font-display text-[17px] tracking-tight">
             SeoulSKY
           </span>

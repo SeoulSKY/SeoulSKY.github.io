@@ -76,7 +76,7 @@ src/
   app/page.tsx            page shell: SmoothScroll, Preloader, Navbar, sections
   app/actions.ts          server actions: sendMessage (contact form → Resend)
   app/opengraph-image.jpg share image: a 2x screenshot of the settled hero
-  app/apple-icon.tsx      home-screen icon; favicon.ico + icon.png beside it
+  app/apple-icon.tsx      home-screen icon; favicon.ico + icon.svg beside it
   app/sitemap.ts          the page, with project images and clips
   app/robots.ts, manifest.ts
   globals.css             design tokens, hero CSS, utilities (.glass, .grain…)
@@ -96,6 +96,7 @@ src/
                           Lotte World Tower, 63 Building, Gyeongbokgung, Han
     seoul/night-city.tsx  Seoul at night behind the Projects train
     seoul/starfield.tsx   canvas starfield
+    brand-logo.tsx        BrandLogo: the swallow, filled with currentColor
     section-heading.tsx   metro-line badge · rule · Korean tag, split title
     section-link.tsx      in-page #section link that scrolls smoothly
     structured-data.tsx   schema.org JSON-LD built from content.ts
@@ -288,7 +289,15 @@ GSAP everywhere; every animation tells the dusk/subway story.
 - UI icons: `lucide-react`, 1.6–2px stroke, `peach` in a 48px glass tile or
   inline at 16px.
 - Skill logos: original full-colour SVGs in `public/skills` on glass pills.
-- Logo: the swallow over a dusk mountain, always in a circle.
+- Logo: the swallow, in `peach`. Every curve is an arc of a circle whose
+  radius comes from one golden-ratio series, r = 3.5·φⁿ (256-unit
+  artboard), and neighbouring arcs meet tangent; the long edges are
+  straight. `brand/logo-construction.svg` shows the circles. The
+  favicon (`src/app/icon.svg`, with `favicon.ico` at 16/32/48px for older
+  browsers) and the navbar (`BrandLogo`, `components/brand-logo.tsx`,
+  `text-peach`) use the solid swallow with no background;
+  `public/logo-outline.svg` is the outline alone. Change the shape only
+  through the construction, never by hand-nudging points.
 
 ## Components
 

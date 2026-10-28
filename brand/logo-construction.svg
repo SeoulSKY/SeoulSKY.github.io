@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="22 28 236 279.8" width="944" height="1119">
+  <!-- SeoulSKY swallow: construction. Every curve is an arc of a circle whose
+       radius is r = 3.5·φⁿ (φ, the golden ratio); the long edges are straight.
+       Neighbouring arcs meet tangent to each other. The numbers on the arcs are n. -->
+  <style>
+    .c{fill:none;stroke:#a89bdb;stroke-opacity:.5;stroke-width:.35}
+    .rad{fill:none;stroke:#a89bdb;stroke-opacity:.35;stroke-width:.3;stroke-dasharray:1.2 1.2}
+    .o{fill:#a89bdb}
+    .tk{fill:#ffc3a1}
+    .m{fill:#ffc3a1;fill-opacity:.1;stroke:#ffc3a1;stroke-width:.8;stroke-linejoin:round}
+    .t{font:600 6.5px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#ffc3a1;text-anchor:middle;dominant-baseline:middle}
+    .h{font:600 3.6px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#f4f0ff;fill-opacity:.45;letter-spacing:.3px;text-transform:uppercase}
+    .l{font:4.2px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#a7a3c7}
+    .k{font:600 4.2px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#ffc3a1}
+    .sup{font-size:2.9px}
+    .dim{fill-opacity:.6;font-size:3.6px}
+  </style>
+  <rect x="22" y="28" width="236" height="279.8" fill="#06071a"/>
+  <clipPath id="f"><rect x="22" y="28" width="236" height="206"/></clipPath>
+  <g clip-path="url(#f)"><circle cx="-213.74" cy="-923.66" r="1126.99" class="c"/><circle cx="274.63" cy="59.81" r="164.43" class="c"/><circle cx="163.97" cy="146.26" r="38.82" class="c"/><circle cx="163.97" cy="146.26" r="1" class="o"/><path d="M163.97 146.26 L177.23 109.78" class="rad"/><circle cx="202.01" cy="96.29" r="23.99" class="c"/><circle cx="202.01" cy="96.29" r="1" class="o"/><path d="M202.01 96.29 L193.00 118.52" class="rad"/><circle cx="223.88" cy="150.03" r="38.82" class="c"/><circle cx="223.88" cy="150.03" r="1" class="o"/><path d="M223.88 150.03 L191.51 128.60" class="rad"/><circle cx="126.49" cy="121.02" r="62.80" class="c"/><circle cx="126.49" cy="121.02" r="1" class="o"/><path d="M126.49 121.02 L177.58 157.54" class="rad"/><circle cx="8.55" cy="-44.51" r="266.05" class="c"/></g>
+  <path d="M136.607 172.612 L52.128 171.523 A1126.989 1126.989 0 0 0 135.715 147.781 A164.425 164.425 0 0 1 110.503 49.800 L165.779 107.489 A38.816 38.816 0 0 1 187.478 115.378 A23.989 23.989 0 0 0 199.152 120.108 A38.816 38.816 0 0 0 186.678 138.947 A62.805 62.805 0 0 1 162.932 172.165 A266.046 266.046 0 0 1 99.592 205.476 L136.607 172.612 Z" class="m"/>
+  <circle cx="94.15" cy="160.46" r=".9" class="tk"/><circle cx="115.39" cy="100.78" r=".9" class="tk"/><circle cx="177.23" cy="109.78" r=".9" class="tk"/><circle cx="193.00" cy="118.52" r=".9" class="tk"/><circle cx="191.51" cy="128.60" r=".9" class="tk"/><circle cx="177.58" cy="157.54" r=".9" class="tk"/><circle cx="132.39" cy="190.96" r=".9" class="tk"/><text x="96.3" y="168.2" class="t">12</text><text x="107.6" y="102.8" class="t">8</text><text x="175.2" y="105.8" class="t">5</text><text x="199.0" y="111.5" class="t">4</text><text x="200.5" y="132.6" class="t">5</text><text x="184.1" y="162.2" class="t">6</text><text x="136.1" y="198.0" class="t">9</text>
+  <path d="M22 234 H258" stroke="#f4f0ff" stroke-opacity=".1" stroke-width=".4"/>
+  <text x="28" y="246" class="h">n</text><text x="40" y="246" class="h">radius</text><text x="92" y="246" class="h">curve</text><text x="28" y="253.0" class="k">12</text><text x="40" y="253.0" class="l">3.5·φ<tspan dy="-1.6" class="sup">12</tspan><tspan dy="1.6"> = 1127.0</tspan></text><text x="92" y="253.0" class="l">tail, upper edge</text><text x="28" y="259.4" class="k">8</text><text x="40" y="259.4" class="l">3.5·φ<tspan dy="-1.6" class="sup">8</tspan><tspan dy="1.6"> = 164.4</tspan></text><text x="92" y="259.4" class="l">wing, inner edge</text><text x="28" y="265.8" class="k">5</text><text x="40" y="265.8" class="l">3.5·φ<tspan dy="-1.6" class="sup">5</tspan><tspan dy="1.6"> = 38.8</tspan></text><text x="92" y="265.8" class="l">head</text><text x="28" y="272.2" class="k">4</text><text x="40" y="272.2" class="l">3.5·φ<tspan dy="-1.6" class="sup">4</tspan><tspan dy="1.6"> = 24.0</tspan></text><text x="92" y="272.2" class="l">beak, top</text><text x="28" y="278.6" class="k">5</text><text x="40" y="278.6" class="l">3.5·φ<tspan dy="-1.6" class="sup">5</tspan><tspan dy="1.6"> = 38.8</tspan></text><text x="92" y="278.6" class="l">throat</text><text x="28" y="285.0" class="k">6</text><text x="40" y="285.0" class="l">3.5·φ<tspan dy="-1.6" class="sup">6</tspan><tspan dy="1.6"> = 62.8</tspan></text><text x="92" y="285.0" class="l">breast</text><text x="28" y="291.4" class="k">9</text><text x="40" y="291.4" class="l">3.5·φ<tspan dy="-1.6" class="sup">9</tspan><tspan dy="1.6"> = 266.0</tspan></text><text x="92" y="291.4" class="l">belly</text><text x="28" y="300.8" class="l dim">φ = (1 + √5) / 2 ≈ 1.618 · straight edges: wing front, tail fork · 256-unit artboard</text>
+</svg>
