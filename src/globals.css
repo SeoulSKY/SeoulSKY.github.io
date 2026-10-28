@@ -1,6 +1,16 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Pretendard, cut down to the Korean the site shows by
+   scripts/subset-pretendard.mjs, which runs before dev and build. */
+@font-face {
+  font-family: "Pretendard Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 45 920;
+  src: url("./fonts/pretendard-subset.woff2") format("woff2-variations");
+}
+
 /* The Projects train rides the page scroll when a car fits on screen and
    motion is allowed. Keep in step with RIDE in src/sections/projects.tsx. */
 @custom-variant ride (@media (min-height: 40rem) and (prefers-reduced-motion: no-preference));
