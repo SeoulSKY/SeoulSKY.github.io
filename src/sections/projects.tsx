@@ -1001,7 +1001,8 @@ function ProjectCar({ project, index }: { project: Project; index: number }) {
           <div className="pj-reveal glass mt-3 flex-1 rounded-xl px-4 pt-4 pb-4 lg:mt-4 lg:px-6 lg:pt-6 lg:pb-6">
             <p className="flex items-center gap-3 font-mono text-mist/45 text-xs tracking-eyebrow">
               <span
-                className="rounded-sm px-1.5 py-0.5 font-semibold text-3xs text-white tracking-label"
+                // white on Line 4's sky blue is under 3:1; night ink is 7:1
+                className="rounded-sm px-1.5 py-0.5 font-semibold text-3xs text-night-950 tracking-label"
                 style={{ background: LINE }}
               >
                 CAR {String(index + 1).padStart(2, "0")}
