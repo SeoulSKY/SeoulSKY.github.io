@@ -1,6 +1,5 @@
 import { ArrowUpRight, LoaderCircle, Send } from "lucide-react";
 import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
-import { toast } from "sonner";
 import { GithubIcon } from "@/components/icons";
 import SectionHeading from "@/components/section-heading";
 import { Button } from "@/components/ui/button";
@@ -154,11 +153,14 @@ export default function Contact() {
       ),
     );
 
-    toast.promise(promise, {
-      loading: "Sending...",
-      success: "Thank you. I will get back to you as soon as possible.",
-      error: SEND_FAILED,
-    });
+    // so does sonner, whose toaster the page mounts after it loads
+    import("sonner").then(({ toast }) =>
+      toast.promise(promise, {
+        loading: "Sending...",
+        success: "Thank you. I will get back to you as soon as possible.",
+        error: SEND_FAILED,
+      }),
+    );
 
     try {
       await promise;
