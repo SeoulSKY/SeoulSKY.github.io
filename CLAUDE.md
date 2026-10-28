@@ -44,9 +44,13 @@ from `@/env`, never `process.env`; a new variable gets a schema there first.
   `@/lib/gsap`, never from `gsap` directly.
 - Biome 2 (`biome.json`): double quotes, space indent, `useSortedClasses` is an
   error, CSS files are ignored.
-- Fonts are self-hosted from npm (`@fontsource-variable/*`, `pretendard`),
-  except Instrument Serif, which loads from Google Fonts in
-  `src/app/layout.tsx`.
+- Fonts are self-hosted from npm and imported in `src/app/layout.tsx`
+  (`@fontsource-variable/*`, and `@fontsource/instrument-serif`, italic
+  only), never from Google Fonts: a stylesheet on another origin blocks
+  the first paint. Pretendard is cut down to the Hangul in `src/` by
+  `scripts/subset-pretendard.mjs` (one ~24 KB file instead of seven
+  subsets), which runs before `dev` and `build` and writes the gitignored
+  `src/fonts/pretendard-subset.woff2`; `globals.css` declares it.
 - SEO copy (title, description, URL) is `site` in `content.ts`; the
   metadata, sitemap, manifest and JSON-LD all read it.
 
