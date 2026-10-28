@@ -84,8 +84,8 @@ src/
     structured-data.tsx   schema.org JSON-LD built from content.ts
     metro-line.tsx        vertical Seoul-Metro timeline (Experience)
     intro-scrubber.tsx    TEMPORARY review transport bar for the intro
-    ui/                   shadcn: button, input, textarea, label, badge,
-                          sheet, sonner
+    ui/                   shadcn: button, input, textarea, label, field,
+                          badge, sheet
   sections/               Hero, About, Experience, Skills, Projects,
                           Awards, Contact
 ```
@@ -279,7 +279,13 @@ GSAP everywhere; every animation tells the dusk/subway story.
   `secondary`, `ghost`, `link`, `destructive`; sizes `sm`, `default`, `lg`,
   `icon`.
 - `Input` / `Textarea`: `input` border, peach focus ring. `Label`, `Badge`
-  (outline = mono tag), `Sheet` (mobile nav on `night-950`), `Sonner` toasts.
+  (outline = mono tag), `Sheet` (mobile nav on `night-950`).
+- Forms are built from shadcn's `Field` parts (`FieldGroup`, `Field`,
+  `FieldLabel`, `FieldError`). A form reports its result inside itself
+  and keeps it until the next submit: success in an `<output>` that is
+  always in the page (so screen readers announce it), failure as a
+  `FieldError`. No toasts. `field.tsx` imports `cn` from `@/lib/utils`
+  and leaves out `FieldSeparator`, which needs the `radix-ui` package.
 - `SectionHeading` takes `index` (metro line), `id` (Korean tag), `title`,
   an optional `accent` (serif tail) and children (intro paragraph).
 - `MetroLine` takes `color`, `stops` (`{ key, when, code, content }`), `next`.
@@ -483,8 +489,8 @@ GSAP everywhere; every animation tells the dusk/subway story.
   drawing below the fold renders on `useRenderLater()` instead of in the
   prerendered page (the Projects city, the footer skyline); declare it
   before the `useGSAPLater` that needs it, which then finds it in the
-  page. Libraries only needed on an action load on it (EmailJS and
-  sonner on send, the toaster through `next/dynamic`). The CSS is inlined
+  page. Libraries only needed on an action load on it (EmailJS on
+  send). The CSS is inlined
   into the HTML (`experimental.inlineCss`). Check a change against
   Lighthouse's mobile run on the production build.
 - **Prerendering:** the page is static, so `next build` renders it to HTML
