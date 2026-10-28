@@ -5,7 +5,7 @@ import {
   LoaderCircle,
   Send,
 } from "lucide-react";
-import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
+import { type FormEvent, useRef, useState } from "react";
 import { GithubIcon } from "@/components/icons";
 import SectionHeading from "@/components/section-heading";
 import { Button } from "@/components/ui/button";
@@ -85,7 +85,16 @@ function TowerLineArt({ className }: { className?: string }) {
   );
 }
 
-const EMPTY = { name: "", email: "", message: "" };
+/** The form's fields, read from the form itself rather than kept in state. */
+function readFields(form: HTMLFormElement) {
+  const data = new FormData(form);
+  return {
+    name: String(data.get("name") ?? ""),
+    email: String(data.get("email") ?? ""),
+    message: String(data.get("message") ?? ""),
+  };
+}
+
 const SENT = "Thank you. I will get back to you as soon as possible.";
 const SEND_FAILED = "Ahh, something went wrong. Please try again later.";
 
@@ -94,7 +103,9 @@ type Status = "idle" | "sending" | "sent" | "failed";
 
 export default function Contact() {
   const root = useRef<HTMLElement>(null);
-  const [form, setForm] = useState(EMPTY);
+  // whether every field has something in it, for the submit button; the
+  // fields themselves stay with the form
+  const [complete, setComplete] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const sending = status === "sending";
 
@@ -141,17 +152,17 @@ export default function Contact() {
     { scope: root },
   );
 
-  function handleChange(
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) {
-    const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
+  function handleInput(e: FormEvent<HTMLFormElement>) {
+    const fields = readFields(e.currentTarget);
+    setComplete(Object.values(fields).every((v) => v.trim() !== ""));
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // the submit button stays disabled until every field is filled in, and
     // the browser checks the email's format, so the form is valid here
+    const form = e.currentTarget;
+    const { name, email, message } = readFields(form);
 
     setStatus("sending");
 
@@ -162,24 +173,20 @@ export default function Contact() {
         "default_service",
         env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
         {
-          fromName: form.name,
-          fromEmail: form.email,
-          message: form.message,
+          fromName: name,
+          fromEmail: email,
+          message,
         },
         env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
       );
-      setForm(EMPTY);
+      form.reset();
+      setComplete(false);
       setStatus("sent");
     } catch (err) {
       console.error(err);
       setStatus("failed");
     }
   }
-
-  const incomplete =
-    form.name.trim() === "" ||
-    form.email.trim() === "" ||
-    form.message.trim() === "";
 
   return (
     <section
@@ -220,6 +227,7 @@ export default function Contact() {
         <div className="lg:col-span-6 lg:pt-10">
           <form
             onSubmit={handleSubmit}
+            onInput={handleInput}
             className="ct-form glass relative flex flex-col gap-6 overflow-hidden rounded-4xl p-6 sm:p-10"
           >
             <div className="-top-24 -right-24 pointer-events-none absolute size-56 rounded-full bg-peach/10 blur-3xl" />
@@ -234,8 +242,6 @@ export default function Contact() {
                     name="name"
                     autoComplete="name"
                     required
-                    value={form.name}
-                    onChange={handleChange}
                     placeholder="What’s your name?"
                   />
                 </Field>
@@ -249,8 +255,6 @@ export default function Contact() {
                     type="email"
                     autoComplete="email"
                     required
-                    value={form.email}
-                    onChange={handleChange}
                     placeholder="What’s your email address?"
                   />
                 </Field>
@@ -264,8 +268,6 @@ export default function Contact() {
                   name="message"
                   rows={7}
                   required
-                  value={form.message}
-                  onChange={handleChange}
                   placeholder="What do you want to say?"
                   className="min-h-44"
                 />
@@ -301,7 +303,7 @@ export default function Contact() {
               <Button
                 type="submit"
                 size="lg"
-                disabled={incomplete || sending}
+                disabled={!complete || sending}
                 className="w-full sm:w-auto"
               >
                 {sending ? (
