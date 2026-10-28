@@ -1,10 +1,21 @@
-import { ArrowUpRight, LoaderCircle, Send } from "lucide-react";
+import {
+  ArrowUpRight,
+  CircleAlert,
+  CircleCheck,
+  LoaderCircle,
+  Send,
+} from "lucide-react";
 import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
 import { GithubIcon } from "@/components/icons";
 import SectionHeading from "@/components/section-heading";
 import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { GITHUB_URL } from "@/data/content";
 import { env } from "@/env";
@@ -75,12 +86,17 @@ function TowerLineArt({ className }: { className?: string }) {
 }
 
 const EMPTY = { name: "", email: "", message: "" };
+const SENT = "Thank you. I will get back to you as soon as possible.";
 const SEND_FAILED = "Ahh, something went wrong. Please try again later.";
+
+/** Where the last send got to; its result stays until the next send. */
+type Status = "idle" | "sending" | "sent" | "failed";
 
 export default function Contact() {
   const root = useRef<HTMLElement>(null);
   const [form, setForm] = useState(EMPTY);
-  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const sending = status === "sending";
 
   useGSAPLater(
     () =>
@@ -137,11 +153,12 @@ export default function Contact() {
     // the submit button stays disabled until every field is filled in, and
     // the browser checks the email's format, so the form is valid here
 
-    setLoading(true);
+    setStatus("sending");
 
-    // EmailJS is only needed once someone sends, so it loads then
-    const promise = import("@emailjs/browser").then(({ default: emailjs }) =>
-      emailjs.send(
+    try {
+      // EmailJS is only needed once someone sends, so it loads then
+      const { default: emailjs } = await import("@emailjs/browser");
+      await emailjs.send(
         "default_service",
         env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
         {
@@ -150,25 +167,12 @@ export default function Contact() {
           message: form.message,
         },
         env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
-      ),
-    );
-
-    // so does sonner, whose toaster the page mounts after it loads
-    import("sonner").then(({ toast }) =>
-      toast.promise(promise, {
-        loading: "Sending...",
-        success: "Thank you. I will get back to you as soon as possible.",
-        error: SEND_FAILED,
-      }),
-    );
-
-    try {
-      await promise;
+      );
       setForm(EMPTY);
+      setStatus("sent");
     } catch (err) {
       console.error(err);
-    } finally {
-      setLoading(false);
+      setStatus("failed");
     }
   }
 
@@ -219,61 +223,100 @@ export default function Contact() {
             className="ct-form glass relative flex flex-col gap-6 overflow-hidden rounded-4xl p-6 sm:p-10"
           >
             <div className="-top-24 -right-24 pointer-events-none absolute size-56 rounded-full bg-peach/10 blur-3xl" />
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="flex flex-col gap-2.5">
-                <Label htmlFor="ct-name">Your name</Label>
-                <Input
-                  id="ct-name"
-                  name="name"
-                  autoComplete="name"
-                  required
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder="What’s your name?"
-                />
+            <FieldGroup className="gap-6">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <Field className="gap-2.5">
+                  <FieldLabel className="leading-none" htmlFor="ct-name">
+                    Your name
+                  </FieldLabel>
+                  <Input
+                    id="ct-name"
+                    name="name"
+                    autoComplete="name"
+                    required
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="What’s your name?"
+                  />
+                </Field>
+                <Field className="gap-2.5">
+                  <FieldLabel className="leading-none" htmlFor="ct-email">
+                    Your email
+                  </FieldLabel>
+                  <Input
+                    id="ct-email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="What’s your email address?"
+                  />
+                </Field>
               </div>
-              <div className="flex flex-col gap-2.5">
-                <Label htmlFor="ct-email">Your email</Label>
-                <Input
-                  id="ct-email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
+              <Field className="gap-2.5">
+                <FieldLabel className="leading-none" htmlFor="ct-message">
+                  Your message
+                </FieldLabel>
+                <Textarea
+                  id="ct-message"
+                  name="message"
+                  rows={7}
                   required
-                  value={form.email}
+                  value={form.message}
                   onChange={handleChange}
-                  placeholder="What’s your email address?"
+                  placeholder="What do you want to say?"
+                  className="min-h-44"
                 />
+              </Field>
+            </FieldGroup>
+            {/* the result of the last send stays beside the button until
+                the next one */}
+            <div className="mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+              <div className="text-sm leading-relaxed sm:flex-1">
+                {/* always in the page, so a screen reader announces it
+                    (an output is a live region, like role="status") */}
+                <output className="block">
+                  {status === "sent" && (
+                    <span className="flex items-start gap-2 pb-4 text-mist/85 sm:pb-0">
+                      <CircleCheck
+                        aria-hidden="true"
+                        className="mt-0.5 size-4 shrink-0 text-peach"
+                      />
+                      {SENT}
+                    </span>
+                  )}
+                </output>
+                {status === "failed" && (
+                  <FieldError className="flex items-start gap-2 pb-4 leading-relaxed sm:pb-0">
+                    <CircleAlert
+                      aria-hidden="true"
+                      className="mt-0.5 size-4 shrink-0"
+                    />
+                    {SEND_FAILED}
+                  </FieldError>
+                )}
               </div>
+              <Button
+                type="submit"
+                size="lg"
+                disabled={incomplete || sending}
+                className="w-full sm:w-auto"
+              >
+                {sending ? (
+                  <>
+                    <LoaderCircle className="animate-spin" />
+                    <span className="sr-only">Sending</span>
+                  </>
+                ) : (
+                  <>
+                    Send message
+                    <Send />
+                  </>
+                )}
+              </Button>
             </div>
-            <div className="flex flex-col gap-2.5">
-              <Label htmlFor="ct-message">Your message</Label>
-              <Textarea
-                id="ct-message"
-                name="message"
-                rows={7}
-                required
-                value={form.message}
-                onChange={handleChange}
-                placeholder="What do you want to say?"
-                className="min-h-44"
-              />
-            </div>
-            <Button
-              type="submit"
-              size="lg"
-              disabled={incomplete || loading}
-              className="mt-2 w-full sm:w-auto sm:self-end"
-            >
-              {loading ? (
-                <LoaderCircle className="animate-spin" />
-              ) : (
-                <>
-                  Send message
-                  <Send />
-                </>
-              )}
-            </Button>
           </form>
         </div>
       </div>

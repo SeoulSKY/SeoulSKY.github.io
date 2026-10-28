@@ -2,7 +2,6 @@
 
 import "@/lib/gsap";
 
-import dynamic from "next/dynamic";
 import CursorGlow from "@/components/cursor-glow";
 import Footer from "@/components/footer";
 import IntroScrubber from "@/components/intro-scrubber";
@@ -19,13 +18,6 @@ import Experience from "@/sections/experience";
 import Hero from "@/sections/hero";
 import Projects from "@/sections/projects";
 import Skills from "@/sections/skills";
-
-// Toasts only appear once someone sends the contact form, so the toaster
-// (and sonner with it) loads after the page rather than with it
-const Toaster = dynamic(
-  () => import("@/components/ui/sonner").then((m) => m.Toaster),
-  { ssr: false },
-);
 
 export default function Page() {
   // INTRO_DEBUG reads the URL, which the prerendered page cannot know
@@ -67,8 +59,6 @@ export default function Page() {
           <Footer />
         </div>
       </div>
-
-      <Toaster position="bottom-center" richColors />
     </>
   );
 }
