@@ -12,7 +12,7 @@ import {
   gsap,
   isFinePointer,
   SplitText,
-  useGSAP,
+  useGSAPLater,
   withMotion,
 } from "@/lib/gsap";
 
@@ -68,7 +68,7 @@ function addTilt(cards: HTMLElement[]) {
 export default function About() {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
+  useGSAPLater(
     () =>
       withMotion(() => {
         const q = gsap.utils.selector(root);

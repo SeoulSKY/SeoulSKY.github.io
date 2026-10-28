@@ -1,6 +1,6 @@
 import { type ReactNode, useRef } from "react";
 import { KOREAN, type SectionId } from "@/data/content";
-import { gsap, SplitText, useGSAP, withMotion } from "@/lib/gsap";
+import { gsap, SplitText, useGSAPLater, withMotion } from "@/lib/gsap";
 import { METRO_LINES, type MetroLineNumber } from "@/lib/metro";
 import { cn } from "@/lib/utils";
 
@@ -26,7 +26,7 @@ export default function SectionHeading({
   const root = useRef<HTMLDivElement>(null);
   const line = METRO_LINES[index];
 
-  useGSAP(
+  useGSAPLater(
     () =>
       withMotion(() => {
         const q = gsap.utils.selector(root);

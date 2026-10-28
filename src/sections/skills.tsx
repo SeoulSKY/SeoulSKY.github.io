@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import SectionHeading from "@/components/section-heading";
 import { type Skill, skillRows } from "@/data/content";
-import { gsap, ScrollTrigger, useGSAP, withMotion } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAPLater, withMotion } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
 
 function SkillPill({ skill, hidden }: { skill: Skill; hidden?: boolean }) {
@@ -32,7 +32,7 @@ function SkillPill({ skill, hidden }: { skill: Skill; hidden?: boolean }) {
 export default function Skills() {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
+  useGSAPLater(
     () =>
       withMotion(() => {
         const q = gsap.utils.selector(root);

@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { GITHUB_URL } from "@/data/content";
 import { env } from "@/env";
-import { gsap, useGSAP, withMotion } from "@/lib/gsap";
+import { gsap, useGSAPLater, withMotion } from "@/lib/gsap";
 
 /** N Seoul Tower as line art; it draws itself as the section enters. */
 function TowerLineArt({ className }: { className?: string }) {
@@ -82,7 +82,7 @@ export default function Contact() {
   const [form, setForm] = useState(EMPTY);
   const [loading, setLoading] = useState(false);
 
-  useGSAP(
+  useGSAPLater(
     () =>
       withMotion(() => {
         const q = gsap.utils.selector(root);

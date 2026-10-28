@@ -15,7 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GITHUB_URL, type Project, projects } from "@/data/content";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAPLater, useRenderLater } from "@/lib/gsap";
 import { METRO_LINES } from "@/lib/metro";
 import { mulberry32 } from "@/lib/random";
 import { coverSky } from "@/lib/sky";
@@ -1063,8 +1063,11 @@ function ProjectCar({ project, index }: { project: Project; index: number }) {
 
 export default function Projects() {
   const root = useRef<HTMLElement>(null);
+  // the city behind the train (nearly two thousand shapes) joins after the
+  // first load, just before the setup below, which paints it into a bitmap
+  const city = useRenderLater();
 
-  useGSAP(
+  useGSAPLater(
     () => {
       const q = gsap.utils.selector(root);
       const mm = gsap.matchMedia();
@@ -1830,7 +1833,7 @@ export default function Projects() {
             aria-hidden="true"
             className="pj-city pointer-events-none absolute inset-y-0 left-0 ride:block hidden will-change-transform"
           >
-            <NightCity className="h-full w-auto" />
+            {city && <NightCity className="h-full w-auto" />}
           </div>
           {/* --lift: how far the pantographs stand above the car body, which
               is where the overhead line hangs. --above: the room above the

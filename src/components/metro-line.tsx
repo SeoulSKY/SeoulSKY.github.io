@@ -1,5 +1,5 @@
 import { type ReactNode, useRef } from "react";
-import { gsap, ScrollTrigger, useGSAP, withMotion } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAPLater, withMotion } from "@/lib/gsap";
 
 export interface Stop {
   key: string;
@@ -27,7 +27,7 @@ interface MetroLineProps {
 export default function MetroLine({ color, stops, next }: MetroLineProps) {
   const root = useRef<HTMLDivElement>(null);
 
-  useGSAP(
+  useGSAPLater(
     () => {
       const q = gsap.utils.selector(root);
       const rail = q<HTMLElement>(".ml-rail")[0];

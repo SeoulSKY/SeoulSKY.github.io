@@ -2,12 +2,12 @@ import { Award as AwardIcon } from "lucide-react";
 import { useRef } from "react";
 import SectionHeading from "@/components/section-heading";
 import { awards } from "@/data/content";
-import { gsap, useGSAP, withMotion } from "@/lib/gsap";
+import { gsap, useGSAPLater, withMotion } from "@/lib/gsap";
 
 export default function Awards() {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
+  useGSAPLater(
     () =>
       withMotion(() => {
         const q = gsap.utils.selector(root);

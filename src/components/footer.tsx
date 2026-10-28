@@ -10,7 +10,10 @@ import Starfield from "@/components/seoul/starfield";
 import { GITHUB_URL, navSections } from "@/data/content";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useMounted } from "@/hooks/use-mounted";
-import { gsap, useGSAP, withMotion } from "@/lib/gsap";
+import { gsap, useGSAPLater, useRenderLater, withMotion } from "@/lib/gsap";
+
+const CITY_BOX =
+  "ft-city relative block aspect-620/760 h-auto w-full sm:aspect-1600/760 [&_.sk-labels]:hidden";
 
 export default function Footer() {
   const root = useRef<HTMLElement>(null);
@@ -18,8 +21,11 @@ export default function Footer() {
   // the year comes from the visitor's clock, which the prerendered page
   // cannot know, so it fills in after hydration
   const mounted = useMounted();
+  // the skyline again, two thousand shapes at the foot of the page: it
+  // joins after the first load, in the same box
+  const city = useRenderLater();
 
-  useGSAP(
+  useGSAPLater(
     () =>
       withMotion(() => {
         const q = gsap.utils.selector(root);
@@ -98,11 +104,15 @@ export default function Footer() {
         >
           SeoulSKY
         </p>
-        <CityLayer
-          staticWindows
-          viewBox={narrow ? NARROW_VIEWBOX : WIDE_VIEWBOX}
-          className="ft-city relative block aspect-620/760 h-auto w-full sm:aspect-1600/760 [&_.sk-labels]:hidden"
-        />
+        {city ? (
+          <CityLayer
+            staticWindows
+            viewBox={narrow ? NARROW_VIEWBOX : WIDE_VIEWBOX}
+            className={CITY_BOX}
+          />
+        ) : (
+          <div className={CITY_BOX} />
+        )}
       </div>
 
       <div className="absolute inset-x-0 bottom-0 z-10">
