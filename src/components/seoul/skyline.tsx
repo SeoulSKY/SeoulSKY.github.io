@@ -865,7 +865,7 @@ function CityReflection({
           src={image.src}
           alt=""
           aria-hidden="true"
-          className="h-full w-full"
+          className="h-full w-full object-cover object-top"
         />
       </div>
     );
