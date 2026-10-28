@@ -474,6 +474,19 @@ GSAP everywhere; every animation tells the dusk/subway story.
   (`getPointAtLength`, `getBBox`, `getBoundingClientRect`): after a write,
   each read forces a style and layout pass. The page stays hidden under
   the intro until the dive, so it is not painted beneath the opaque map.
+- **First load:** everything below the fold waits until the page has
+  hydrated, so the first load is not one long task. Sections and their
+  parts set up with `useGSAPLater` (same callback and `{ scope }` as
+  `useGSAP`, from `@/lib/gsap`), which queues the setup and runs one per
+  task in effect order, then refreshes ScrollTrigger once. Use plain
+  `useGSAP` only above the fold (hero, navbar, intro). A big, still
+  drawing below the fold renders on `useRenderLater()` instead of in the
+  prerendered page (the Projects city, the footer skyline); declare it
+  before the `useGSAPLater` that needs it, which then finds it in the
+  page. Libraries only needed on an action load on it (EmailJS and
+  sonner on send, the toaster through `next/dynamic`). The CSS is inlined
+  into the HTML (`experimental.inlineCss`). Check a change against
+  Lighthouse's mobile run on the production build.
 - **Prerendering:** the page is static, so `next build` renders it to HTML
   ahead of time, where render code cannot read `window`, the viewport or the
   URL. Effects and GSAP callbacks can. Anything whose markup depends on the browser waits for
