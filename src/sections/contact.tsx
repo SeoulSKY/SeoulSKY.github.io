@@ -6,6 +6,7 @@ import {
   Send,
 } from "lucide-react";
 import { type FormEvent, useRef, useState } from "react";
+import { sendMessage } from "@/app/actions";
 import { GithubIcon } from "@/components/icons";
 import SectionHeading from "@/components/section-heading";
 import { Button } from "@/components/ui/button";
@@ -18,7 +19,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { GITHUB_URL } from "@/data/content";
-import { env } from "@/env";
 import { gsap, useGSAPLater, withMotion } from "@/lib/gsap";
 
 /** N Seoul Tower as line art; it draws itself as the section enters. */
@@ -160,29 +160,22 @@ export default function Contact() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // the submit button stays disabled until every field is filled in, and
-    // the browser checks the email's format, so the form is valid here
+    // the browser checks the email's format, so the form is valid here.
+    // The action is called here rather than set as the form's action,
+    // which would clear the fields even when the send fails
     const form = e.currentTarget;
-    const { name, email, message } = readFields(form);
 
     setStatus("sending");
 
     try {
-      // EmailJS is only needed once someone sends, so it loads then
-      const { default: emailjs } = await import("@emailjs/browser");
-      await emailjs.send(
-        "default_service",
-        env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        {
-          fromName: name,
-          fromEmail: email,
-          message,
-        },
-        env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
-      );
-      form.reset();
-      setComplete(false);
-      setStatus("sent");
+      const result = await sendMessage(new FormData(form));
+      if (result === "sent") {
+        form.reset();
+        setComplete(false);
+      }
+      setStatus(result);
     } catch (err) {
+      // the request itself failed, such as offline or after a new deploy
       console.error(err);
       setStatus("failed");
     }
