@@ -1884,7 +1884,7 @@ export default function Projects() {
                   className="pj-more glass group relative flex aspect-square w-[72vw] max-w-sm shrink-0 snap-start flex-col justify-between self-center overflow-hidden rounded-4xl border border-white/10 p-6 transition-colors hover:border-peach/50 sm:p-8 lg:w-104"
                 >
                   <span className="font-mono text-mist/45 text-xs tracking-eyebrow">
-                    MORE
+                    MORE PROJECTS
                   </span>
                   <span className="pj-info">
                     <span className="block font-bold font-display text-4xl tracking-tight sm:text-5xl">
