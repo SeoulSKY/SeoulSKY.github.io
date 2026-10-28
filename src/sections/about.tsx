@@ -73,11 +73,19 @@ export default function About() {
       withMotion(() => {
         const q = gsap.utils.selector(root);
 
-        // words light up as you read
-        const split = SplitText.create(q(".about-copy")[0], { type: "words" });
+        // words light up as you read. Spans, left alone for screen
+        // readers, still read as one paragraph: the default aria-label is
+        // not allowed on a <p>, and a div may not sit in one
+        const split = SplitText.create(q(".about-copy")[0], {
+          type: "words",
+          tag: "span",
+          aria: "none",
+        });
         gsap.fromTo(
           split.words,
-          { opacity: 0.14 },
+          // the dimmest an unread word can be and still pass WCAG AA
+          // contrast (4.5:1 on night-950) at its phone size
+          { opacity: 0.5 },
           {
             opacity: 1,
             stagger: 0.1,
