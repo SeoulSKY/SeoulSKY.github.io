@@ -12,24 +12,38 @@ npm run dev        # Next dev server (the intro scrubber is on in dev)
 npm run build      # type-check, then production build → .next/
 npm start          # serve the production build on :3000
 npm run lint       # biome check --write (format + lint + sorted classes)
+npm run email      # React Email preview of the templates in src/emails
 ```
 
 Before calling a change done: `npx biome check --write src` and
 `npm run build` must both pass, and look at the result in a browser at a
 desktop width (1440×900) **and** a phone width (390×844).
 
-Env vars (see `.env.example`): `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`,
-`NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` for the contact form. Both are required:
-`src/env.ts` declares and validates them with `@t3-oss/env-nextjs` and
-Valibot (not zod, which would add 15 KB+ to the client bundle), and the
-build fails if one is missing. Read env vars through `env`
-from `@/env`, never `process.env`; a new variable gets a schema there first.
+Env vars (see `.env.example`): `RESEND_API_KEY` and
+`RESEND_EMAIL_DOMAIN` (the domain verified in Resend) for the contact
+form, both server only. Both are required: `src/env.ts` declares and
+validates them with `@t3-oss/env-nextjs` and Valibot (not zod, which would
+add 15 KB+ to the client bundle once a `NEXT_PUBLIC_` variable joins), and
+`next.config.ts` imports it, so the build fails if one is missing. Read env
+vars through `env` from `@/env`, never `process.env`; a new variable gets
+a schema there first.
 
 ## Stack
 
 - Next.js 16 (App Router) + React 19 + TypeScript 5.9, path alias `@/` →
-  `src/`. Hosted on Vercel, which deploys every push; the EmailJS env vars
+  `src/`. Hosted on Vercel, which deploys every push; the Resend env vars
   are set in the Vercel project.
+- The contact form posts to a server action (`sendMessage` in
+  `app/actions.ts`), which checks the fields again with Valibot and sends
+  them through Resend to `contact@` the domain, with the sender as
+  reply-to. The email body is a React Email template in `src/emails`
+  (components from the `react-email` package; `@react-email/components`
+  is deprecated). Templates are styled with Tailwind classes inside
+  `<Tailwind>`, which inlines them, since mail clients have no
+  stylesheet. Its theme (`src/emails/theme.ts`) repeats the site's tokens
+  under the same names as literal values, because the email cannot read
+  globals.css's `:root` variables; keep the two in step. An `Hr`'s colour
+  goes on its top border (`border-t-border`), which it draws.
 - Next.js 16 changed APIs you may remember from older versions (`priority` on
   `next/image` is now `preload`, for one). Before writing Next.js code, read
   the matching guide in `node_modules/next/dist/docs/`, which ships with the
@@ -60,12 +74,15 @@ from `@/env`, never `process.env`; a new variable gets a schema there first.
 src/
   app/layout.tsx          <html>, metadata, JSON-LD, font + CSS imports
   app/page.tsx            page shell: SmoothScroll, Preloader, Navbar, sections
+  app/actions.ts          server actions: sendMessage (contact form → Resend)
   app/opengraph-image.jpg share image: a 2x screenshot of the settled hero
   app/apple-icon.tsx      home-screen icon; favicon.ico + icon.png beside it
   app/sitemap.ts          the page, with project images and clips
   app/robots.ts, manifest.ts
   globals.css             design tokens, hero CSS, utilities (.glass, .grain…)
   env.ts                  typed, validated env vars (@t3-oss/env-nextjs)
+  emails/                 React Email templates (contact-message.tsx) and
+                          the Tailwind theme they share (theme.ts)
   data/content.ts         ALL copy: nav, Korean tags, about, experience,
                           skills, projects, awards
   lib/gsap.ts             plugins, custom eases, scrollToSection()
@@ -489,8 +506,8 @@ GSAP everywhere; every animation tells the dusk/subway story.
   drawing below the fold renders on `useRenderLater()` instead of in the
   prerendered page (the Projects city, the footer skyline); declare it
   before the `useGSAPLater` that needs it, which then finds it in the
-  page. Libraries only needed on an action load on it (EmailJS on
-  send). The CSS is inlined
+  page. Libraries only needed on an action load on it, or run on the
+  server (Resend sends from a server action). The CSS is inlined
   into the HTML (`experimental.inlineCss`). Check a change against
   Lighthouse's mobile run on the production build.
 - **Prerendering:** the page is static, so `next build` renders it to HTML

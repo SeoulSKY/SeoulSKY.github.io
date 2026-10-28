@@ -8,7 +8,7 @@
 - [Next.js 16](https://nextjs.org) (App Router) + [React 19](https://react.dev) + TypeScript
 - [Tailwind CSS v4](https://tailwindcss.com) with [shadcn/ui](https://ui.shadcn.com) components (`src/components/ui`)
 - [GSAP](https://gsap.com) for animation (ScrollTrigger, ScrollSmoother, SplitText, DrawSVG, ScrambleText, Text)
-- [EmailJS](https://www.emailjs.com) for the contact form
+- [Resend](https://resend.com) with [React Email](https://react.email) for the contact form, sent from a server action
 
 ## Structure
 
@@ -44,24 +44,25 @@ motion, illustration rules) is in [`CLAUDE.md`](CLAUDE.md).
 
 ```bash
 npm install
-cp .env.example .env   # fill in the EmailJS values
+cp .env.example .env   # fill in the Resend values
 npm run dev
 ```
 
-| Name                              | Description                                        |
-| --------------------------------- | -------------------------------------------------- |
-| `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`  | Public Key for [EmailJS](https://www.emailjs.com)  |
-| `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` | Template ID for [EmailJS](https://www.emailjs.com) |
+| Name                  | Description                                                                   |
+| --------------------- | ----------------------------------------------------------------------------- |
+| `RESEND_API_KEY`      | API key for [Resend](https://resend.com)                                      |
+| `RESEND_EMAIL_DOMAIN` | Domain verified in Resend; messages go from `noreply@` to `contact@` on it    |
 
 Both are required. They are declared and validated in `src/env.ts` with
 [`@t3-oss/env-nextjs`](https://env.t3.gg), so `npm run build` stops with
-the name of any variable that is missing or blank.
+the name of any variable that is missing or blank. `npm run email` opens
+a preview of the email the contact form sends.
 
 ## Deploy
 
 The site is hosted on [Vercel](https://vercel.com), which builds and deploys
 every push with its Next.js defaults; no `vercel.json` is needed. Set the two
-EmailJS variables above in the Vercel project's environment variables, and
+Resend variables above in the Vercel project's environment variables, and
 add `www.seoulsky.dev` under its domains.
 
 To check a production build locally:
