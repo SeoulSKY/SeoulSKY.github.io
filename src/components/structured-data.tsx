@@ -2,6 +2,7 @@ import {
   awards,
   experiences,
   GITHUB_URL,
+  PYPI_URL,
   projects,
   site,
   skillRows,
@@ -27,6 +28,8 @@ function graph() {
         "@id": WEBSITE,
         url: site.url,
         name: site.name,
+        // Google can show this as the site's name in results too
+        alternateName: "seoulsky.dev",
         description: site.description,
         inLanguage: "en",
         publisher: { "@id": PERSON },
@@ -60,7 +63,7 @@ function graph() {
           row.skills.map((skill) => skill.name),
         ),
         award: awards.map((award) => award.title),
-        sameAs: [GITHUB_URL],
+        sameAs: [GITHUB_URL, PYPI_URL],
       },
       ...projects.map((project) => ({
         "@type": "SoftwareSourceCode",

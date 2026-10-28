@@ -3,6 +3,7 @@
  * skills. Section intros and headings live in the section components.
  */
 export const GITHUB_URL = "https://github.com/SeoulSKY";
+export const PYPI_URL = "https://pypi.org/user/SeoulSKY/";
 
 export const navSections = [
   { id: "about", label: "About" },
